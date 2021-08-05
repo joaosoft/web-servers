@@ -80,6 +80,18 @@
   version = "v1.1.11"
 
 [[projects]]
+  digest = "1:e377cb0e163dcc88ea2b87a8e3f62abc3229ddbd6e20ece13f5f80b673e5614f"
+  name = "github.com/klauspost/compress"
+  packages = [
+    "flate",
+    "gzip",
+    "zlib",
+  ]
+  pruneopts = "UT"
+  revision = "6c2ac28c4d87d3208a576e17abb803e809a0558f"
+  version = "v1.13.3"
+
+[[projects]]
   digest = "1:fceb085f18da54ad5c9a3a2a6801f3963877d08836b16e0605a0a0eb035d026d"
   name = "github.com/labstack/echo"
   packages = ["."]
@@ -148,6 +160,14 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:d6efa822e9b1e35da4653e912128933143d37d2358eebe2b35c1a5f60e028bd0"
+  name = "github.com/qiangxue/fasthttp-routing"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6ccdc2a18d8712f842de50ddcb8c9a3d025ddc71"
+
+[[projects]]
+  branch = "master"
   digest = "1:0f10f73342d955228c69329d3ee5cb9abdc92e7f4162f320fb93bc5781ccb57b"
   name = "github.com/shiena/ansicolor"
   packages = ["."]
@@ -169,6 +189,18 @@
   pruneopts = "UT"
   revision = "e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7"
   version = "v1.0.0"
+
+[[projects]]
+  digest = "1:15ad8a80098fcc7a194b9db6b26d74072a852e4faa957848c8118193d3c69230"
+  name = "github.com/valyala/fasthttp"
+  packages = [
+    ".",
+    "fasthttputil",
+    "stackless",
+  ]
+  pruneopts = "UT"
+  revision = "e5f51c11919d4f66400334047b897ef0a94c6f3c"
+  version = "v20180529"
 
 [[projects]]
   digest = "1:d724474523928294ece8cc97e8d2371f27c7e6d3068bfa9ace93bd3105b4fdbd"
@@ -298,11 +330,12 @@
     "github.com/astaxie/beego",
     "github.com/astaxie/beego/context",
     "github.com/gin-gonic/gin",
-    "github.com/gin-gonic/gin/render",
     "github.com/go-martini/martini",
     "github.com/gorilla/mux",
     "github.com/labstack/echo",
     "github.com/martini-contrib/render",
+    "github.com/qiangxue/fasthttp-routing",
+    "github.com/valyala/fasthttp",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

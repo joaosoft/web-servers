@@ -7,6 +7,7 @@ Web servers example:
 * [echo](https://github.com/labstack/echo)
 * [mux](https://github.com/gorilla/mux)
 * [martini](https://github.com/go-martini/martini) & [martini-render](https://github.com/martini-contrib/render)
+* ###### [fasthttp](https://github.com/valyala/fasthttp) & [fasthttp-routing](https://github.com/qiangxue/fasthttp-routing)
 
 ## Known issues
 
