@@ -2,30 +2,25 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/astaxie/beego"
 	"net/http"
+
+	"github.com/go-martini/martini"
+	"github.com/martini-contrib/render"
 )
 
-type AddressControler struct {
-	beego.Controller
-}
-
-func (c *AddressControler) GetPersonAddressByID() {
-	defer c.ServeJSON()
-
+func GetPersonAddressByID(params martini.Params, r render.Render) {
 	request := GetPersonAddressByIDRequest{
-		IdPerson:  c.Ctx.Input.Param(":id_person"),
-		IdAddress: c.Ctx.Input.Param(":id_address"),
+		IdPerson:  params["id_person"],
+		IdAddress: params["id_address"],
 	}
 
 	fmt.Printf("> executing get address for id_person: %s, id_address: %s", request.IdPerson, request.IdAddress)
 
-	c.Ctx.Output.SetStatus(http.StatusOK)
-	c.Data["json"] = AddressResponse{
+	r.JSON(http.StatusOK, AddressResponse{
 		Id:      request.IdAddress,
 		Country: "Portugal",
 		City:    "Porto",
 		Street:  "Rua da calçada",
 		Number:  7,
-	}
+	})
 }

@@ -6,17 +6,16 @@ import (
 	"strconv"
 
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/context"
 )
 
 type ErrorControler struct {
 	beego.Controller
 }
 
-func (c *ErrorControler) GetErrorByID(ctx *context.Context) {
+func (c *ErrorControler) GetErrorByID() {
 	defer c.ServeJSON()
 
-	errorID, _ := strconv.Atoi(ctx.Request.URL.Query().Get("id_error"))
+	errorID, _ := strconv.Atoi(c.Ctx.Request.URL.Query().Get("id_error"))
 	fmt.Printf("> executing get errors for id: %d", errorID)
 
 	statusText := http.StatusText(errorID)

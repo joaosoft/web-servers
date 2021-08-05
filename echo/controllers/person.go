@@ -2,15 +2,16 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/labstack/echo"
 	"net/http"
 	"strconv"
+
+	"github.com/labstack/echo"
 )
 
 func GetPersonByID(ctx echo.Context) error {
 	age, _ := strconv.Atoi(ctx.QueryParam("age"))
 	request := GetPersonByIDRequest{
-		IdPerson: ctx.Param(":id_person"),
+		IdPerson: ctx.Param("id_person"),
 		Age:      age,
 	}
 

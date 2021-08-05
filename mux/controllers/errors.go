@@ -14,6 +14,7 @@ func GetErrorByID(w http.ResponseWriter, req *http.Request) {
 	statusText := http.StatusText(errorID)
 
 	if statusText != "" {
+		w.Header().Set("Content-Type", "application/json")
 		bytes, _ := json.Marshal(
 			ErrorResponse{
 				Code:    errorID,
@@ -26,5 +27,4 @@ func GetErrorByID(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusNoContent)
 	}
 
-	w.Header().Set("Content-Type", "application/json")
 }

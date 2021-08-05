@@ -20,6 +20,14 @@
   version = "v1.12.1"
 
 [[projects]]
+  digest = "1:63bd62f5b57c55f0e07c9f8a76d841c7fa74905cc3cb6b8a55e923450f4bee81"
+  name = "github.com/codegangsta/inject"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "37d7f8432a3e684eef9b2edece76bdfa6ac85b39"
+  version = "v1.0-rc1"
+
+[[projects]]
   digest = "1:3ee1d175a75b911a659fbd860060874c4f503e793c5870d13e5a0ede529a63cf"
   name = "github.com/gin-contrib/sse"
   packages = ["."]
@@ -38,6 +46,14 @@
   ]
   pruneopts = "UT"
   revision = "b75d67cd51eb53c3c3a2fc406524c940021ffbda"
+
+[[projects]]
+  digest = "1:275990a68fda901ee42e120ee4c819118deefbfa6bc5562df4d0e9337b4a30e4"
+  name = "github.com/go-martini/martini"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "49411a5b646861ad29a6ddd5351717a0a9c49b94"
+  version = "v1.0"
 
 [[projects]]
   digest = "1:9e62e8886ca549ad17aa4db1783e469f10e424652595304fdc2c8ecda5d25476"
@@ -83,6 +99,14 @@
   version = "v0.3.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:9b774ba49d1ba0fcbd64c39d1d389ca045633453b373bc034977d936965dfa87"
+  name = "github.com/martini-contrib/render"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "ec18f8345a1181146728238980606fb1d6f40e8c"
+
+[[projects]]
   digest = "1:304d25ecc3f4ca39f894c959254d3f5fc6176276ccf1f874ded0cd441e2f964f"
   name = "github.com/mattn/go-colorable"
   packages = ["."]
@@ -113,6 +137,14 @@
   pruneopts = "UT"
   revision = "4b7aa43c6742a2c18fdef89dd197aaae7dac7ccd"
   version = "1.0.1"
+
+[[projects]]
+  branch = "master"
+  digest = "1:8ad686b49b509bf03549281c04b5fe11f609e9b12bf34a0690acad8cecc94f15"
+  name = "github.com/oxtoacart/bpool"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "03653db5a59cd88b481403d312d7c324b56af377"
 
 [[projects]]
   branch = "master"
@@ -264,9 +296,13 @@
   analyzer-version = 1
   input-imports = [
     "github.com/astaxie/beego",
+    "github.com/astaxie/beego/context",
     "github.com/gin-gonic/gin",
+    "github.com/gin-gonic/gin/render",
+    "github.com/go-martini/martini",
     "github.com/gorilla/mux",
     "github.com/labstack/echo",
+    "github.com/martini-contrib/render",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

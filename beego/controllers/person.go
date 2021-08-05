@@ -6,19 +6,18 @@ import (
 	"strconv"
 
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/context"
 )
 
 type PersonControler struct {
 	beego.Controller
 }
 
-func (c *PersonControler) GetPersonByID(ctx *context.Context) {
+func (c *PersonControler) GetPersonByID() {
 	defer c.ServeJSON()
 
-	age, _ := strconv.Atoi(ctx.Request.URL.Query().Get("age"))
+	age, _ := strconv.Atoi(c.Ctx.Request.URL.Query().Get("age"))
 	request := GetPersonByIDRequest{
-		IdPerson: ctx.Input.Param(":id_person"),
+		IdPerson: c.Ctx.Input.Param(":id_person"),
 		Age:      age,
 	}
 

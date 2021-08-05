@@ -9,8 +9,8 @@ import (
 
 func GetPersonAddressByID(ctx *gin.Context) {
 	request := GetPersonAddressByIDRequest{
-		IdPerson:  ctx.Param(":id_person"),
-		IdAddress: ctx.Param(":id_address"),
+		IdPerson:  ctx.Param("id_person"),
+		IdAddress: ctx.Param("id_address"),
 	}
 
 	fmt.Printf("> executing get address for id_person: %s, id_address: %s", request.IdPerson, request.IdAddress)

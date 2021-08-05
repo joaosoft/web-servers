@@ -6,6 +6,7 @@ Web servers example:
 * [beego](https://github.com/beego/beego)
 * [echo](https://github.com/labstack/echo)
 * [mux](https://github.com/gorilla/mux)
+* [martini](https://github.com/go-martini/martini) & [martini-render](https://github.com/martini-contrib/render)
 
 ## Known issues
 

@@ -5,13 +5,15 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
+	"github.com/martini-contrib/render"
+
+	"github.com/go-martini/martini"
 )
 
-func GetPersonByID(ctx *gin.Context) {
-	age, _ := strconv.Atoi(ctx.Request.URL.Query().Get("age"))
+func GetPersonByID(req *http.Request, params martini.Params, r render.Render) {
+	age, _ := strconv.Atoi(req.URL.Query().Get("age"))
 	request := GetPersonByIDRequest{
-		IdPerson: ctx.Param("id_person"),
+		IdPerson: params["id_person"],
 		Age:      age,
 	}
 
@@ -19,8 +21,7 @@ func GetPersonByID(ctx *gin.Context) {
 
 	// ...
 
-	ctx.Header("Content-Type", "application/json")
-	ctx.JSON(http.StatusOK, PersonResponse{
+	r.JSON(http.StatusOK, PersonResponse{
 		Id:   request.IdPerson,
 		Name: "João Ribeiro",
 		Age:  request.Age,
