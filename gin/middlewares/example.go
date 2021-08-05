@@ -2,10 +2,10 @@ package middlewares
 
 import (
 	"fmt"
-	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func CheckExample(next http.Handler) http.Handler {
+func CheckExample(ctx *gin.Context) {
 	fmt.Println("passing in the middleware example")
-	return next
 }

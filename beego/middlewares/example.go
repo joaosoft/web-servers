@@ -2,10 +2,10 @@ package middlewares
 
 import (
 	"fmt"
-	"net/http"
+
+	"github.com/astaxie/beego/context"
 )
 
-func CheckExample(next http.Handler) http.Handler {
+func CheckExample(ctx *context.Context) {
 	fmt.Println("passing in the middleware example")
-	return next
 }
