@@ -2,7 +2,6 @@ package main
 
 import (
 	"web-servers/echo/routes"
-	_ "web-servers/echo/routes"
 )
 
 func main() {

@@ -2,7 +2,7 @@ package main
 
 import (
 	"net/http"
-	"web-servers/mux/routes"
+	"web-servers/httprouter/routes"
 )
 
 func main() {

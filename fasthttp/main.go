@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"web-servers/fasthttp/routes"
-	_ "web-servers/fasthttp/routes"
 
 	"github.com/valyala/fasthttp"
 )

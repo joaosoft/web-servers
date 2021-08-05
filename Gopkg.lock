@@ -80,6 +80,14 @@
   version = "v1.1.11"
 
 [[projects]]
+  digest = "1:84a35669b4b31cc20ffc89c3b2ab32f2189fb2366a973efa1c25e009ef6ae1c6"
+  name = "github.com/julienschmidt/httprouter"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "4eec211fa4e8df74ed978dc5681612131854144f"
+  version = "v1.3.0"
+
+[[projects]]
   digest = "1:e377cb0e163dcc88ea2b87a8e3f62abc3229ddbd6e20ece13f5f80b673e5614f"
   name = "github.com/klauspost/compress"
   packages = [
@@ -332,6 +340,7 @@
     "github.com/gin-gonic/gin",
     "github.com/go-martini/martini",
     "github.com/gorilla/mux",
+    "github.com/julienschmidt/httprouter",
     "github.com/labstack/echo",
     "github.com/martini-contrib/render",
     "github.com/qiangxue/fasthttp-routing",
