@@ -1,0 +1,9 @@
+package middlewares
+
+import (
+	"net/http"
+)
+
+func CheckExample(next http.Handler) http.Handler {
+	return next
+}

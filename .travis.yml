@@ -1,0 +1,25 @@
+---
+language: go
+sudo: false
+notifications:
+  email: joaosoft@gmail.com
+jobs:
+  include:
+    - stage: test
+      install:
+        - go get github.com/joaosoft/dependency
+        - dependency get
+      os: linux
+      go: master
+      script:
+        - go build ./go-swagger
+        - go build ./go-swag
+        - go test ./go-swagger
+        - go test ./go-swag
+        - go test -coverprofile=coverage.txt -covermode=atomic ./go-swagger
+        - go test -coverprofile=coverage.txt -covermode=atomic ./go-swag
+        - go test ./go-swagger -bench=. -cpu=1,2,4,8
+        - go test ./go-swag -bench=. -cpu=1,2,4,8
+
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
