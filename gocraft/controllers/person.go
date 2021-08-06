@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gocraft/web"
 	"net/http"
 	"strconv"
@@ -14,8 +13,6 @@ func GetPersonByID(w web.ResponseWriter, req *web.Request) {
 		IdPerson: req.PathParams["id_person"],
 		Age:      age,
 	}
-
-	fmt.Printf("> executing get person for id_person: %s", request.IdPerson)
 
 	// ...
 

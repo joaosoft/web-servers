@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -14,8 +13,6 @@ type ErrorController struct {
 
 func (c ErrorController) GetErrorByID() revel.Result {
 	errorID, _ := strconv.Atoi(c.Request.URL.Query().Get("id_error"))
-	fmt.Printf("> executing get errors for id: %d", errorID)
-
 	statusText := http.StatusText(errorID)
 
 	if statusText != "" {

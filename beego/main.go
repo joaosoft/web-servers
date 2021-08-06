@@ -1,9 +1,11 @@
 package main
 
 import (
-	"web-servers/beego/routes"
+	"web-servers/beego/server"
 )
 
 func main() {
-	routes.Router.Run()
+	if err := server.Run(8081); err != nil {
+		panic(err)
+	}
 }

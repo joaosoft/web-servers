@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -14,8 +13,6 @@ func GetPersonByID(ctx *gin.Context) {
 		IdPerson: ctx.Param("id_person"),
 		Age:      age,
 	}
-
-	fmt.Printf("> executing get person for id_person: %s", request.IdPerson)
 
 	// ...
 

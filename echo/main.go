@@ -1,11 +1,11 @@
 package main
 
 import (
-	"web-servers/echo/routes"
+	"web-servers/echo/server"
 )
 
 func main() {
-	if err := routes.Router.Start(":8081"); err != nil {
+	if err := server.Run(8081); err != nil {
 		panic(err)
 	}
 }

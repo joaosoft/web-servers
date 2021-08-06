@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -15,8 +14,6 @@ func GetPersonByID(w http.ResponseWriter, req *http.Request, params httprouter.P
 		IdPerson: params.ByName("id_person"),
 		Age:      age,
 	}
-
-	fmt.Printf("> executing get person for id_person: %s", request.IdPerson)
 
 	// ...
 

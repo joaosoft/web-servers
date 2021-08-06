@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -11,8 +10,6 @@ import (
 
 func GetErrorByID(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	errorID, _ := strconv.Atoi(req.URL.Query().Get("id_error"))
-	fmt.Printf("> executing get errors for id: %d", errorID)
-
 	statusText := http.StatusText(errorID)
 
 	if statusText != "" {

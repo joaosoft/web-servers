@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	routing "github.com/qiangxue/fasthttp-routing"
@@ -10,8 +9,6 @@ import (
 
 func GetErrorByID(ctx *routing.Context) error {
 	errorID := ctx.QueryArgs().GetUintOrZero("id_error")
-	fmt.Printf("> executing get errors for id: %d", errorID)
-
 	statusText := http.StatusText(errorID)
 
 	if statusText != "" {

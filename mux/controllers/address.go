@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -15,8 +14,6 @@ func GetPersonAddressByID(w http.ResponseWriter, req *http.Request) {
 		IdPerson:  vars["id_person"],
 		IdAddress: vars["id_address"],
 	}
-
-	fmt.Printf("> executing get address for id_person: %s, id_address: %s", request.IdPerson, request.IdAddress)
 
 	bytes, _ := json.Marshal(
 		AddressResponse{

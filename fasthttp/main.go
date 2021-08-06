@@ -1,14 +1,11 @@
 package main
 
 import (
-	"log"
-	"web-servers/fasthttp/routes"
-
-	"github.com/valyala/fasthttp"
+	"web-servers/fasthttp/server"
 )
 
 func main() {
-	if err := fasthttp.ListenAndServe(":8081", routes.Router.HandleRequest); err != nil {
-		log.Fatalf("Error in ListenAndServe: %s", err)
+	if err := server.Run(8081); err != nil {
+		panic(err)
 	}
 }

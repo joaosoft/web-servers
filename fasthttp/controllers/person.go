@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	routing "github.com/qiangxue/fasthttp-routing"
 	"net/http"
 )
@@ -12,8 +11,6 @@ func GetPersonByID(ctx *routing.Context) error {
 		IdPerson: ctx.Param("id_person"),
 		Age:      ctx.QueryArgs().GetUintOrZero("age"),
 	}
-
-	fmt.Printf("> executing get person for id_person: %s", request.IdPerson)
 
 	// ...
 

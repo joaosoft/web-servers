@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/render"
 	"net/http"
@@ -14,8 +13,6 @@ func GetPersonByID(ctx buffalo.Context) error {
 		IdPerson: ctx.Param("id_person"),
 		Age:      age,
 	}
-
-	fmt.Printf("> executing get person for id_person: %s", request.IdPerson)
 
 	response := PersonResponse{
 		Id:   request.IdPerson,

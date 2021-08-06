@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"goji.io/pat"
@@ -13,8 +12,6 @@ func GetPersonAddressByID(w http.ResponseWriter, req *http.Request) {
 		IdPerson:  pat.Param(req, "id_person"),
 		IdAddress: pat.Param(req, "id_address"),
 	}
-
-	fmt.Printf("> executing get address for id_person: %s, id_address: %s", request.IdPerson, request.IdAddress)
 
 	bytes, _ := json.Marshal(
 		AddressResponse{

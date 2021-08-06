@@ -1,12 +1,11 @@
 package main
 
 import (
-	"net/http"
-	"web-servers/gocraft/routes"
+	"web-servers/gocraft/server"
 )
 
 func main() {
-	if err := http.ListenAndServe(":8081", routes.Router); err != nil {
+	if err := server.Run(8081); err != nil {
 		panic(err)
 	}
 }

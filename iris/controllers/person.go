@@ -16,8 +16,6 @@ func GetPersonByID(ctx iris.Context) {
 		Age:      age,
 	}
 
-	fmt.Printf("> executing get person for id_person: %s", request.IdPerson)
-
 	response := PersonResponse{
 		Id:   request.IdPerson,
 		Name: "João Ribeiro",

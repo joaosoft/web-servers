@@ -19,8 +19,6 @@ func (c PersonController) GetPersonByID() revel.Result {
 		Age:      age,
 	}
 
-	fmt.Printf("> executing get person for id_person: %s", request.IdPerson)
-
 	// ...
 
 	c.Response.WriteHeader(http.StatusOK, "application/json")

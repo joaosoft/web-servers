@@ -13,24 +13,30 @@ Web servers example:
 * [buffalo](https://github.com/gobuffalo/buffalo) 
 * [goji](https://github.com/goji/goji) 
 * [gocraft](https://github.com/gocraft/web) 
+* [httprouter](github.com/julienschmidt/httprouter) 
+
+## API
+- `GET` to `/v1/persons/:id_person?age=30`
+- `GET` to `/v1/persons/:id_person/addresses/:id_address`
+- `GET` to `/v1/errors?id_error=200`
 
 ## Benchmark
-Tested with 100 requests at the same time
+Tested with 100 requests at the same time 
+(`GET` to `/v1/persons/:id_person/addresses/:id_address`)
 
-|Server|Elapsed time|
-|------|------------|
-|http & mux|0.016552|
-|gin|0.012126|
-|beego|0.013656|
-|echo|0.010677|
-|martini & martini-render|0.016708|
-|fasthttp & fasthttp-routing|0.011158|
-|iris|0.017330|
-|revel|0.115028|
-|buffalo|0.020912|
-|goji|0.010759|
-|gocraft|0.014490|
-
+|Server|Port|Elapsed time|
+|------|----|------------|
+|http & mux|8081|0.016552|
+|gin|8082|0.012126|
+|beego|8083|0.013656|
+|echo|8084|0.010677|
+|martini & martini-render|8085|0.016708|
+|fasthttp & fasthttp-routing|8086|0.011158|
+|iris|8087|0.017330|
+|revel|8088|0.115028|
+|buffalo|8089|0.020912|
+|goji|8090|0.010759|
+|gocraft|8091|0.014490|
 
 ## Known issues
 

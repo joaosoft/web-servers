@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -16,8 +15,6 @@ func GetPersonByID(req *http.Request, params martini.Params, r render.Render) {
 		IdPerson: params["id_person"],
 		Age:      age,
 	}
-
-	fmt.Printf("> executing get person for id_person: %s", request.IdPerson)
 
 	// ...
 

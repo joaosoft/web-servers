@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -10,8 +9,6 @@ import (
 
 func GetErrorByID(ctx *gin.Context) {
 	errorID, _ := strconv.Atoi(ctx.Request.URL.Query().Get("id_error"))
-	fmt.Printf("> executing get errors for id: %d", errorID)
-
 	statusText := http.StatusText(errorID)
 
 	if statusText != "" {

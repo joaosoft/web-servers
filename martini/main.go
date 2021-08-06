@@ -1,14 +1,9 @@
 package main
 
-import (
-	"os"
-	"web-servers/martini/routes"
-)
+import "web-servers/martini/server"
 
 func main() {
-	if err := os.Setenv("PORT", "8081"); err != nil {
+	if err := server.Run(8081); err != nil {
 		panic(err)
 	}
-
-	routes.Router.Run()
 }

@@ -9,8 +9,14 @@ import (
 )
 
 var (
-	Router = gin.Default()
+	Router = new()
 )
+
+func new() *gin.Engine {
+	engine := gin.New()
+	engine.Use(gin.Recovery())
+	return engine
+}
 
 func init() {
 	Router.Use(middlewares.CheckExample)

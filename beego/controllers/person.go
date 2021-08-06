@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -20,8 +19,6 @@ func (c *PersonController) GetPersonByID() {
 		IdPerson: c.Ctx.Input.Param(":id_person"),
 		Age:      age,
 	}
-
-	fmt.Printf("> executing get person for id_person: %s", request.IdPerson)
 
 	// ...
 

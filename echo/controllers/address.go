@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -12,8 +11,6 @@ func GetPersonAddressByID(ctx echo.Context) error {
 		IdPerson:  ctx.Param("id_person"),
 		IdAddress: ctx.Param("id_address"),
 	}
-
-	fmt.Printf("> executing get address for id_person: %s, id_address: %s", request.IdPerson, request.IdAddress)
 
 	response := AddressResponse{
 		Id:      request.IdAddress,

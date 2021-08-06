@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	Router = buffalo.New(buffalo.Options{Addr: ":8081"})
+	Router = buffalo.New(buffalo.Options{Addr: ":8081", LogLevel: "error"})
 )
 
 func init() {

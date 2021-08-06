@@ -1,1 +1,33 @@
-Elapsed time: 0.012187
+:: goji
+Elapsed time: 0.371055
+
+:: httprouter
+Elapsed time: 0.322115
+
+:: gin
+Elapsed time: 0.328777
+
+:: beego
+Elapsed time: 0.361837
+
+:: martini & martini-render
+Elapsed time: 0.401697
+
+:: fasthttp & fasthttp-routing
+Elapsed time: 0.504205
+
+:: buffalo
+Elapsed time: 0.484309
+
+:: http & mux
+Elapsed time: 0.384312
+
+:: echo
+Elapsed time: 0.485848
+
+:: iris
+Elapsed time: 0.480121
+
+:: gocraft
+Elapsed time: 0.458988
+

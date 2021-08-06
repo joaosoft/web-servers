@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/julienschmidt/httprouter"
 	"net/http"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 func GetPersonAddressByID(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
@@ -12,8 +12,6 @@ func GetPersonAddressByID(w http.ResponseWriter, req *http.Request, params httpr
 		IdPerson:  params.ByName("id_person"),
 		IdAddress: params.ByName("id_address"),
 	}
-
-	fmt.Printf("> executing get address for id_person: %s, id_address: %s", request.IdPerson, request.IdAddress)
 
 	bytes, _ := json.Marshal(
 		AddressResponse{
