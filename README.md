@@ -14,6 +14,24 @@ Web servers example:
 * [goji](https://github.com/goji/goji) 
 * [gocraft](https://github.com/gocraft/web) 
 
+## Benchmark
+Tested with 100 requests at the same time
+
+|Server|Elapsed time|
+|------|------------|
+|http & mux|0.016552|
+|gin|0.012126|
+|beego|0.013656|
+|echo|0.010677|
+|martini & martini-render|0.016708|
+|fasthttp & fasthttp-routing|0.011158|
+|iris|0.017330|
+|revel|0.115028|
+|buffalo|0.020912|
+|goji|0.010759|
+|gocraft|0.014490|
+
+
 ## Known issues
 
 ## Follow me at

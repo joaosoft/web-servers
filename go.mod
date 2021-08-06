@@ -22,6 +22,7 @@ require (
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/myesui/uuid v1.0.0 // indirect
 	github.com/oxtoacart/bpool v0.0.0-20190530202638-03653db5a59c // indirect
+	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/qiangxue/fasthttp-routing v0.0.0-20160225050629-6ccdc2a18d87
 	github.com/revel/config v1.0.0 // indirect
 	github.com/revel/log15 v2.11.20+incompatible // indirect
