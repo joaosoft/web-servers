@@ -2,12 +2,15 @@ package app
 
 import (
 	_ "web-servers/revel/app/controllers"
+	"web-servers/revel/app/middlewares"
 
 	"github.com/revel/revel"
 )
 
 func init() {
 	revel.Filters = []revel.Filter{
+		middlewares.CheckExample, // my middleware
+
 		revel.PanicFilter,             // Recover from panics and display an error page instead.
 		revel.RouterFilter,            // Use the routing table to select the right Action
 		revel.FilterConfiguringFilter, // A hook for adding or removing per-Action filters.
