@@ -4,7 +4,7 @@ import (
 	"web-servers/iris/controllers"
 	"web-servers/iris/middlewares"
 
-	"github.com/kataras/iris"
+	"github.com/kataras/iris/v12"
 )
 
 var (

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/kataras/iris"
+	"github.com/kataras/iris/v12"
 )
 
 func GetPersonByID(ctx iris.Context) {
