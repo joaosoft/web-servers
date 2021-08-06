@@ -2,8 +2,8 @@ package routes
 
 import (
 	"net/http"
-	"web-servers/mux/controllers"
-	"web-servers/mux/middlewares"
+	"web-servers/http/controllers"
+	"web-servers/http/middlewares"
 
 	"github.com/gorilla/mux"
 )

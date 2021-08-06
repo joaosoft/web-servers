@@ -27,7 +27,7 @@
 # mux
 [[constraint]]
   name = "github.com/gorilla/mux"
-  version = "1.8.0"
+  version = "<=1.8.0"
 
 # gin
 [[constraint]]
@@ -37,7 +37,7 @@
 # beego
 [[constraint]]
   name = "github.com/astaxie/beego"
-  version = "=1.12.1"
+  version = "<=1.12.1"
 
 # iris
 [[constraint]]
@@ -46,12 +46,26 @@
 
 [[override]]
   name = "github.com/CloudyKit/jet"
-  version = "=v4.1.0"
+  version = "<=v4.1.0"
+
+# revel
+[[constraint]]
+  name = "github.com/revel/revel"
+  version = "1.0.0"
+
+# buffalo
+[[override]]
+  name = "github.com/gobuffalo/tags"
+  version = "<=v2.1.7"
+
+[[override]]
+  name = "github.com/gobuffalo/plush"
+  version = "<=v3.8.3"
+
+[[constraint]]
+  name = "github.com/gobuffalo/buffalo"
+  version = "<=v0.11.1"
 
 [prune]
   go-tests = true
   unused-packages = true
-
-[[constraint]]
-  name = "github.com/revel/revel"
-  version = "1.0.0"

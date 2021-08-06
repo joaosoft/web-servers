@@ -2,9 +2,10 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/labstack/echo"
 	"net/http"
 	"strconv"
+
+	"github.com/labstack/echo"
 )
 
 func GetErrorByID(ctx echo.Context) error {
@@ -15,9 +16,9 @@ func GetErrorByID(ctx echo.Context) error {
 
 	if statusText != "" {
 		response := ErrorResponse{
-				Code:    errorID,
-				Message: statusText,
-			}
+			Code:    errorID,
+			Message: statusText,
+		}
 		return ctx.JSON(http.StatusOK, response)
 	} else {
 		return ctx.NoContent(http.StatusNoContent)
