@@ -9,6 +9,8 @@ Web servers example:
 * [martini](https://github.com/go-martini/martini) & [martini-render](https://github.com/martini-contrib/render)
 * [fasthttp](https://github.com/valyala/fasthttp) & [fasthttp-routing](https://github.com/qiangxue/fasthttp-routing)
 * [iris](https://github.com/kataras/iris) 
+* [revel](https://github.com/revel/revel) 
+* [buffalo](https://github.com/gobuffalo/buffalo) 
 
 ## Known issues
 

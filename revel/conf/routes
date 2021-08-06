@@ -1,0 +1,7 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /v1/persons/:id_person                                  PersonController.GetPersonByID
+GET     /v1/persons/:id_person/addresses/:id_address            AddressController.GetPersonAddressByID
+GET     /v1/errors                                              ErrorController.GetErrorByID

@@ -122,6 +122,14 @@
   version = "v4.0.2"
 
 [[projects]]
+  digest = "1:80057945464ffb5b0da1f026beb8df0e8dbd098eaf771a349291bed2cd29a83e"
+  name = "github.com/fsnotify/fsnotify"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "45d7d09e39ef4ac08d493309fa031790c15bfe8a"
+  version = "v1.4.9"
+
+[[projects]]
   digest = "1:3ee1d175a75b911a659fbd860060874c4f503e793c5870d13e5a0ede529a63cf"
   name = "github.com/gin-contrib/sse"
   packages = ["."]
@@ -150,6 +158,14 @@
   version = "v1.0"
 
 [[projects]]
+  digest = "1:586ea76dbd0374d6fb649a91d70d652b7fe0ccffb8910a77468e7702e7901f3d"
+  name = "github.com/go-stack/stack"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "2fee6af1a9795aafbe0253a0cfbdf668e1fb8a9a"
+  version = "v1.8.0"
+
+[[projects]]
   digest = "1:9e62e8886ca549ad17aa4db1783e469f10e424652595304fdc2c8ecda5d25476"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
@@ -172,6 +188,14 @@
   pruneopts = "UT"
   revision = "98cb6bf42e086f6af920b965c38cacc07402d51b"
   version = "v1.8.0"
+
+[[projects]]
+  digest = "1:6a539f22990dee302ae4ce63f29eae68061a546c4f30d75b2c4e7266c5619ce3"
+  name = "github.com/inconshreveable/log15"
+  packages = ["term"]
+  pruneopts = "UT"
+  revision = "b30bc20e4fd12cec79a9aae62e91cfcf458bd253"
+  version = "v2.15"
 
 [[projects]]
   digest = "1:8a2a940fd81980cd5394dbb60a8f9ab49b5d8195e52cddec562b9a40eab394f0"
@@ -363,6 +387,44 @@
   revision = "6ccdc2a18d8712f842de50ddcb8c9a3d025ddc71"
 
 [[projects]]
+  digest = "1:97be06856202c34527ba0e5dace6696d90b521ace0a1d8fe0000e6cc23203e8b"
+  name = "github.com/revel/config"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a81c4105c36841d27e529f875b6062da7b8f986c"
+  version = "v1.0.0"
+
+[[projects]]
+  digest = "1:ad5e66a907bb1fbbca353c08c40a099e96daacc5761f7dc1e3293ab64b2f3d2e"
+  name = "github.com/revel/log15"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "793412a67da6f8d15fede4c38f5c66272478cb8a"
+  version = "v2.11.20"
+
+[[projects]]
+  branch = "master"
+  digest = "1:a0812e773563f2e41afebf582088a86b0f01eb5bd794c19ecc1bce25820b1fa2"
+  name = "github.com/revel/pathtree"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "41257a1839e945fce74afd070e02bab2ea2c776a"
+
+[[projects]]
+  digest = "1:2e2feeb93236ccb5481f44b443acb7eb9841a3efa0be33248375354478f69ebb"
+  name = "github.com/revel/revel"
+  packages = [
+    ".",
+    "logger",
+    "model",
+    "session",
+    "utils",
+  ]
+  pruneopts = "UT"
+  revision = "ee237a4ce4b7660dcbafda789dd6f524a4a4b47d"
+  version = "v1.0.0"
+
+[[projects]]
   digest = "1:0cdbe7b717bdc81f143bbdd516c3639828c5e1cd158e4140ca100d657fc26550"
   name = "github.com/ryanuber/columnize"
   packages = ["."]
@@ -384,6 +446,14 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "7bfe4c7ecddb3666a94b053b422cdd8f5aaa3615"
+  version = "v1.0.0"
+
+[[projects]]
+  digest = "1:8f41bbca0d6435bb54d7c090336f7693942cda30f9126eaf3959b8df48721ac3"
+  name = "github.com/twinj/uuid"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "835a10bbd6bce40820349a68b1368a62c3c5617c"
   version = "v1.0.0"
 
 [[projects]]
@@ -423,6 +493,14 @@
   version = "v1.2.1"
 
 [[projects]]
+  digest = "1:ffa6bd15109b4ad04ed01419ca6c0cf6e41afb335d84b68bb1251b24ec2353a2"
+  name = "github.com/xeonx/timeago"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "4e7d8c1f9a433881f64a7f87f51e494186857982"
+  version = "v1.0.0-rc4"
+
+[[projects]]
   branch = "master"
   digest = "1:699d068af7aaa15f3e0282632500301396f9a4b8181b12a1643aa49c0d78a7bc"
   name = "golang.org/x/crypto"
@@ -435,7 +513,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:3d5b8129220673ca608cd150212693a1d718c724993edd6f538fd3fcac721eaf"
+  digest = "1:ff172ffe33245a0013502d4902436db9a52ab20ef8a949c4d3a20893a55f8db3"
   name = "golang.org/x/net"
   packages = [
     "html",
@@ -446,6 +524,7 @@
     "http2/hpack",
     "idna",
     "publicsuffix",
+    "websocket",
   ]
   pruneopts = "UT"
   revision = "064579744ee093986542bb85ff0b5ac3a7ee64c5"
@@ -531,6 +610,22 @@
   version = "v8.18.2"
 
 [[projects]]
+  digest = "1:c805e517269b0ba4c21ded5836019ed7d16953d4026cb7d00041d039c7906be9"
+  name = "gopkg.in/natefinch/lumberjack.v2"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a96e63847dc3c67d17befa69c303767e2f84e54f"
+  version = "v2.1"
+
+[[projects]]
+  branch = "v0"
+  digest = "1:00d2943cfcfbb3dc043f6d8586d0db5a9e8507c36429babe8d5d1af8ee43a753"
+  name = "gopkg.in/stack.v0"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "9b43fcefddd0178abdabf4d484ab0d695d0011db"
+
+[[projects]]
   digest = "1:5054a1f394226de9e6ddc47b0ba77e35092a4112f4a1cd9cb94aba1f5bdc3ec6"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
@@ -553,6 +648,7 @@
     "github.com/labstack/echo",
     "github.com/martini-contrib/render",
     "github.com/qiangxue/fasthttp-routing",
+    "github.com/revel/revel",
     "github.com/valyala/fasthttp",
   ]
   solver-name = "gps-cdcl"

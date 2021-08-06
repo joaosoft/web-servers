@@ -48,8 +48,10 @@
   name = "github.com/CloudyKit/jet"
   version = "=v4.1.0"
 
-#
-
 [prune]
   go-tests = true
   unused-packages = true
+
+[[constraint]]
+  name = "github.com/revel/revel"
+  version = "1.0.0"

@@ -5,19 +5,17 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/astaxie/beego"
+	"github.com/revel/revel"
 )
 
 type PersonController struct {
-	beego.Controller
+	*revel.Controller
 }
 
-func (c *PersonController) GetPersonByID() {
-	defer c.ServeJSON()
-
-	age, _ := strconv.Atoi(c.Ctx.Request.URL.Query().Get("age"))
+func (c PersonController) GetPersonByID() revel.Result {
+	age, _ := strconv.Atoi(c.Request.URL.Query().Get("age"))
 	request := GetPersonByIDRequest{
-		IdPerson: c.Ctx.Input.Param(":id_person"),
+		IdPerson: c.Params.Get("id_person"),
 		Age:      age,
 	}
 
@@ -25,10 +23,10 @@ func (c *PersonController) GetPersonByID() {
 
 	// ...
 
-	c.Ctx.Output.SetStatus(http.StatusOK)
-	c.Data["json"] = PersonResponse{
+	c.Response.WriteHeader(http.StatusOK, "application/json")
+	return c.RenderJSON(PersonResponse{
 		Id:   request.IdPerson,
 		Name: "João Ribeiro",
 		Age:  request.Age,
-	}
+	})
 }

@@ -8,11 +8,11 @@ import (
 	"github.com/astaxie/beego"
 )
 
-type ErrorControler struct {
+type ErrorController struct {
 	beego.Controller
 }
 
-func (c *ErrorControler) GetErrorByID() {
+func (c *ErrorController) GetErrorByID() {
 	defer c.ServeJSON()
 
 	errorID, _ := strconv.Atoi(c.Ctx.Request.URL.Query().Get("id_error"))

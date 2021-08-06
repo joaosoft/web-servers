@@ -2,30 +2,29 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/astaxie/beego"
 	"net/http"
+
+	"github.com/revel/revel"
 )
 
 type AddressController struct {
-	beego.Controller
+	*revel.Controller
 }
 
-func (c *AddressController) GetPersonAddressByID() {
-	defer c.ServeJSON()
-
+func (c AddressController) GetPersonAddressByID() revel.Result {
 	request := GetPersonAddressByIDRequest{
-		IdPerson:  c.Ctx.Input.Param(":id_person"),
-		IdAddress: c.Ctx.Input.Param(":id_address"),
+		IdPerson:  c.Params.Get("id_person"),
+		IdAddress: c.Params.Get("id_address"),
 	}
 
 	fmt.Printf("> executing get address for id_person: %s, id_address: %s", request.IdPerson, request.IdAddress)
 
-	c.Ctx.Output.SetStatus(http.StatusOK)
-	c.Data["json"] = AddressResponse{
+	c.Response.WriteHeader(http.StatusOK, "application/json")
+	return c.RenderJSON(AddressResponse{
 		Id:      request.IdAddress,
 		Country: "Portugal",
 		City:    "Porto",
 		Street:  "Rua da calçada",
 		Number:  7,
-	}
+	})
 }
