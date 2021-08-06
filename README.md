@@ -14,6 +14,7 @@ Web servers example:
 * [goji](https://github.com/goji/goji) 
 * [gocraft](https://github.com/gocraft/web) 
 * [httprouter](github.com/julienschmidt/httprouter) 
+* [web](github.com/joaosoft/web) 
 
 ## API
 - `GET` to `/v1/persons/:id_person?age=30`
@@ -37,6 +38,7 @@ Tested with 100 requests at the same time
 |buffalo|8089|0.020912|
 |goji|8090|0.010759|
 |gocraft|8091|0.014490|
+|web|8091|0|
 
 ## Known issues
 

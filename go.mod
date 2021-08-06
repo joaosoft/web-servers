@@ -14,6 +14,12 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/imkira/go-interpol v1.1.0 // indirect
 	github.com/inconshreveable/log15 v0.0.0-20201112154412-8562bdadbbac // indirect
+	github.com/joaosoft/auth-types v0.0.0-20201020212933-9b1bbd776f42 // indirect
+	github.com/joaosoft/color v0.0.0-20180920231319-17caec604638 // indirect
+	github.com/joaosoft/errors v0.0.0-20210515073613-8e002061f860 // indirect
+	github.com/joaosoft/logger v0.0.0-20210127183633-7f5013a1da37 // indirect
+	github.com/joaosoft/web v0.0.0-20210515075650-f9d819b51caa
+	github.com/joaosoft/writers v0.0.0-20190311002941-310c8522699d // indirect
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/kataras/iris/v12 v12.1.8
 	github.com/labstack/echo v3.3.10+incompatible

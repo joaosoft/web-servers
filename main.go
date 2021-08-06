@@ -39,6 +39,7 @@ var (
 		"goji":                        &server{Port: 8090, Handler: goji.Run},
 		"gocraft":                     &server{Port: 8091, Handler: gocraft.Run},
 		"httprouter":                  &server{Port: 8092, Handler: httprouter.Run},
+		//"web":                         &server{Port: 8093, Handler: web.Run},
 	}
 )
 
