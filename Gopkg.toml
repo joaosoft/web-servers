@@ -24,18 +24,31 @@
 #   go-tests = true
 #   unused-packages = true
 
-
+# mux
 [[constraint]]
   name = "github.com/gorilla/mux"
   version = "1.8.0"
 
+# gin
 [[constraint]]
   name = "github.com/gin-gonic/gin"
   revision = "b75d67cd51eb53c3c3a2fc406524c940021ffbda"
 
+# beego
 [[constraint]]
-name = "github.com/astaxie/beego"
-version = "=1.12.1"
+  name = "github.com/astaxie/beego"
+  version = "=1.12.1"
+
+# iris
+[[constraint]]
+  name = "github.com/kataras/iris"
+  revision = "bd5f96086ba6d5685f0028ba677c11e803ad5f4b"
+
+[[override]]
+  name = "github.com/CloudyKit/jet"
+  version = "=v4.1.0"
+
+#
 
 [prune]
   go-tests = true

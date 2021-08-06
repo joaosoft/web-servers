@@ -8,5 +8,5 @@ import (
 
 func CheckExample(ctx *routing.Context) error {
 	fmt.Println("passing in the middleware example")
-	return nil
+	return ctx.Next()
 }
