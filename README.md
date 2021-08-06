@@ -11,6 +11,7 @@ Web servers example:
 * [iris](https://github.com/kataras/iris) 
 * [revel](https://github.com/revel/revel) 
 * [buffalo](https://github.com/gobuffalo/buffalo) 
+* [goji](https://github.com/goji/goji) 
 
 ## Known issues
 

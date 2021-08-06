@@ -1034,6 +1034,19 @@
   version = "v1.0.0-rc4"
 
 [[projects]]
+  digest = "1:6e898847e5e1a1e0068a915fc9d4476a6e3399ee3cdd1122f3dad90e49c9c3b8"
+  name = "goji.io"
+  packages = [
+    ".",
+    "internal",
+    "pat",
+    "pattern",
+  ]
+  pruneopts = "UT"
+  revision = "490b001d03d16a116d7c44d95d216c69a1aae798"
+  version = "v2.0.2"
+
+[[projects]]
   branch = "master"
   digest = "1:e8670f6a18979cae0865e544d167d2a3ab0228899a87eb48633c97401e58a292"
   name = "golang.org/x/crypto"
@@ -1196,6 +1209,7 @@
     "github.com/gin-gonic/gin",
     "github.com/go-martini/martini",
     "github.com/gobuffalo/buffalo",
+    "github.com/gobuffalo/buffalo/render",
     "github.com/gorilla/mux",
     "github.com/julienschmidt/httprouter",
     "github.com/kataras/iris",
@@ -1205,6 +1219,8 @@
     "github.com/qiangxue/fasthttp-routing",
     "github.com/revel/revel",
     "github.com/valyala/fasthttp",
+    "goji.io",
+    "goji.io/pat",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

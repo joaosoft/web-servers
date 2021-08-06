@@ -2,7 +2,7 @@ package main
 
 import (
 	"net/http"
-	"web-servers/http/routes"
+	"web-servers/goji/routes"
 )
 
 func main() {
