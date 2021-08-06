@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/gocraft/web"
 )
 
-func GetErrorByID(w http.ResponseWriter, req *http.Request) {
+func GetErrorByID(w web.ResponseWriter, req *web.Request) {
 	errorID, _ := strconv.Atoi(req.URL.Query().Get("id_error"))
 	fmt.Printf("> executing get errors for id: %d", errorID)
 
@@ -26,5 +28,4 @@ func GetErrorByID(w http.ResponseWriter, req *http.Request) {
 	} else {
 		w.WriteHeader(http.StatusNoContent)
 	}
-
 }

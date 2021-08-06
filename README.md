@@ -12,6 +12,7 @@ Web servers example:
 * [revel](https://github.com/revel/revel) 
 * [buffalo](https://github.com/gobuffalo/buffalo) 
 * [goji](https://github.com/goji/goji) 
+* [gocraft](https://github.com/gocraft/web) 
 
 ## Known issues
 

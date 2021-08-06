@@ -404,6 +404,14 @@
   version = "v0.1.0"
 
 [[projects]]
+  digest = "1:f1a4ade97d756dc02db21c22d2b78cffff70785db97b6b18808efdf961407aca"
+  name = "github.com/gocraft/web"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "0973dfd3866277297f7caed311af67cc4ca1126e"
+  version = "v1.1"
+
+[[projects]]
   digest = "1:b4c37f161f9abc89aede53a621205cda38d2df6659dff7b8044d8295ed24291f"
   name = "github.com/gofrs/uuid"
   packages = ["."]
@@ -1210,6 +1218,7 @@
     "github.com/go-martini/martini",
     "github.com/gobuffalo/buffalo",
     "github.com/gobuffalo/buffalo/render",
+    "github.com/gocraft/web",
     "github.com/gorilla/mux",
     "github.com/julienschmidt/httprouter",
     "github.com/kataras/iris",

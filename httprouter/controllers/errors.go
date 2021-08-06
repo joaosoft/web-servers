@@ -23,8 +23,8 @@ func GetErrorByID(w http.ResponseWriter, req *http.Request, _ httprouter.Params)
 				Message: statusText,
 			},
 		)
-		w.Write(bytes)
 		w.WriteHeader(http.StatusOK)
+		w.Write(bytes)
 	} else {
 		w.WriteHeader(http.StatusNoContent)
 	}
