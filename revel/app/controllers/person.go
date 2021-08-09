@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
+	"web-servers/implementation/models"
 
 	"github.com/revel/revel"
 )
@@ -19,12 +19,17 @@ func (c PersonController) GetPersonByID() revel.Result {
 		Age:      age,
 	}
 
-	// ...
-
 	c.Response.WriteHeader(http.StatusOK, "application/json")
-	return c.RenderJSON(PersonResponse{
-		Id:   request.IdPerson,
-		Name: "João Ribeiro",
-		Age:  request.Age,
-	})
+
+	person, err := (&models.PersonModel{}).GetPersonByID(request.IdPerson, request.Age)
+	if err != nil {
+		c.RenderJSON(
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			},
+		)
+	}
+
+	return c.RenderJSON(person)
 }

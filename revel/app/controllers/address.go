@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"web-servers/implementation/models"
 
 	"github.com/revel/revel"
 )
@@ -17,11 +18,16 @@ func (c AddressController) GetPersonAddressByID() revel.Result {
 	}
 
 	c.Response.WriteHeader(http.StatusOK, "application/json")
-	return c.RenderJSON(AddressResponse{
-		Id:      request.IdAddress,
-		Country: "Portugal",
-		City:    "Porto",
-		Street:  "Rua da calçada",
-		Number:  7,
-	})
+
+	address, err := (&models.AddressModel{}).GetPersonAddressByID(request.IdPerson, request.IdAddress)
+	if err != nil {
+		c.RenderJSON(
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			},
+		)
+	}
+
+	return c.RenderJSON(address)
 }
