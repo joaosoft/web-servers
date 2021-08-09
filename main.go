@@ -48,10 +48,6 @@ func main() {
 	numTimes := 100
 	numGoRoutines := 2
 
-	s := servers["revel"]
-	s.Handler(s.Port)
-	return
-
 	// start servers
 	var err error
 	for name, conf := range servers {
