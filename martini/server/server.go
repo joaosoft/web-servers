@@ -1,24 +1,38 @@
 package server
 
 import (
-	"os"
-	"strconv"
+	"context"
+	"fmt"
+	"net/http"
 	"web-servers/domain/server"
 	"web-servers/martini/routes"
 
 	"github.com/go-martini/martini"
 )
 
-type Server struct {
-	App    *martini.Martini
-	Router martini.Router
-	Port   int
-}
+type (
+	Server struct {
+		App
+		Router martini.Router
+		Port   int
+	}
+	App struct {
+		*martini.Martini
+		*http.Server
+	}
+)
 
 func New(port int) server.IServer {
+	m := martini.New()
 	router := martini.NewRouter()
 	server := &Server{
-		App:    martini.New(),
+		App: App{
+			Martini: m,
+			Server: &http.Server{
+				Addr:    fmt.Sprintf(":%d", port),
+				Handler: m,
+			},
+		},
 		Router: router,
 		Port:   port,
 	}
@@ -31,16 +45,10 @@ func New(port int) server.IServer {
 }
 
 func (s *Server) Start() (err error) {
-	if err = os.Setenv("PORT", strconv.Itoa(s.Port)); err != nil {
-		return err
-	}
-
-	routes.Init(s.App, s.Router)
-	s.App.Run()
-
-	return nil
+	routes.Init(s.App.Martini, s.Router)
+	return s.App.Server.ListenAndServe()
 }
 
 func (s *Server) Stop() (err error) {
-	return nil
+	return s.App.Server.Shutdown(context.Background())
 }

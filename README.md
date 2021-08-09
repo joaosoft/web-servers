@@ -6,6 +6,7 @@ Web servers example:
 * [buffalo](https://github.com/gobuffalo/buffalo) 
 * [echo](https://github.com/labstack/echo)
 * [fasthttp](https://github.com/valyala/fasthttp) & [fasthttp-routing](https://github.com/qiangxue/fasthttp-routing)
+* [fiber](https://github.com/gofiber/fiber)
 * [gin](https://github.com/gin-gonic/gin)
 * [gocraft](https://github.com/gocraft/web) 
 * [goji](https://github.com/goji/goji) 
@@ -25,31 +26,33 @@ Web servers example:
 >#### Tested with 10 go routines, each one doing 100 requests.
 (`GET` to `/v1/persons/:id_person/addresses/:id_address`)
 
-|Server|Port|Elapsed time (seconds)|Ranking|
-|------|----|------------|-----------------|
-|beego|8081|2.308835|11|
-|buffalo|8082|2.229512|8|
-|echo|8083|2.202042|5|
-|fasthttp & fasthttp-routing|8084|2.178394|4|
-|gin|8085|2.207624|6|
-|gocraft|8086|2.177916|3|
-|goji|80987|1.100797|2|
-|http & mux|8088|2.216122|7|
-|http-router|8089|1.095665|1|
-|iris|8090|2.261207|10|
-|martini & martini-render|8091|2.260218|9|
-|revel|8092|-|-|
-|web|8093|-|-|
+|Server|Elapsed time (seconds)|Ranking|
+|------|----------------------|-------|
+|beego|2.308835|11|
+|buffalo|2.229512|8|
+|echo|2.202042|5|
+|fasthttp & fasthttp-routing|2.178394|4|
+|fiber|-|-|
+|gin|2.207624|6|
+|gocraft|2.177916|3|
+|goji|1.100797|2|
+|http & mux|2.216122|7|
+|http-router|1.095665|1|
+|iris|2.261207|10|
+|martini & martini-render|2.260218|9|
+|revel|-|-|
+|web|-|-|
 
 >#### Tested with 50 go routines, each one doing 100 requests.
 (`GET` to `/v1/persons/:id_person/addresses/:id_address`)
 
-|Server|Port|Elapsed time (seconds)|Ranking|
-|------|----|------------|-----------------|
+|Server|Elapsed time (seconds)|Ranking|
+|------|----------------------|-------|
 |beego|8081|2.269001|10|
 |buffalo|8082|2.208634|8|
 |echo|8083|2.149836|3|
 |fasthttp & fasthttp-routing|8084|2.159298|6|
+|fiber|-|-|
 |gin|8085|2.175926|5|
 |gocraft|8086|2.166956|4|
 |goji|80987|1.105030|1|
@@ -63,40 +66,42 @@ Web servers example:
 >#### Tested with 10 go routines, each one doing 1000 requests.
 (`GET` to `/v1/persons/:id_person/addresses/:id_address`)
 
-|Server|Port|Elapsed time (seconds)|Ranking|
-|------|----|------------|-----------------|
-|beego|8081|22.180687|4|
-|buffalo|8082|22.492784|6|
-|echo|8083|22.552805|7|
-|fasthttp & fasthttp-routing|8084|22.745346|8|
-|gin|8085|21.815680|3|
-|gocraft|8086|22.259329|5|
-|goji|80987|11.592532|1|
-|http & mux|8088|23.594827|11|
-|http-router|8089|11.647801|2|
-|iris|8090|23.368297|10|
-|martini & martini-render|8091|22.966796|9|
-|revel|8092|-|-|
-|web|8093|-|-|
+|Server|Elapsed time (seconds)|Ranking|
+|------|----------------------|-------|
+|beego|22.180687|4|
+|buffalo|22.492784|6|
+|echo|22.552805|7|
+|fasthttp & fasthttp-routing|22.745346|8|
+|fiber|-|-|
+|gin|21.815680|3|
+|gocraft|22.259329|5|
+|goji|11.592532|1|
+|http & mux|23.594827|11|
+|http-router|11.647801|2|
+|iris|23.368297|10|
+|martini & martini-render|22.966796|9|
+|revel|-|-|
+|web|-|-|
 
 >#### Tested with 25 go routines, each one doing 2000 requests.
 (`GET` to `/v1/persons/:id_person/addresses/:id_address`)
 
-|Server|Port|Elapsed time (seconds)|Ranking|
-|------|----|------------|-----------------|
-|beego|8081|58.257302|6|
-|buffalo|8082|56.215957|3|
-|echo|8083|59.959902|7|
-|fasthttp & fasthttp-routing|8084|60.870985|8|
-|gin|8085|57.990198|5|
-|gocraft|8086|61.508768|9|
-|goji|80987|40.771783|1|
-|http & mux|8088|63.721881|10|
-|http-router|8089|46.644245|2|
-|iris|8090|77.142292|11|
-|martini & martini-render|8091|57.308490|4|
-|revel|8092|-|-|
-|web|8093|-|-|
+|Server|Elapsed time (seconds)|Ranking|
+|------|----------------------|-------|
+|beego|58.257302|6|
+|buffalo|56.215957|3|
+|echo|59.959902|7|
+|fasthttp & fasthttp-routing|60.870985|8|
+|fiber|-|-|
+|gin|57.990198|5|
+|gocraft|61.508768|9|
+|goji|40.771783|1|
+|http & mux|63.721881|10|
+|http-router|46.644245|2|
+|iris|77.142292|11|
+|martini & martini-render|57.308490|4|
+|revel|-|-|
+|web|-|-|
 
 ## Known issues
 

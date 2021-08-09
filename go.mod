@@ -10,6 +10,7 @@ require (
 	github.com/go-ozzo/ozzo-routing v2.1.4+incompatible // indirect
 	github.com/gobuffalo/buffalo v0.16.27
 	github.com/gocraft/web v0.0.0-20190207150652-9707327fb69b
+	github.com/gofiber/fiber/v2 v2.16.0
 	github.com/golang/gddo v0.0.0-20210115222349-20d68f94ee1f // indirect
 	github.com/gorilla/mux v1.8.0
 	github.com/imkira/go-interpol v1.1.0 // indirect
