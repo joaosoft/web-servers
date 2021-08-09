@@ -28,26 +28,27 @@ import (
 )
 
 type Config struct {
+	Name    string
 	Enabled bool
 	Port    int
 	Handler func(port int) server.IServer
 }
 
 var (
-	servers = map[string]*Config{
-		"http & mux":                  {Enabled: true, Port: 8081, Handler: mux.New},
-		"gin":                         {Enabled: true, Port: 8082, Handler: gin.New},
-		"beego":                       {Enabled: true, Port: 8083, Handler: beego.New},
-		"echo":                        {Enabled: true, Port: 8084, Handler: echo.New},
-		"martini & martini-render":    {Enabled: true, Port: 8085, Handler: martini.New},
-		"fasthttp & fasthttp-routing": {Enabled: true, Port: 8086, Handler: fasthttp.New},
-		"iris":                        {Enabled: true, Port: 8087, Handler: iris.New},
-		"revel":                       {Enabled: false, Port: 8088, Handler: revel.New}, // unavailable
-		"buffalo":                     {Enabled: true, Port: 8089, Handler: buffalo.New},
-		"goji":                        {Enabled: true, Port: 8090, Handler: goji.New},
-		"gocraft":                     {Enabled: true, Port: 8091, Handler: gocraft.New},
-		"httprouter":                  {Enabled: true, Port: 8092, Handler: httprouter.New},
-		//"web":                         {Enabled: false, Port: 8093, Handler: web.New}, // unavailable
+	servers = []*Config{
+		{Enabled: true, Name: "beego", Port: 8081, Handler: beego.New},
+		{Enabled: true, Name: "buffalo", Port: 8082, Handler: buffalo.New},
+		{Enabled: true, Name: "echo", Port: 8083, Handler: echo.New},
+		{Enabled: true, Name: "fasthttp & fasthttp-routing", Port: 8084, Handler: fasthttp.New},
+		{Enabled: true, Name: "gin", Port: 8085, Handler: gin.New},
+		{Enabled: true, Name: "gocraft", Port: 8086, Handler: gocraft.New},
+		{Enabled: true, Name: "goji", Port: 8087, Handler: goji.New},
+		{Enabled: true, Name: "http & mux", Port: 8088, Handler: mux.New},
+		{Enabled: true, Name: "httprouter", Port: 8089, Handler: httprouter.New},
+		{Enabled: true, Name: "iris", Port: 8090, Handler: iris.New},
+		{Enabled: true, Name: "martini & martini-render", Port: 8091, Handler: martini.New},
+		{Enabled: false, Name: "revel", Port: 8092, Handler: revel.New}, // unavailable
+		//{Enabled: false, Name: "web", Port: 8093, Handler: web.New}, // unavailable
 	}
 )
 
@@ -60,19 +61,8 @@ func (c *Config) Available() bool {
 
 func main() {
 	numRequests := 100
-	numGoRoutines := 5
+	numGoRoutines := 50
 
-	// start servers
-	var err error
-	for name, conf := range servers {
-		if !conf.Available() {
-			continue
-		}
-
-		log.Printf("starting %s server", name)
-		server := conf.Handler(conf.Port)
-		go server.Start()
-	}
 	// create output file
 	log.Printf("create output file")
 	file, err := createFile("./generated/", time.Now().Format(time.RFC3339), "txt")
@@ -86,26 +76,38 @@ func main() {
 	}
 	_ = file.Sync()
 
-	// run test
-	<-time.After(time.Second * 5)
-	for name, conf := range servers {
+	for _, conf := range servers {
 		if !conf.Available() {
 			continue
 		}
 
-		log.Printf("running tests on %s", name)
-		if _, err = file.WriteString(fmt.Sprintf(":: %s\n", name)); err != nil {
+		// start web server
+		log.Printf(":: %s ::", conf.Name)
+		log.Print("starting server")
+		server := conf.Handler(conf.Port)
+		go server.Start()
+		<-time.After(time.Second * 1)
+
+		// run test
+		log.Print("running test")
+		if _, err = file.WriteString(fmt.Sprintf(":: %s\n", conf.Name)); err != nil {
 			panic(err)
 		}
 
-		elapsedTime := call(name, conf.Port, numGoRoutines, numRequests)
+		elapsedTime := call(conf.Name, conf.Port, numGoRoutines, numRequests)
 		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", elapsedTime.Seconds())); err != nil {
 			panic(err)
 		}
 
 		_ = file.Sync()
-		<-time.After(time.Second * 1)
+
+		log.Print("stopping server")
+		if err = server.Stop(); err != nil {
+			log.Print("error stopping server")
+		}
 	}
+
+	log.Print("finished!")
 }
 
 func call(name string, port, numGoRoutines, numRequests int) time.Duration {

@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"time"
 	"web-servers/domain/server"
 	"web-servers/fasthttp/routes"
 
@@ -20,7 +21,8 @@ func New(port int) server.IServer {
 	router := routing.New()
 	server := &Server{
 		App: &fasthttp.Server{
-			Handler: router.HandleRequest,
+			Handler:     router.HandleRequest,
+			IdleTimeout: time.Minute,
 		},
 		Router: router,
 		Port:   port,

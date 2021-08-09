@@ -22,23 +22,62 @@ Web servers example:
 - `GET` to `/v1/errors?id_error=200`
 
 ## Benchmark
-Tested with 10 go routines, each one doing 2000 requests.
+>#### Tested with 10 go routines, each one doing 100 requests.
 (`GET` to `/v1/persons/:id_person/addresses/:id_address`)
 
 |Server|Port|Elapsed time (seconds)|
 |------|----|------------|
-|http & mux|8081|7.505765|
-|gin|8082|7.448347|
-|beego|8083|7.521267|
-|echo|8084|7.542187|
-|martini & martini-render|8085|7.556153|
-|fasthttp & fasthttp-routing|8086|7.590783|
-|iris|8087|7.443879|
-|revel|8088|-|
-|buffalo|8089|0.020912|
-|goji|8090|4.191412|
-|gocraft|8091|7.639343|
-|web|8091|-|
+|beego|8081|2.308835|
+|buffalo|8082|2.229512|
+|echo|8083|2.202042|
+|fasthttp & fasthttp-routing|8084|2.178394|
+|gin|8085|2.207624|
+|gocraft|8086|2.177916|
+|goji|80987|1.100797|
+|http & mux|8088|2.216122|
+|httprouter|8089|1.095665|
+|iris|8090|2.261207|
+|martini & martini-render|8091|2.260218|
+|revel|8092|-|
+|web|8093|-|
+
+>#### Tested with 50 go routines, each one doing 100 requests.
+(`GET` to `/v1/persons/:id_person/addresses/:id_address`)
+
+|Server|Port|Elapsed time (seconds)|
+|------|----|------------|
+|beego|8081|2.269001|
+|buffalo|8082|2.208634|
+|echo|8083|2.149836|
+|fasthttp & fasthttp-routing|8084|2.159298|
+|gin|8085|2.175926|
+|gocraft|8086|2.166956|
+|goji|80987|1.105030|
+|http & mux|8088|2.185361|
+|httprouter|8089|1.177891|
+|iris|8090|2.226463|
+|martini & martini-render|8091|2.275814|
+|revel|8092|-|
+|web|8093|-|
+
+>#### Tested with 10 go routines, each one doing 1000 requests.
+(`GET` to `/v1/persons/:id_person/addresses/:id_address`)
+
+|Server|Port|Elapsed time (seconds)|
+|------|----|------------|
+|beego|8081|22.180687|
+|buffalo|8082|22.492784|
+|echo|8083|22.552805|
+|fasthttp & fasthttp-routing|8084|22.745346|
+|gin|8085|21.815680|
+|gocraft|8086|22.259329|
+|goji|80987|11.592532|
+|http & mux|8088|23.594827|
+|httprouter|8089|11.647801|
+|iris|8090|23.368297|
+|martini & martini-render|8091|22.966796|
+|revel|8092|-|
+|web|8093|-|
 
 ## Known issues
 
