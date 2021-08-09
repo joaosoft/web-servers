@@ -44,7 +44,7 @@ var (
 		{Enabled: true, Name: "gocraft", Port: 8086, Handler: gocraft.New},
 		{Enabled: true, Name: "goji", Port: 8087, Handler: goji.New},
 		{Enabled: true, Name: "http & mux", Port: 8088, Handler: mux.New},
-		{Enabled: true, Name: "httprouter", Port: 8089, Handler: httprouter.New},
+		{Enabled: true, Name: "http-router", Port: 8089, Handler: httprouter.New},
 		{Enabled: true, Name: "iris", Port: 8090, Handler: iris.New},
 		{Enabled: true, Name: "martini & martini-render", Port: 8091, Handler: martini.New},
 		{Enabled: false, Name: "revel", Port: 8092, Handler: revel.New}, // unavailable
@@ -60,8 +60,8 @@ func (c *Config) Available() bool {
 }
 
 func main() {
-	numRequests := 100
-	numGoRoutines := 50
+	numRequests := 2000
+	numGoRoutines := 25
 
 	// create output file
 	log.Printf("create output file")

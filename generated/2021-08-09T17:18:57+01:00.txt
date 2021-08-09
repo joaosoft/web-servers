@@ -25,7 +25,7 @@ Elapsed time: 1.105030 seconds
 :: http & mux
 Elapsed time: 2.185361 seconds
 
-:: httprouter
+:: http-router
 Elapsed time: 1.177891 seconds
 
 :: iris
