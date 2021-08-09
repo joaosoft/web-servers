@@ -18,7 +18,8 @@ import (
 	iris "web-servers/iris/server"
 	martini "web-servers/martini/server"
 	mux "web-servers/mux/server"
-	revel "web-servers/revel/app/server"
+	//revel "web-servers/revel/app/server"
+	//web "web-servers/web/server"
 )
 
 type server struct {
@@ -35,12 +36,12 @@ var (
 		"martini & martini-render":    &server{Port: 8085, Handler: martini.Run},
 		"fasthttp & fasthttp-routing": &server{Port: 8086, Handler: fasthttp.Run},
 		"iris":                        &server{Port: 8087, Handler: iris.Run},
-		"revel":                       &server{Port: 8088, Handler: revel.Run},
-		"buffalo":                     &server{Port: 8089, Handler: buffalo.Run},
-		"goji":                        &server{Port: 8090, Handler: goji.Run},
-		"gocraft":                     &server{Port: 8091, Handler: gocraft.Run},
-		"httprouter":                  &server{Port: 8092, Handler: httprouter.Run},
-		//"web":                         &server{Port: 8093, Handler: web.Run},
+		//"revel":                       &server{Port: 8088, Handler: revel.Run},
+		"buffalo":    &server{Port: 8089, Handler: buffalo.Run},
+		"goji":       &server{Port: 8090, Handler: goji.Run},
+		"gocraft":    &server{Port: 8091, Handler: gocraft.Run},
+		"httprouter": &server{Port: 8092, Handler: httprouter.Run},
+		//"web":        &server{Port: 8093, Handler: web.Run},
 	}
 )
 
