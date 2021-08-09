@@ -50,8 +50,8 @@ var (
 )
 
 func main() {
-	numRequests := 200
-	numGoRoutines := 5
+	numRequests := 2000
+	numGoRoutines := 10
 
 	// start servers
 	var err error
@@ -84,7 +84,7 @@ func main() {
 		}
 
 		elapsedTime := call(name, conf.Port, numGoRoutines, numRequests)
-		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f\n\n", elapsedTime.Seconds())); err != nil {
+		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", elapsedTime.Seconds())); err != nil {
 			panic(err)
 		}
 
@@ -96,13 +96,13 @@ func main() {
 func call(name string, port, numGoRoutines, numRequests int) time.Duration {
 	start := time.Now()
 	wg := &sync.WaitGroup{}
+	wg.Add(numGoRoutines)
 
-	for i := 0; i <= numGoRoutines; i++ {
+	for i := 0; i < numGoRoutines; i++ {
 		f := func(name string, id int, wg *sync.WaitGroup, numRequests int) {
-			wg.Add(1)
 			defer wg.Done()
 
-			for i := 0; i <= numRequests; i++ {
+			for i := 0; i < numRequests; i++ {
 				url := fmt.Sprintf("http://localhost:%d/v1/persons/%d/addresses/%d", port, id, i+1)
 				response, err := http.Get(url)
 				if err != nil {

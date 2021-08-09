@@ -22,10 +22,10 @@ Web servers example:
 - `GET` to `/v1/errors?id_error=200`
 
 ## Benchmark
-Tested with 2 go routines, each one doing 100 requests.
+Tested with 10 go routines, each one doing 2000 requests.
 (`GET` to `/v1/persons/:id_person/addresses/:id_address`)
 
-|Server|Port|Elapsed time|
+|Server|Port|Elapsed time (seconds)|
 |------|----|------------|
 |http & mux|8081|7.505765|
 |gin|8082|7.448347|
