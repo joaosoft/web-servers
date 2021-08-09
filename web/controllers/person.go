@@ -1,10 +1,11 @@
 package controllers
 
 import (
-	"github.com/joaosoft/web"
 	"net/http"
 	"strconv"
-	models2 "web-servers/implementation/models"
+	"web-servers/implementation/models"
+
+	"github.com/joaosoft/web"
 )
 
 func GetPersonByID(ctx *web.Context) error {
@@ -14,7 +15,7 @@ func GetPersonByID(ctx *web.Context) error {
 		Age:      age,
 	}
 
-	person, err := (&models2.PersonModel{}).GetPersonByID(request.IdPerson, request.Age)
+	person, err := (&models.PersonModel{}).GetPersonByID(request.IdPerson, request.Age)
 	if err != nil {
 		return ctx.Response.JSON(web.StatusInternalServerError,
 			ErrorResponse{

@@ -2,10 +2,11 @@ package controllers
 
 import (
 	"encoding/json"
-	"github.com/julienschmidt/httprouter"
 	"net/http"
 	"strconv"
-	models2 "web-servers/implementation/models"
+	"web-servers/implementation/models"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 func GetPersonByID(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
@@ -17,7 +18,7 @@ func GetPersonByID(w http.ResponseWriter, req *http.Request, params httprouter.P
 
 	w.Header().Set("Content-Type", "application/json")
 
-	person, err := (&models2.PersonModel{}).GetPersonByID(request.IdPerson, request.Age)
+	person, err := (&models.PersonModel{}).GetPersonByID(request.IdPerson, request.Age)
 	if err != nil {
 		bytes, _ := json.Marshal(
 			ErrorResponse{

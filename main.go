@@ -1,10 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"sync"
 	"time"
 	beego "web-servers/beego/server"
@@ -15,6 +18,7 @@ import (
 	gocraft "web-servers/gocraft/server"
 	goji "web-servers/goji/server"
 	httprouter "web-servers/httprouter/server"
+	"web-servers/implementation/models"
 	iris "web-servers/iris/server"
 	martini "web-servers/martini/server"
 	mux "web-servers/mux/server"
@@ -46,8 +50,8 @@ var (
 )
 
 func main() {
-	numTimes := 100
-	numGoRoutines := 2
+	numRequests := 200
+	numGoRoutines := 5
 
 	// start servers
 	var err error
@@ -79,38 +83,61 @@ func main() {
 			panic(err)
 		}
 
-		elapsedTime := call(name, conf.Port, numTimes, numGoRoutines)
+		elapsedTime := call(name, conf.Port, numGoRoutines, numRequests)
 		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f\n\n", elapsedTime.Seconds())); err != nil {
 			panic(err)
 		}
 
 		file.Sync()
+		<-time.After(time.Second * 1)
 	}
 }
 
-func call(name string, port, numTimes, numGoRoutines int) time.Duration {
+func call(name string, port, numGoRoutines, numRequests int) time.Duration {
 	start := time.Now()
+	wg := &sync.WaitGroup{}
 
-	for i := 0; i <= numTimes; i++ {
-		wg := &sync.WaitGroup{}
-		for i := 0; i <= numGoRoutines; i++ {
-			f := func(id int, wg *sync.WaitGroup) {
-				wg.Add(1)
-				defer wg.Done()
+	for i := 0; i <= numGoRoutines; i++ {
+		f := func(name string, id int, wg *sync.WaitGroup, numRequests int) {
+			wg.Add(1)
+			defer wg.Done()
 
-				url := fmt.Sprintf("http://localhost:%d/v1/persons/%d/addresses/%d", port, id, id)
-				_, err := http.Get(url)
+			for i := 0; i <= numRequests; i++ {
+				url := fmt.Sprintf("http://localhost:%d/v1/persons/%d/addresses/%d", port, id, i+1)
+				response, err := http.Get(url)
 				if err != nil {
-					log.Printf("\n(%s) error: %s", name, err.Error())
+					log.Printf("\nERROR 1 (name: %s : request: %d | %d) error: %s", name, id, i+1, err.Error())
 					return
 				}
+
+				if response != nil {
+					defer response.Body.Close()
+					bodyResponse, err := ioutil.ReadAll(response.Body)
+					if err != nil {
+						log.Printf("\nERROR 2 (name: %s : request: %d | %d) error: %s", name, id, i+1, err.Error())
+						return
+					}
+
+					var address models.Address
+					if err = json.Unmarshal(bodyResponse, &address); err != nil {
+						log.Printf("\nERROR 3 (name: %s : request: %d | %d) error: %s", name, id, i+1, err.Error())
+						log.Printf(string(bodyResponse))
+						return
+					}
+
+					if address.Id != strconv.Itoa(i+1) {
+						log.Printf("\nERROR 4 (name: %s : request: %d | %d) error: %s", name, id, i+1, err.Error())
+						log.Printf(string(bodyResponse))
+						return
+					}
+				}
 			}
-
-			go f(i, wg)
 		}
-		wg.Wait()
 
+		go f(name, i+1, wg, numRequests)
 	}
+
+	wg.Wait()
 
 	return time.Since(start)
 }

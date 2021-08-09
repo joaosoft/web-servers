@@ -1,33 +1,33 @@
-:: martini & martini-render
-Elapsed time: 7.656781
+:: echo
+Elapsed time: 0.000087
 
-:: fasthttp & fasthttp-routing
-Elapsed time: 7.631859
+:: martini & martini-render
+Elapsed time: 0.000024
 
 :: iris
-Elapsed time: 7.551926
-
-:: http & mux
-Elapsed time: 7.665035
-
-:: gin
-Elapsed time: 7.605387
-
-:: echo
-Elapsed time: 7.639788
-
-:: gocraft
-Elapsed time: 7.650969
+Elapsed time: 0.000020
 
 :: httprouter
-Elapsed time: 7.673893
+Elapsed time: 0.000017
 
-:: beego
-Elapsed time: 7.678549
+:: http & mux
+Elapsed time: 0.000009
+
+:: gin
+Elapsed time: 0.000008
 
 :: buffalo
-Elapsed time: 7.742908
+Elapsed time: 0.000008
 
 :: goji
-Elapsed time: 4.189334
+Elapsed time: 0.000014
+
+:: gocraft
+Elapsed time: 0.000013
+
+:: beego
+Elapsed time: 0.000022
+
+:: fasthttp & fasthttp-routing
+Elapsed time: 0.000007
 

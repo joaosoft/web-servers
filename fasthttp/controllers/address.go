@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"net/http"
 	"web-servers/implementation/models"
 
@@ -15,7 +16,7 @@ func GetPersonAddressByID(ctx *routing.Context) error {
 
 	ctx.SetContentType("application/json")
 
-	person, err := (&models.AddressModel{}).GetPersonAddressByID(request.IdPerson, request.IdAddress)
+	address, err := (&models.AddressModel{}).GetPersonAddressByID(request.IdPerson, request.IdAddress)
 	if err != nil {
 		ctx.SetStatusCode(http.StatusInternalServerError)
 		return ctx.WriteData(
@@ -25,6 +26,9 @@ func GetPersonAddressByID(ctx *routing.Context) error {
 			})
 	}
 
+	bytes, _ := json.Marshal(address)
+
 	ctx.SetStatusCode(http.StatusOK)
-	return ctx.WriteData(person)
+	_, err = ctx.Write(bytes)
+	return err
 }

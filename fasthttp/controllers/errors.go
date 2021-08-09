@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"net/http"
 	"web-servers/implementation/models"
 
@@ -22,6 +23,9 @@ func GetErrorByID(ctx *routing.Context) error {
 			})
 	}
 
+	bytes, _ := json.Marshal(er)
+
 	ctx.SetStatusCode(http.StatusOK)
-	return ctx.WriteData(er)
+	_, err = ctx.Write(bytes)
+	return err
 }
