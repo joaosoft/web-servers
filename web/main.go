@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	if err := server.Run(8081); err != nil {
+	if err := server.New(8081).Start(); err != nil {
 		panic(err)
 	}
 }

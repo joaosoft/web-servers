@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"web-servers/implementation/middlewares"
+	"web-servers/domain/middlewares"
 
 	"github.com/gobuffalo/buffalo"
 )

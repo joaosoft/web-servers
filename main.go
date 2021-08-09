@@ -12,73 +12,88 @@ import (
 	"time"
 	beego "web-servers/beego/server"
 	buffalo "web-servers/buffalo/server"
+	"web-servers/domain/models"
+	"web-servers/domain/server"
 	echo "web-servers/echo/server"
 	fasthttp "web-servers/fasthttp/server"
 	gin "web-servers/gin/server"
 	gocraft "web-servers/gocraft/server"
 	goji "web-servers/goji/server"
 	httprouter "web-servers/httprouter/server"
-	"web-servers/implementation/models"
 	iris "web-servers/iris/server"
 	martini "web-servers/martini/server"
 	mux "web-servers/mux/server"
-	//revel "web-servers/revel/app/server"
+	revel "web-servers/revel/app/server"
 	//web "web-servers/web/server"
 )
 
-type server struct {
+type Config struct {
+	Enabled bool
 	Port    int
-	Handler func(port int) error
+	Handler func(port int) server.IServer
 }
 
 var (
-	servers = map[string]*server{
-		"http & mux":                  &server{Port: 8081, Handler: mux.Run},
-		"gin":                         &server{Port: 8082, Handler: gin.Run},
-		"beego":                       &server{Port: 8083, Handler: beego.Run},
-		"echo":                        &server{Port: 8084, Handler: echo.Run},
-		"martini & martini-render":    &server{Port: 8085, Handler: martini.Run},
-		"fasthttp & fasthttp-routing": &server{Port: 8086, Handler: fasthttp.Run},
-		"iris":                        &server{Port: 8087, Handler: iris.Run},
-		//"revel":                       &server{Port: 8088, Handler: revel.Run},
-		"buffalo":    &server{Port: 8089, Handler: buffalo.Run},
-		"goji":       &server{Port: 8090, Handler: goji.Run},
-		"gocraft":    &server{Port: 8091, Handler: gocraft.Run},
-		"httprouter": &server{Port: 8092, Handler: httprouter.Run},
-		//"web":        &server{Port: 8093, Handler: web.Run},
+	servers = map[string]*Config{
+		"http & mux":                  {Enabled: true, Port: 8081, Handler: mux.New},
+		"gin":                         {Enabled: true, Port: 8082, Handler: gin.New},
+		"beego":                       {Enabled: true, Port: 8083, Handler: beego.New},
+		"echo":                        {Enabled: true, Port: 8084, Handler: echo.New},
+		"martini & martini-render":    {Enabled: true, Port: 8085, Handler: martini.New},
+		"fasthttp & fasthttp-routing": {Enabled: true, Port: 8086, Handler: fasthttp.New},
+		"iris":                        {Enabled: true, Port: 8087, Handler: iris.New},
+		"revel":                       {Enabled: false, Port: 8088, Handler: revel.New}, // unavailable
+		"buffalo":                     {Enabled: true, Port: 8089, Handler: buffalo.New},
+		"goji":                        {Enabled: true, Port: 8090, Handler: goji.New},
+		"gocraft":                     {Enabled: true, Port: 8091, Handler: gocraft.New},
+		"httprouter":                  {Enabled: true, Port: 8092, Handler: httprouter.New},
+		//"web":                         {Enabled: false, Port: 8093, Handler: web.New}, // unavailable
 	}
 )
 
+func (c *Config) Available() bool {
+	if c.Enabled == false || c.Handler == nil {
+		return false
+	}
+	return true
+}
+
 func main() {
-	numRequests := 2000
-	numGoRoutines := 10
+	numRequests := 100
+	numGoRoutines := 5
 
 	// start servers
 	var err error
 	for name, conf := range servers {
-		if conf.Handler == nil {
+		if !conf.Available() {
 			continue
 		}
 
 		log.Printf("starting %s server", name)
-		go conf.Handler(conf.Port)
+		server := conf.Handler(conf.Port)
+		go server.Start()
 	}
 	// create output file
 	log.Printf("create output file")
-	file, err := createFile(".", "generated", "text")
+	file, err := createFile("./generated/", time.Now().Format(time.RFC3339), "txt")
 	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
 
+	if _, err = file.WriteString(fmt.Sprintf("Number of Go Routines: %d\nNumber of Requests: %d\n\n", numGoRoutines, numRequests)); err != nil {
+		panic(err)
+	}
+	_ = file.Sync()
+
 	// run test
 	<-time.After(time.Second * 5)
 	for name, conf := range servers {
-		log.Printf("running tests on %s", name)
-		if conf.Handler == nil {
+		if !conf.Available() {
 			continue
 		}
 
+		log.Printf("running tests on %s", name)
 		if _, err = file.WriteString(fmt.Sprintf(":: %s\n", name)); err != nil {
 			panic(err)
 		}
@@ -88,7 +103,7 @@ func main() {
 			panic(err)
 		}
 
-		file.Sync()
+		_ = file.Sync()
 		<-time.After(time.Second * 1)
 	}
 }

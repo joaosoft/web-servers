@@ -2,13 +2,31 @@ package server
 
 import (
 	"web-servers/beego/routes"
+	"web-servers/domain/server"
 
 	"github.com/astaxie/beego"
 )
 
-func Run(port int) error {
-	beego.BConfig.Listen.HTTPPort = port
-	routes.Router.Run()
+type Server struct {
+	App  *beego.App
+	Port int
+}
 
+func New(port int) server.IServer {
+	beego.BConfig.Listen.HTTPPort = port
+	server := &Server{
+		App:  beego.BeeApp,
+		Port: port,
+	}
+	return server
+}
+
+func (s *Server) Start() (err error) {
+	routes.Init(s.App)
+	s.App.Run()
 	return nil
+}
+
+func (s *Server) Stop() (err error) {
+	return s.App.Server.Close()
 }

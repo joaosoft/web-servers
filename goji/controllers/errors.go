@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"web-servers/implementation/models"
+	"web-servers/domain/models"
 )
 
 func GetErrorByID(w http.ResponseWriter, req *http.Request) {

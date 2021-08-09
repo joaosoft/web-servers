@@ -1,13 +1,32 @@
 package server
 
 import (
-	"fmt"
+	"web-servers/domain/server"
 	"web-servers/web/routes"
 
 	"github.com/joaosoft/web"
 )
 
-func Run(port int) error {
-	routes.Router.Reconfigure(web.WithServerAddress(fmt.Sprintf(":%d", port)))
-	return routes.Router.Start()
+type Server struct {
+	App  *web.Server
+	Port int
+}
+
+func New(port int) server.IServer {
+	server := &Server{
+		Port: port,
+	}
+
+	server.App, _ = web.NewServer()
+
+	return server
+}
+
+func (s *Server) Start() (err error) {
+	routes.Init(s.App)
+	return s.App.Start()
+}
+
+func (s *Server) Stop() (err error) {
+	return s.App.Stop()
 }

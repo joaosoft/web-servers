@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"web-servers/implementation/models"
+	"web-servers/domain/models"
 
 	"goji.io/pat"
 )

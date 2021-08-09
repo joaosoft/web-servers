@@ -3,7 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-	"web-servers/implementation/models"
+	"web-servers/domain/models"
 
 	routing "github.com/qiangxue/fasthttp-routing"
 )

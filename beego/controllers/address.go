@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"net/http"
-	"web-servers/implementation/models"
+	"web-servers/domain/models"
 
 	"github.com/astaxie/beego"
 )

@@ -2,11 +2,39 @@ package server
 
 import (
 	"fmt"
+	"web-servers/domain/server"
 	"web-servers/fasthttp/routes"
+
+	routing "github.com/qiangxue/fasthttp-routing"
 
 	"github.com/valyala/fasthttp"
 )
 
-func Run(port int) error {
-	return fasthttp.ListenAndServe(fmt.Sprintf(":%d", port), routes.Router.HandleRequest)
+type Server struct {
+	App    *fasthttp.Server
+	Router *routing.Router
+	Port   int
+}
+
+func New(port int) server.IServer {
+	router := routing.New()
+	server := &Server{
+		App: &fasthttp.Server{
+			Handler: router.HandleRequest,
+		},
+		Router: router,
+		Port:   port,
+	}
+
+	return server
+}
+
+func (s *Server) Start() (err error) {
+	s.App.Handler = s.Router.HandleRequest
+	routes.Init(s.Router)
+	return s.App.ListenAndServe(fmt.Sprintf(":%d", s.Port))
+}
+
+func (s *Server) Stop() (err error) {
+	return s.App.Shutdown()
 }

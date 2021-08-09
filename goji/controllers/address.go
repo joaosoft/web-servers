@@ -3,7 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-	"web-servers/implementation/models"
+	"web-servers/domain/models"
 
 	"goji.io/pat"
 )

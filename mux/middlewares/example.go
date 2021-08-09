@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"net/http"
-	"web-servers/implementation/middlewares"
+	"web-servers/domain/middlewares"
 )
 
 func CheckExample(next http.Handler) http.Handler {

@@ -7,14 +7,10 @@ import (
 	"github.com/joaosoft/web"
 )
 
-var (
-	Router, _ = web.NewServer()
-)
+func Init(router *web.Server) {
+	router.AddMiddlewares(middlewares.CheckExample)
 
-func init() {
-	Router.AddMiddlewares(middlewares.CheckExample)
-
-	Router.AddRoutes(
+	router.AddRoutes(
 		web.NewRoute(web.MethodGet, "/v1/persons/:id_person", controllers.GetPersonByID),
 		web.NewRoute(web.MethodGet, "/v1/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID),
 		web.NewRoute(web.MethodGet, "/v1/errors", controllers.GetErrorByID),
