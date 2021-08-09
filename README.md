@@ -25,59 +25,59 @@ Web servers example:
 >#### Tested with 10 go routines, each one doing 100 requests.
 (`GET` to `/v1/persons/:id_person/addresses/:id_address`)
 
-|Server|Port|Elapsed time (seconds)|
-|------|----|------------|
-|beego|8081|2.308835|
-|buffalo|8082|2.229512|
-|echo|8083|2.202042|
-|fasthttp & fasthttp-routing|8084|2.178394|
-|gin|8085|2.207624|
-|gocraft|8086|2.177916|
-|goji|80987|1.100797|
-|http & mux|8088|2.216122|
-|httprouter|8089|1.095665|
-|iris|8090|2.261207|
-|martini & martini-render|8091|2.260218|
-|revel|8092|-|
-|web|8093|-|
+|Server|Port|Elapsed time (seconds)|Ranking|
+|------|----|------------|-----------------|
+|beego|8081|2.308835|11|
+|buffalo|8082|2.229512|8|
+|echo|8083|2.202042|5|
+|fasthttp & fasthttp-routing|8084|2.178394|4|
+|gin|8085|2.207624|6|
+|gocraft|8086|2.177916|3|
+|goji|80987|1.100797|2|
+|http & mux|8088|2.216122|7|
+|httprouter|8089|1.095665|1|
+|iris|8090|2.261207|10|
+|martini & martini-render|8091|2.260218|9|
+|revel|8092|-|-|
+|web|8093|-|-|
 
 >#### Tested with 50 go routines, each one doing 100 requests.
 (`GET` to `/v1/persons/:id_person/addresses/:id_address`)
 
-|Server|Port|Elapsed time (seconds)|
-|------|----|------------|
-|beego|8081|2.269001|
-|buffalo|8082|2.208634|
-|echo|8083|2.149836|
-|fasthttp & fasthttp-routing|8084|2.159298|
-|gin|8085|2.175926|
-|gocraft|8086|2.166956|
-|goji|80987|1.105030|
-|http & mux|8088|2.185361|
-|httprouter|8089|1.177891|
-|iris|8090|2.226463|
-|martini & martini-render|8091|2.275814|
-|revel|8092|-|
-|web|8093|-|
+|Server|Port|Elapsed time (seconds)|Ranking|
+|------|----|------------|-----------------|
+|beego|8081|2.269001|10|
+|buffalo|8082|2.208634|8|
+|echo|8083|2.149836|3|
+|fasthttp & fasthttp-routing|8084|2.159298|6|
+|gin|8085|2.175926|5|
+|gocraft|8086|2.166956|4|
+|goji|80987|1.105030|1|
+|http & mux|8088|2.185361|7|
+|httprouter|8089|1.177891|2|
+|iris|8090|2.226463|9|
+|martini & martini-render|8091|2.275814|11|
+|revel|8092|-|-|
+|web|8093|-|-|
 
 >#### Tested with 10 go routines, each one doing 1000 requests.
 (`GET` to `/v1/persons/:id_person/addresses/:id_address`)
 
-|Server|Port|Elapsed time (seconds)|
-|------|----|------------|
-|beego|8081|22.180687|
-|buffalo|8082|22.492784|
-|echo|8083|22.552805|
-|fasthttp & fasthttp-routing|8084|22.745346|
-|gin|8085|21.815680|
-|gocraft|8086|22.259329|
-|goji|80987|11.592532|
-|http & mux|8088|23.594827|
-|httprouter|8089|11.647801|
-|iris|8090|23.368297|
-|martini & martini-render|8091|22.966796|
-|revel|8092|-|
-|web|8093|-|
+|Server|Port|Elapsed time (seconds)|Ranking|
+|------|----|------------|-----------------|
+|beego|8081|22.180687|4|
+|buffalo|8082|22.492784|6|
+|echo|8083|22.552805|7|
+|fasthttp & fasthttp-routing|8084|22.745346|8|
+|gin|8085|21.815680|3|
+|gocraft|8086|22.259329|5|
+|goji|80987|11.592532|1|
+|http & mux|8088|23.594827|11|
+|httprouter|8089|11.647801|2|
+|iris|8090|23.368297|10|
+|martini & martini-render|8091|22.966796|9|
+|revel|8092|-|-|
+|web|8093|-|-|
 
 ## Known issues
 
