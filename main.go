@@ -18,6 +18,7 @@ import (
 	iris "web-servers/iris/server"
 	martini "web-servers/martini/server"
 	mux "web-servers/mux/server"
+	revel "web-servers/revel/app/server"
 )
 
 type server struct {
@@ -34,7 +35,7 @@ var (
 		"martini & martini-render":    &server{Port: 8085, Handler: martini.Run},
 		"fasthttp & fasthttp-routing": &server{Port: 8086, Handler: fasthttp.Run},
 		"iris":                        &server{Port: 8087, Handler: iris.Run},
-		"revel":                       &server{Port: 8088, Handler: nil},
+		"revel":                       &server{Port: 8088, Handler: revel.Run},
 		"buffalo":                     &server{Port: 8089, Handler: buffalo.Run},
 		"goji":                        &server{Port: 8090, Handler: goji.Run},
 		"gocraft":                     &server{Port: 8091, Handler: gocraft.Run},
@@ -44,8 +45,12 @@ var (
 )
 
 func main() {
-	numTimes := 200
-	numGoRoutines := 1
+	numTimes := 100
+	numGoRoutines := 2
+
+	s := servers["revel"]
+	s.Handler(s.Port)
+	return
 
 	// start servers
 	var err error
@@ -57,7 +62,6 @@ func main() {
 		log.Printf("starting %s server", name)
 		go conf.Handler(conf.Port)
 	}
-
 	// create output file
 	log.Printf("create output file")
 	file, err := createFile(".", "generated", "text")
@@ -67,6 +71,7 @@ func main() {
 	defer file.Close()
 
 	// run test
+	<-time.After(time.Second * 5)
 	for name, conf := range servers {
 		log.Printf("running tests on %s", name)
 		if conf.Handler == nil {
@@ -81,6 +86,8 @@ func main() {
 		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f\n\n", elapsedTime.Seconds())); err != nil {
 			panic(err)
 		}
+
+		file.Sync()
 	}
 }
 

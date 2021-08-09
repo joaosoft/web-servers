@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 	"strconv"
+	"web-servers/implementation/models"
 
 	"github.com/labstack/echo"
 )
@@ -14,11 +15,14 @@ func GetPersonByID(ctx echo.Context) error {
 		Age:      age,
 	}
 
-	response := PersonResponse{
-		Id:   request.IdPerson,
-		Name: "João Ribeiro",
-		Age:  request.Age,
+	person, err := (&models.PersonModel{}).GetPersonByID(request.IdPerson, age)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError,
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			})
 	}
 
-	return ctx.JSON(http.StatusOK, response)
+	return ctx.JSON(http.StatusOK, person)
 }

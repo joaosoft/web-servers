@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 	"strconv"
+	"web-servers/implementation/models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,12 +15,16 @@ func GetPersonByID(ctx *gin.Context) {
 		Age:      age,
 	}
 
-	// ...
-
 	ctx.Header("Content-Type", "application/json")
-	ctx.JSON(http.StatusOK, PersonResponse{
-		Id:   request.IdPerson,
-		Name: "João Ribeiro",
-		Age:  request.Age,
-	})
+
+	person, err := (&models.PersonModel{}).GetPersonByID(request.IdPerson, request.Age)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError,
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			})
+	}
+
+	ctx.JSON(http.StatusOK, person)
 }

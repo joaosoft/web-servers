@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"web-servers/implementation/models"
 
 	"github.com/kataras/iris/v12"
 )
@@ -12,14 +13,17 @@ func GetPersonAddressByID(ctx iris.Context) {
 		IdAddress: ctx.Params().Get("id_address"),
 	}
 
-	response := AddressResponse{
-		Id:      request.IdAddress,
-		Country: "Portugal",
-		City:    "Porto",
-		Street:  "Rua da calçada",
-		Number:  7,
+	address, err := (&models.AddressModel{}).GetPersonAddressByID(request.IdPerson, request.IdAddress)
+	if err != nil {
+		ctx.StatusCode(http.StatusInternalServerError)
+		ctx.JSON(
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			})
+		return
 	}
 
 	ctx.StatusCode(http.StatusOK)
-	ctx.JSON(response)
+	ctx.JSON(address)
 }

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"web-servers/implementation/models"
 
 	"github.com/joaosoft/web"
 )
@@ -12,13 +13,15 @@ func GetPersonAddressByID(ctx *web.Context) error {
 		IdAddress: ctx.Request.GetUrlParam("id_address"),
 	}
 
-	response := AddressResponse{
-		Id:      request.IdAddress,
-		Country: "Portugal",
-		City:    "Porto",
-		Street:  "Rua da calçada",
-		Number:  7,
+	address, err := (&models.AddressModel{}).GetPersonAddressByID(request.IdPerson, request.IdAddress)
+	if err != nil {
+		return ctx.Response.JSON(web.StatusInternalServerError,
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			},
+		)
 	}
 
-	return ctx.Response.JSON(http.StatusOK, response)
+	return ctx.Response.JSON(web.StatusOK, address)
 }

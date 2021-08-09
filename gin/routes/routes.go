@@ -13,8 +13,11 @@ var (
 )
 
 func new() *gin.Engine {
+	gin.SetMode(gin.ReleaseMode)
+
 	engine := gin.New()
 	engine.Use(gin.Recovery())
+
 	return engine
 }
 

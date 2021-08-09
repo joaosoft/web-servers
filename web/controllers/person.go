@@ -1,9 +1,10 @@
 package controllers
 
 import (
-	"strconv"
-
 	"github.com/joaosoft/web"
+	"net/http"
+	"strconv"
+	models2 "web-servers/implementation/models"
 )
 
 func GetPersonByID(ctx *web.Context) error {
@@ -13,11 +14,15 @@ func GetPersonByID(ctx *web.Context) error {
 		Age:      age,
 	}
 
-	response := PersonResponse{
-		Id:   request.IdPerson,
-		Name: "João Ribeiro",
-		Age:  request.Age,
+	person, err := (&models2.PersonModel{}).GetPersonByID(request.IdPerson, request.Age)
+	if err != nil {
+		return ctx.Response.JSON(web.StatusInternalServerError,
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			},
+		)
 	}
 
-	return ctx.Response.JSON(web.StatusOK, response)
+	return ctx.Response.JSON(web.StatusOK, person)
 }

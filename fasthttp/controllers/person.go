@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"encoding/json"
 	routing "github.com/qiangxue/fasthttp-routing"
 	"net/http"
+	models2 "web-servers/implementation/models"
 )
 
 func GetPersonByID(ctx *routing.Context) error {
@@ -12,25 +12,18 @@ func GetPersonByID(ctx *routing.Context) error {
 		Age:      ctx.QueryArgs().GetUintOrZero("age"),
 	}
 
-	// ...
-
 	ctx.SetContentType("application/json")
 
-	bytes, err := json.Marshal(
-		PersonResponse{
-			Id:   request.IdPerson,
-			Name: "João Ribeiro",
-			Age:  request.Age,
-		},
-	)
-
+	person, err := (&models2.PersonModel{}).GetPersonByID(request.IdPerson, request.Age)
 	if err != nil {
-		ctx.Error(err.Error(), http.StatusInternalServerError)
-		return nil
+		ctx.SetStatusCode(http.StatusInternalServerError)
+		return ctx.WriteData(
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			})
 	}
 
 	ctx.SetStatusCode(http.StatusOK)
-	ctx.Write(bytes)
-
-	return nil
+	return ctx.WriteData(person)
 }

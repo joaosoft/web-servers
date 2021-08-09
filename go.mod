@@ -34,6 +34,7 @@ require (
 	github.com/revel/log15 v2.11.20+incompatible // indirect
 	github.com/revel/pathtree v0.0.0-20140121041023-41257a1839e9 // indirect
 	github.com/revel/revel v1.0.0
+	github.com/sirupsen/logrus v1.8.1
 	github.com/twinj/uuid v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.28.0
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect

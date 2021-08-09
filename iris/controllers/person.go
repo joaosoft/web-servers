@@ -1,27 +1,31 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
+	"web-servers/implementation/models"
 
 	"github.com/kataras/iris/v12"
 )
 
 func GetPersonByID(ctx iris.Context) {
-	fmt.Println("ola")
 	age, _ := strconv.Atoi(ctx.URLParam("age"))
 	request := GetPersonByIDRequest{
 		IdPerson: ctx.Params().Get("id_person"),
 		Age:      age,
 	}
 
-	response := PersonResponse{
-		Id:   request.IdPerson,
-		Name: "João Ribeiro",
-		Age:  request.Age,
+	person, err := (&models.PersonModel{}).GetPersonByID(request.IdPerson, age)
+	if err != nil {
+		ctx.StatusCode(http.StatusInternalServerError)
+		ctx.JSON(
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			})
+		return
 	}
 
 	ctx.StatusCode(http.StatusOK)
-	ctx.JSON(response)
+	ctx.JSON(person)
 }

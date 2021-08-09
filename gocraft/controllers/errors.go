@@ -4,25 +4,29 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"web-servers/implementation/models"
 
 	"github.com/gocraft/web"
 )
 
 func GetErrorByID(w web.ResponseWriter, req *web.Request) {
 	errorID, _ := strconv.Atoi(req.URL.Query().Get("id_error"))
-	statusText := http.StatusText(errorID)
+	w.Header().Set("Content-Type", "application/json")
 
-	if statusText != "" {
-		w.Header().Set("Content-Type", "application/json")
+	er, err := (&models.ErrorModel{}).GetErrorByID(errorID)
+	if err != nil {
 		bytes, _ := json.Marshal(
 			ErrorResponse{
-				Code:    errorID,
-				Message: statusText,
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
 			},
 		)
-		w.WriteHeader(http.StatusOK)
+
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(bytes)
-	} else {
-		w.WriteHeader(http.StatusNoContent)
 	}
+
+	bytes, _ := json.Marshal(er)
+	w.WriteHeader(http.StatusOK)
+	w.Write(bytes)
 }

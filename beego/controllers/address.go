@@ -1,8 +1,10 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
 	"net/http"
+	"web-servers/implementation/models"
+
+	"github.com/astaxie/beego"
 )
 
 type AddressController struct {
@@ -18,11 +20,14 @@ func (c *AddressController) GetPersonAddressByID() {
 	}
 
 	c.Ctx.Output.SetStatus(http.StatusOK)
-	c.Data["json"] = AddressResponse{
-		Id:      request.IdAddress,
-		Country: "Portugal",
-		City:    "Porto",
-		Street:  "Rua da calçada",
-		Number:  7,
+	address, err := (&models.AddressModel{}).GetPersonAddressByID(request.IdPerson, request.IdAddress)
+	if err != nil {
+		c.Ctx.Output.SetStatus(http.StatusInternalServerError)
+		c.Data["json"] = ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
+		}
 	}
+
+	c.Data["json"] = address
 }

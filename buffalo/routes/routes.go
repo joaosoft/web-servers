@@ -4,11 +4,13 @@ import (
 	"web-servers/buffalo/controllers"
 	"web-servers/buffalo/middlewares"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/gobuffalo/buffalo"
 )
 
 var (
-	Router = buffalo.New(buffalo.Options{Addr: ":8081", LogLevel: "error"})
+	Router = buffalo.New(buffalo.Options{Addr: ":8081", LogLvl: logrus.ErrorLevel})
 )
 
 func init() {

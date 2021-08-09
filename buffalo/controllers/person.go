@@ -1,10 +1,12 @@
 package controllers
 
 import (
-	"github.com/gobuffalo/buffalo"
-	"github.com/gobuffalo/buffalo/render"
 	"net/http"
 	"strconv"
+	"web-servers/implementation/models"
+
+	"github.com/gobuffalo/buffalo"
+	"github.com/gobuffalo/buffalo/render"
 )
 
 func GetPersonByID(ctx buffalo.Context) error {
@@ -14,11 +16,14 @@ func GetPersonByID(ctx buffalo.Context) error {
 		Age:      age,
 	}
 
-	response := PersonResponse{
-		Id:   request.IdPerson,
-		Name: "João Ribeiro",
-		Age:  request.Age,
+	person, err := (&models.PersonModel{}).GetPersonByID(request.IdPerson, age)
+	if err != nil {
+		return ctx.Render(http.StatusInternalServerError, render.JSON(
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			}))
 	}
 
-	return ctx.Render(http.StatusOK, render.JSON(response))
+	return ctx.Render(http.StatusOK, render.JSON(person))
 }

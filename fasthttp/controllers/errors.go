@@ -1,35 +1,27 @@
 package controllers
 
 import (
-	"encoding/json"
 	"net/http"
+	"web-servers/implementation/models"
 
 	routing "github.com/qiangxue/fasthttp-routing"
 )
 
 func GetErrorByID(ctx *routing.Context) error {
 	errorID := ctx.QueryArgs().GetUintOrZero("id_error")
-	statusText := http.StatusText(errorID)
 
-	if statusText != "" {
-		ctx.SetContentType("application/json")
-		bytes, err := json.Marshal(
+	ctx.SetContentType("application/json")
+
+	er, err := (&models.ErrorModel{}).GetErrorByID(errorID)
+	if err != nil {
+		ctx.SetStatusCode(http.StatusInternalServerError)
+		return ctx.WriteData(
 			ErrorResponse{
-				Code:    errorID,
-				Message: statusText,
-			},
-		)
-
-		if err != nil {
-			ctx.Error(err.Error(), http.StatusInternalServerError)
-			return nil
-		}
-
-		ctx.SetStatusCode(http.StatusOK)
-		ctx.Write(bytes)
-	} else {
-		ctx.SetStatusCode(http.StatusNoContent)
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			})
 	}
 
-	return nil
+	ctx.SetStatusCode(http.StatusOK)
+	return ctx.WriteData(er)
 }

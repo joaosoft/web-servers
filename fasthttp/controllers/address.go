@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"encoding/json"
 	"net/http"
+	"web-servers/implementation/models"
 
 	routing "github.com/qiangxue/fasthttp-routing"
 )
@@ -15,23 +15,16 @@ func GetPersonAddressByID(ctx *routing.Context) error {
 
 	ctx.SetContentType("application/json")
 
-	bytes, err := json.Marshal(
-		AddressResponse{
-			Id:      request.IdAddress,
-			Country: "Portugal",
-			City:    "Porto",
-			Street:  "Rua da calçada",
-			Number:  7,
-		},
-	)
-
+	person, err := (&models.AddressModel{}).GetPersonAddressByID(request.IdPerson, request.IdAddress)
 	if err != nil {
-		ctx.Error(err.Error(), http.StatusInternalServerError)
-		return nil
+		ctx.SetStatusCode(http.StatusInternalServerError)
+		return ctx.WriteData(
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			})
 	}
 
 	ctx.SetStatusCode(http.StatusOK)
-	ctx.Write(bytes)
-
-	return nil
+	return ctx.WriteData(person)
 }

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"web-servers/implementation/models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,11 +14,15 @@ func GetPersonAddressByID(ctx *gin.Context) {
 	}
 
 	ctx.Header("Content-Type", "application/json")
-	ctx.JSON(http.StatusOK, AddressResponse{
-		Id:      request.IdAddress,
-		Country: "Portugal",
-		City:    "Porto",
-		Street:  "Rua da calçada",
-		Number:  7,
-	})
+
+	address, err := (&models.AddressModel{}).GetPersonAddressByID(request.IdPerson, request.IdAddress)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError,
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			})
+	}
+
+	ctx.JSON(http.StatusOK, address)
 }

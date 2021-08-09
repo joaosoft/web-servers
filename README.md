@@ -22,23 +22,23 @@ Web servers example:
 - `GET` to `/v1/errors?id_error=200`
 
 ## Benchmark
-Tested with 100 requests at the same time 
+Tested with 2 go routines, each one doing 100 requests.
 (`GET` to `/v1/persons/:id_person/addresses/:id_address`)
 
 |Server|Port|Elapsed time|
 |------|----|------------|
-|http & mux|8081|0.016552|
-|gin|8082|0.012126|
-|beego|8083|0.013656|
-|echo|8084|0.010677|
-|martini & martini-render|8085|0.016708|
-|fasthttp & fasthttp-routing|8086|0.011158|
-|iris|8087|0.017330|
-|revel|8088|0.115028|
+|http & mux|8081|7.505765|
+|gin|8082|7.448347|
+|beego|8083|7.521267|
+|echo|8084|7.542187|
+|martini & martini-render|8085|7.556153|
+|fasthttp & fasthttp-routing|8086|7.590783|
+|iris|8087|7.443879|
+|revel|8088|-|
 |buffalo|8089|0.020912|
-|goji|8090|0.010759|
-|gocraft|8091|0.014490|
-|web|8091|0|
+|goji|8090|4.191412|
+|gocraft|8091|7.639343|
+|web|8091|-|
 
 ## Known issues
 
