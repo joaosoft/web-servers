@@ -106,7 +106,7 @@ func call(name string, port, numTimes, numGoRoutines int) time.Duration {
 				}
 			}
 
-			f(i, wg)
+			go f(i, wg)
 		}
 		wg.Wait()
 
