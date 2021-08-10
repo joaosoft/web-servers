@@ -9,9 +9,10 @@ import (
 )
 
 func Init(router *mux.Router) {
-	router.Use(middlewares.CheckExample)
+	v1 := router.PathPrefix("/v1").Subrouter()
+	v1.Use(middlewares.CheckExample)
 
-	router.HandleFunc("/v1/persons/{id_person}", controllers.GetPersonByID).Methods(http.MethodGet)
-	router.HandleFunc("/v1/persons/{id_person}/addresses/{id_address}", controllers.GetPersonAddressByID).Methods(http.MethodGet)
-	router.HandleFunc("/v1/errors", controllers.GetErrorByID).Methods(http.MethodGet)
+	v1.HandleFunc("/persons/{id_person}", controllers.GetPersonByID).Methods(http.MethodGet)
+	v1.HandleFunc("/persons/{id_person}/addresses/{id_address}", controllers.GetPersonAddressByID).Methods(http.MethodGet)
+	v1.HandleFunc("/errors", controllers.GetErrorByID).Methods(http.MethodGet)
 }

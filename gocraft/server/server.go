@@ -14,13 +14,16 @@ type Server struct {
 	App    *http.Server
 	Router *web.Router
 	Port   int
+	Context Context
 }
 
 type Context struct{}
 
 func New(port int) server.IServer {
-	router := web.New(Context{})
+	context := Context{}
+	router := web.New(context)
 	server := &Server{
+		Context: context,
 		App: &http.Server{
 			Addr:    fmt.Sprintf(":%d", port),
 			Handler: router,
@@ -33,7 +36,7 @@ func New(port int) server.IServer {
 }
 
 func (s *Server) Start() (err error) {
-	routes.Init(s.Router)
+	routes.Init(s.Context, s.Router)
 	return s.App.ListenAndServe()
 }
 

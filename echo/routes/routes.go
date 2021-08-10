@@ -8,9 +8,10 @@ import (
 )
 
 func Init(router *echo.Echo) {
-	router.Use(middlewares.CheckExample)
+	v1 := router.Group("/v1")
+	v1.Use(middlewares.CheckExample)
 
-	router.GET("/v1/persons/:id_person", controllers.GetPersonByID)
-	router.GET("/v1/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID)
-	router.GET("/v1/errors", controllers.GetErrorByID)
+	v1.GET("/persons/:id_person", controllers.GetPersonByID)
+	v1.GET("/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID)
+	v1.GET("/errors", controllers.GetErrorByID)
 }

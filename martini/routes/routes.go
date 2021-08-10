@@ -13,7 +13,9 @@ func Init(server *martini.Martini, router martini.Router) {
 	server.Use(render.Renderer())
 	server.Use(middlewares.CheckExample)
 
-	router.Get("/v1/persons/:id_person", controllers.GetPersonByID)
-	router.Get("/v1/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID)
-	router.Get("/v1/errors", controllers.GetErrorByID)
+	router.Group("/v1", func(r martini.Router) {
+		r.Get("/persons/:id_person", controllers.GetPersonByID)
+		r.Get("/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID)
+		r.Get("/errors", controllers.GetErrorByID)
+	})
 }

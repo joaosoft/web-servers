@@ -8,9 +8,10 @@ import (
 )
 
 func Init(router *routing.Router) {
-	router.Use(middlewares.CheckExample)
+	v1 := router.Group("/v1")
+	v1.Use(middlewares.CheckExample)
 
-	router.Get("/v1/persons/<id_person>", controllers.GetPersonByID)
-	router.Get("/v1/persons/<id_person>/addresses/<id_address>", controllers.GetPersonAddressByID)
-	router.Get("/v1/errors", controllers.GetErrorByID)
+	v1.Get("/persons/<id_person>", controllers.GetPersonByID)
+	v1.Get("/persons/<id_person>/addresses/<id_address>", controllers.GetPersonAddressByID)
+	v1.Get("/errors", controllers.GetErrorByID)
 }

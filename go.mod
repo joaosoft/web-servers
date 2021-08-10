@@ -6,7 +6,6 @@ require (
 	github.com/astaxie/beego v1.12.3
 	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
 	github.com/gin-gonic/gin v1.7.3
-	github.com/go-kit/kit v0.10.0
 	github.com/go-martini/martini v0.0.0-20170121215854-22fa46961aab
 	github.com/go-ozzo/ozzo-routing v2.1.4+incompatible // indirect
 	github.com/gobuffalo/buffalo v0.16.27

@@ -7,11 +7,11 @@ import (
 	"github.com/gocraft/web"
 )
 
-func Init(router *web.Router) {
-	router.
-		Middleware(middlewares.CheckExample).
+func Init(context interface{}, router *web.Router) {
+	v1 := router.Subrouter(context, "/v1")
+	v1.Middleware(middlewares.CheckExample).
 		Middleware(web.ShowErrorsMiddleware).
-		Get("/v1/persons/:id_person", controllers.GetPersonByID).
-		Get("/v1/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID).
-		Get("/v1/errors", controllers.GetErrorByID)
+		Get("/persons/:id_person", controllers.GetPersonByID).
+		Get("/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID).
+		Get("/errors", controllers.GetErrorByID)
 }

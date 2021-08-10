@@ -8,11 +8,11 @@ import (
 )
 
 func Init(router *web.Server) {
-	router.AddMiddlewares(middlewares.CheckExample)
+	v1 := router.AddNamespace("v1", middlewares.CheckExample)
 
-	router.AddRoutes(
-		web.NewRoute(web.MethodGet, "/v1/persons/:id_person", controllers.GetPersonByID),
-		web.NewRoute(web.MethodGet, "/v1/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID),
-		web.NewRoute(web.MethodGet, "/v1/errors", controllers.GetErrorByID),
+	v1.AddRoutes(
+		web.NewRoute(web.MethodGet, "/persons/:id_person", controllers.GetPersonByID),
+		web.NewRoute(web.MethodGet, "/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID),
+		web.NewRoute(web.MethodGet, "/errors", controllers.GetErrorByID),
 	)
 }
