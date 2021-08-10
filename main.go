@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -29,44 +30,169 @@ import (
 )
 
 type (
+	ServerName string
+
 	Test struct {
+		Enabled       bool
+		Name          string
 		NumGoRoutines int
 		NumRequests   int
+		Servers       []ServerName
 	}
 
 	Config struct {
-		Name    string
+		Name    ServerName
 		Enabled bool
 		Port    int
 		Handler func(port int) server.IServer
 	}
 )
 
+const (
+	ConstServerNameBeego                      ServerName = "beego"
+	ConstServerNameBuffalo                    ServerName = "buffalo"
+	ConstServerNameEcho                       ServerName = "echo"
+	ConstServerNameFastHttpAndFastHttpRouting ServerName = "fasthttp & fasthttp-routing"
+	ConstServerNameFiber                      ServerName = "fiber"
+	ConstServerNameGin                        ServerName = "gin"
+	ConstServerNameGocraft                    ServerName = "gocraft"
+	ConstServerNameGoji                       ServerName = "goji"
+	ConstServerNameHttpMux                    ServerName = "http & mux"
+	ConstServerNameHttpRouter                 ServerName = "http-router"
+	ConstServerNameIris                       ServerName = "iris"
+	ConstServerNameMartiniMartiniRender       ServerName = "martini & martini-render"
+	ConstServerNameRevel                      ServerName = "revel"
+	ConstServerNameWeb                        ServerName = "web"
+
+	ColorGreen = "\033[32m"
+	ColorRed   = "\033[31m"
+	ColorReset = "\033[0m"
+)
+
 var (
-	tests = []*Test{
-		{NumGoRoutines: 10, NumRequests: 100},
-		{NumGoRoutines: 50, NumRequests: 100},
-		{NumGoRoutines: 10, NumRequests: 1000},
-		{NumGoRoutines: 25, NumRequests: 2000},
+	servers = map[ServerName]*Config{
+		ConstServerNameBeego:                      {Enabled: true, Name: ConstServerNameBeego, Port: 8081, Handler: beego.New},
+		ConstServerNameBuffalo:                    {Enabled: true, Name: ConstServerNameBuffalo, Port: 8082, Handler: buffalo.New},
+		ConstServerNameEcho:                       {Enabled: true, Name: ConstServerNameEcho, Port: 8083, Handler: echo.New},
+		ConstServerNameFastHttpAndFastHttpRouting: {Enabled: true, Name: ConstServerNameFastHttpAndFastHttpRouting, Port: 8084, Handler: fasthttp.New},
+		ConstServerNameFiber:                      {Enabled: true, Name: ConstServerNameFiber, Port: 8085, Handler: fiber.New},
+		ConstServerNameGin:                        {Enabled: true, Name: ConstServerNameGin, Port: 8086, Handler: gin.New},
+		ConstServerNameGocraft:                    {Enabled: true, Name: ConstServerNameGocraft, Port: 8087, Handler: gocraft.New},
+		ConstServerNameGoji:                       {Enabled: true, Name: ConstServerNameGoji, Port: 8088, Handler: goji.New},
+		ConstServerNameHttpMux:                    {Enabled: true, Name: ConstServerNameHttpMux, Port: 8089, Handler: mux.New},
+		ConstServerNameHttpRouter:                 {Enabled: true, Name: ConstServerNameHttpRouter, Port: 8090, Handler: httprouter.New},
+		ConstServerNameIris:                       {Enabled: true, Name: ConstServerNameIris, Port: 8091, Handler: iris.New},
+		ConstServerNameMartiniMartiniRender:       {Enabled: true, Name: ConstServerNameMartiniMartiniRender, Port: 8092, Handler: martini.New},
+		ConstServerNameRevel:                      {Enabled: false, Name: ConstServerNameRevel, Port: 8093, Handler: revel.New}, // unavailable
+		//ConstServerNameWeb:                        {Enabled: false, Name: ConstServerNameWeb, Port: 8094, Handler: web.New},     // unavailable
 	}
 
-	servers = []*Config{
-		{Enabled: true, Name: "beego", Port: 8081, Handler: beego.New},
-		{Enabled: true, Name: "buffalo", Port: 8082, Handler: buffalo.New},
-		{Enabled: true, Name: "echo", Port: 8083, Handler: echo.New},
-		{Enabled: true, Name: "fasthttp & fasthttp-routing", Port: 8084, Handler: fasthttp.New},
-		{Enabled: true, Name: "fiber", Port: 8085, Handler: fiber.New},
-		{Enabled: true, Name: "gin", Port: 8086, Handler: gin.New},
-		{Enabled: true, Name: "gocraft", Port: 8087, Handler: gocraft.New},
-		{Enabled: true, Name: "goji", Port: 8088, Handler: goji.New},
-		{Enabled: true, Name: "http & mux", Port: 8089, Handler: mux.New},
-		{Enabled: true, Name: "http-router", Port: 8090, Handler: httprouter.New},
-		{Enabled: true, Name: "iris", Port: 8091, Handler: iris.New},
-		{Enabled: true, Name: "martini & martini-render", Port: 8092, Handler: martini.New},
-		{Enabled: false, Name: "revel", Port: 8093, Handler: revel.New}, // unavailable
-		//{Enabled: false, Name: "web", Port: 8094, Handler: web.New}, // unavailable
+	allServers = []ServerName{
+		ConstServerNameBeego,
+		ConstServerNameBuffalo,
+		ConstServerNameEcho,
+		ConstServerNameFastHttpAndFastHttpRouting,
+		ConstServerNameFiber,
+		ConstServerNameGin,
+		ConstServerNameGocraft,
+		ConstServerNameGoji,
+		ConstServerNameHttpMux,
+		ConstServerNameHttpRouter,
+		ConstServerNameIris,
+		ConstServerNameMartiniMartiniRender,
+		ConstServerNameRevel,
+		//ConstServerNameWeb,
+	}
+
+	tests = []*Test{
+		{Enabled: true, Name: "test 1", NumGoRoutines: 1, NumRequests: 200, Servers: allServers},
+		{Enabled: true, Name: "test 2", NumGoRoutines: 1, NumRequests: 400, Servers: allServers},
+		{Enabled: true, Name: "test 3", NumGoRoutines: 10, NumRequests: 200, Servers: allServers},
+		{Enabled: true, Name: "test 4", NumGoRoutines: 10, NumRequests: 400, Servers: allServers},
+		{Enabled: true, Name: "test 5", NumGoRoutines: 20, NumRequests: 200, Servers: allServers},
+		{Enabled: true, Name: "test 6", NumGoRoutines: 20, NumRequests: 400, Servers: allServers},
 	}
 )
+
+func main() {
+	var err error
+	var result map[ServerName]time.Duration
+
+	if result, err = runTests(tests); err != nil {
+		panic(err)
+	}
+
+	if err = createResultFile(result); err != nil {
+		panic(err)
+	}
+}
+
+func runTests(tests []*Test) (_ map[ServerName]time.Duration, err error) {
+	result := make(map[ServerName]time.Duration)
+	var testResult map[ServerName]time.Duration
+
+	for _, test := range tests {
+		if !test.Enabled {
+			continue
+		}
+
+		// run test
+		if testResult, err = runTest(test); err != nil {
+			return nil, err
+		}
+
+		if err = createTestResultFile(test, testResult); err != nil {
+			return nil, err
+		}
+
+		// update result
+		for name, duration := range testResult {
+			if value, ok := result[name]; ok {
+				duration += value
+			}
+			result[name] = duration
+		}
+	}
+
+	return result, nil
+}
+
+func runTest(test *Test) (_ map[ServerName]time.Duration, err error) {
+	log.Printf("%s:: test: %s%s", ColorRed, test.Name, ColorReset)
+
+	result := make(map[ServerName]time.Duration)
+	for _, s := range test.Servers {
+		conf, ok := servers[s]
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("server '%s' not found", s))
+		}
+
+		if !conf.Available() {
+			continue
+		}
+
+		// start web server
+		log.Printf(":: %s ::", conf.Name)
+		log.Print("starting")
+		newServer := conf.Handler(conf.Port)
+		go newServer.Start()
+		<-time.After(time.Second * 1)
+
+		// run test
+		log.Print("testing")
+
+		result[conf.Name] = call(conf.Name, conf.Port, test.NumGoRoutines, test.NumRequests)
+
+		log.Print("stopping")
+		if err = newServer.Stop(); err != nil {
+			log.Print("error stopping server")
+		}
+		<-time.After(time.Second * 1)
+	}
+
+	log.Printf("%sdone%s", ColorGreen, ColorReset)
+	return result, nil
+}
 
 func (c *Config) Available() bool {
 	if c.Enabled == false || c.Handler == nil {
@@ -75,108 +201,60 @@ func (c *Config) Available() bool {
 	return true
 }
 
-func main() {
-	var err error
+func createTestResultFile(test *Test, result map[ServerName]time.Duration) (err error) {
+	var file *os.File
 
-	for _, test := range tests {
-		log.Printf(":: executing test with number of go routines %d, number of requests %d", test.NumGoRoutines, test.NumRequests)
-		if err = run(test.NumGoRoutines, test.NumRequests); err != nil {
-			panic(err)
-		}
-	}
-}
-
-func run(numGoRoutines, numRequests int) error {
-	// create output file
-	log.Printf("create output file")
-	file, err := createFile("./generated/", time.Now().Format(time.RFC3339), "txt")
-	if err != nil {
+	name := fmt.Sprintf("%s - %s", time.Now().Format(time.RFC3339), test.Name)
+	if file, err = createFile("./generated/", name, "txt"); err != nil {
 		return err
 	}
 	defer file.Close()
 
-	if _, err = file.WriteString(fmt.Sprintf("Number of Go Routines: %d\nNumber of Requests: %d\n\n", numGoRoutines, numRequests)); err != nil {
+	if _, err = file.WriteString(
+		fmt.Sprintf("Test: %s\nNumber of Go Routines: %d\nNumber of Requests: %d\n\n",
+			test.Name, test.NumGoRoutines, test.NumRequests)); err != nil {
 		return err
 	}
-	_ = file.Sync()
 
-	for _, conf := range servers {
-		if !conf.Available() {
-			continue
-		}
-
-		// start web server
-		log.Printf(":: %s ::", conf.Name)
-		log.Print("starting server")
-		server := conf.Handler(conf.Port)
-		go server.Start()
-		<-time.After(time.Second * 1)
-
-		// run test
-		log.Print("running test")
-		if _, err = file.WriteString(fmt.Sprintf(":: %s\n", conf.Name)); err != nil {
+	for serverName, duration := range result {
+		if _, err = file.WriteString(fmt.Sprintf(":: %s\n", serverName)); err != nil {
 			return err
 		}
-
-		elapsedTime := call(conf.Name, conf.Port, numGoRoutines, numRequests)
-		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", elapsedTime.Seconds())); err != nil {
+		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", duration.Seconds())); err != nil {
 			return err
-		}
-
-		_ = file.Sync()
-
-		log.Print("stopping server")
-		if err = server.Stop(); err != nil {
-			log.Print("error stopping server")
 		}
 	}
 
-	log.Print("done!")
 	return nil
 }
 
-func call(name string, port, numGoRoutines, numRequests int) time.Duration {
+func createResultFile(result map[ServerName]time.Duration) (err error) {
+	var file *os.File
+	name := fmt.Sprintf("%s - result", time.Now().Format(time.RFC3339))
+	if file, err = createFile("./generated/", name, "txt"); err != nil {
+		return err
+	}
+	defer file.Close()
+
+	for serverName, duration := range result {
+		if _, err = file.WriteString(fmt.Sprintf(":: %s\n", serverName)); err != nil {
+			return err
+		}
+		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", duration.Seconds())); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func call(name ServerName, port, numGoRoutines, numRequests int) time.Duration {
 	start := time.Now()
 	wg := &sync.WaitGroup{}
 	wg.Add(numGoRoutines)
 
-	for i := 0; i < numGoRoutines; i++ {
-		f := func(name string, id int, wg *sync.WaitGroup, numRequests int) {
-			defer wg.Done()
-
-			for i := 0; i < numRequests; i++ {
-				url := fmt.Sprintf("http://localhost:%d/v1/persons/%d/addresses/%d", port, id, i+1)
-				response, err := http.Get(url)
-				if err != nil {
-					log.Printf("\nERROR 1 (name: %s : request: %d | %d) error: %s", name, id, i+1, err.Error())
-					return
-				}
-
-				if response != nil {
-					defer response.Body.Close()
-					bodyResponse, err := ioutil.ReadAll(response.Body)
-					if err != nil {
-						log.Printf("\nERROR 2 (name: %s : request: %d | %d) error: %s", name, id, i+1, err.Error())
-						return
-					}
-
-					var address models.Address
-					if err = json.Unmarshal(bodyResponse, &address); err != nil {
-						log.Printf("\nERROR 3 (name: %s : request: %d | %d) error: %s", name, id, i+1, err.Error())
-						log.Printf(string(bodyResponse))
-						return
-					}
-
-					if address.Id != strconv.Itoa(i+1) {
-						log.Printf("\nERROR 4 (name: %s : request: %d | %d) error: %s", name, id, i+1, err.Error())
-						log.Printf(string(bodyResponse))
-						return
-					}
-				}
-			}
-		}
-
-		go f(name, i+1, wg, numRequests)
+	for i := 1; i <= numGoRoutines; i++ {
+		go handler(name, port, i, wg, numRequests)
 	}
 
 	wg.Wait()
@@ -193,4 +271,39 @@ func createFile(folder, name, extension string) (file *os.File, err error) {
 	}
 
 	return file, err
+}
+
+func handler(name ServerName, port, id int, wg *sync.WaitGroup, numRequests int) {
+	defer wg.Done()
+
+	for index := 1; index <= numRequests; index++ {
+		url := fmt.Sprintf("http://localhost:%d/v1/persons/%d/addresses/%d", port, id, index)
+		response, err := http.Get(url)
+		if err != nil {
+			log.Printf("\nERROR 1 (name: %s, request: %d | %d) error: %s", name, id, index, err.Error())
+			return
+		}
+
+		if response != nil {
+			defer response.Body.Close()
+			bodyResponse, err := ioutil.ReadAll(response.Body)
+			if err != nil {
+				log.Printf("\nERROR 2 (name: %s, request: %d | %d) error: %s", name, id, index, err.Error())
+				return
+			}
+
+			var address models.Address
+			if err = json.Unmarshal(bodyResponse, &address); err != nil {
+				log.Printf("\nERROR 3 (name: %s, request: %d | %d) error: %s", name, id, index, err.Error())
+				log.Printf(string(bodyResponse))
+				return
+			}
+
+			if address.Id != strconv.Itoa(index) {
+				log.Printf("\nERROR 4 (name: %s, request: %d | %d) invalid address %s", name, id, index, address.Id)
+				log.Printf(string(bodyResponse))
+				return
+			}
+		}
+	}
 }

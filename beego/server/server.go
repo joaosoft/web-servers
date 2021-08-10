@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"web-servers/beego/routes"
 	"web-servers/domain/server"
 
@@ -15,7 +16,7 @@ type Server struct {
 func New(port int) server.IServer {
 	beego.BConfig.Listen.HTTPPort = port
 	server := &Server{
-		App:  beego.BeeApp,
+		App:  beego.NewApp(),
 		Port: port,
 	}
 	return server
@@ -28,5 +29,5 @@ func (s *Server) Start() (err error) {
 }
 
 func (s *Server) Stop() (err error) {
-	return s.App.Server.Close()
+	return s.App.Server.Shutdown(context.Background())
 }
