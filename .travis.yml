@@ -7,10 +7,7 @@ jobs:
   include:
     - stage: test
       install:
-<<<<<<< Updated upstream
         - go mod tyde
-=======
->>>>>>> Stashed changes
       os: linux
       go: master
       script:
