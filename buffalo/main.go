@@ -1,11 +1,9 @@
 package main
 
-import (
-	"web-servers/buffalo/routes"
-)
+import "web-servers/buffalo/server"
 
 func main() {
-	if err := routes.Router.Serve(); err != nil {
+	if err := server.New(8081).Start(); err != nil {
 		panic(err)
 	}
 }

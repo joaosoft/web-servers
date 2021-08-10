@@ -1,12 +1,9 @@
 package main
 
-import (
-	"net/http"
-	"web-servers/httprouter/routes"
-)
+import "web-servers/httprouter/server"
 
 func main() {
-	if err := http.ListenAndServe(":8081", routes.Router); err != nil {
+	if err := server.New(8081).Start(); err != nil {
 		panic(err)
 	}
 }

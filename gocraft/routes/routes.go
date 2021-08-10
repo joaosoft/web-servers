@@ -7,14 +7,8 @@ import (
 	"github.com/gocraft/web"
 )
 
-type Context struct{}
-
-var (
-	Router = web.New(Context{})
-)
-
-func init() {
-	Router.
+func Init(router *web.Router) {
+	router.
 		Middleware(middlewares.CheckExample).
 		Middleware(web.ShowErrorsMiddleware).
 		Get("/v1/persons/:id_person", controllers.GetPersonByID).

@@ -103,6 +103,14 @@
   version = "v4.0.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:615811fa58b830195c12ad4509eb40d0daf34872879cfb8bd3d65e08df2d0c3f"
+  name = "github.com/bradfitz/gomemcache"
+  packages = ["memcache"]
+  pruneopts = "UT"
+  revision = "a41fca850d0b6f392931a78cbae438803ea0b886"
+
+[[projects]]
   digest = "1:75e8f8e8382cf0601f205e4b01de257a27624e245bd903a6691c5902c62e4a8b"
   name = "github.com/cockroachdb/cockroach-go"
   packages = ["crdb"]
@@ -168,6 +176,17 @@
   pruneopts = "UT"
   revision = "45d7d09e39ef4ac08d493309fa031790c15bfe8a"
   version = "v1.4.9"
+
+[[projects]]
+  digest = "1:f7184bb17a1dcbe272dd052bbc3f15bd3edc19fea7b74cd45b12c5d61fce030d"
+  name = "github.com/garyburd/redigo"
+  packages = [
+    "internal",
+    "redis",
+  ]
+  pruneopts = "UT"
+  revision = "569eae59ada904ea8db7a225c2b47165af08735a"
+  version = "v1.6.2"
 
 [[projects]]
   digest = "1:3ee1d175a75b911a659fbd860060874c4f503e793c5870d13e5a0ede529a63cf"
@@ -412,6 +431,22 @@
   version = "v1.1"
 
 [[projects]]
+  digest = "1:849a0b58866e6565ab31a0cce85a069584401af5d5044b720a4e54c956af6375"
+  name = "github.com/gofiber/fiber"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "755b75f6f854ab146b2416b2219b5bf11fc3310f"
+  version = "v1.14.6"
+
+[[projects]]
+  digest = "1:7e3b6f0976772df8803888cb725eab6d2899708935e18e3b0d1f8c621e4cdff6"
+  name = "github.com/gofiber/utils"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "98ba4e62564ebc57113432d46d477adc14aeaafe"
+  version = "v0.1.2"
+
+[[projects]]
   digest = "1:b4c37f161f9abc89aede53a621205cda38d2df6659dff7b8044d8295ed24291f"
   name = "github.com/gofrs/uuid"
   packages = ["."]
@@ -450,6 +485,14 @@
   pruneopts = "UT"
   revision = "98cb6bf42e086f6af920b965c38cacc07402d51b"
   version = "v1.8.0"
+
+[[projects]]
+  digest = "1:eeab1bbd366bdbe90ecb5ae485d37beb81ac617f769ad457e75e015f4e449fe8"
+  name = "github.com/gorilla/schema"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "7f62815760ef565b05f7d37c136e568d8a8dca68"
+  version = "v1.2.0"
 
 [[projects]]
   digest = "1:e72d1ebb8d395cf9f346fd9cbc652e5ae222dd85e0ac842dc57f175abed6d195"
@@ -517,6 +560,57 @@
   pruneopts = "UT"
   revision = "92bfa368c21aafd33626444a47b2f99be2432623"
   version = "v1.3.4"
+
+[[projects]]
+  branch = "master"
+  digest = "1:403c6c64bcff5cf2565d9842599973a7c1edef98f51e938d4260fb0a177f180e"
+  name = "github.com/joaosoft/auth-types"
+  packages = [
+    "basic",
+    "jwt",
+  ]
+  pruneopts = "UT"
+  revision = "9b1bbd776f4217aa97bc5f74316fffc6dd0b9c6e"
+
+[[projects]]
+  branch = "master"
+  digest = "1:0092e94dba11e26f6124f9b3251795d29692fc033ab0cfbf81633fd1ff4d707e"
+  name = "github.com/joaosoft/color"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "17caec6046388cea5751f441ef6b06a7a572abf2"
+
+[[projects]]
+  branch = "master"
+  digest = "1:1074b00958a2c569a9e40574507f899fe52181b8dd267e2e02c86982e54f2c5b"
+  name = "github.com/joaosoft/errors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "8e002061f860c944f3fce9f8a80156c639ad1b29"
+
+[[projects]]
+  branch = "master"
+  digest = "1:0b4f1442a553f26421a985b988ebf3c237395c51a72e21abeb0ccf2e90e59920"
+  name = "github.com/joaosoft/logger"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "7f5013a1da373a321e3b763793069e7f6dd14305"
+
+[[projects]]
+  branch = "master"
+  digest = "1:710a4abf35a6121dbb5a484643de29b59ee6c5fc0beedc37b69e70dc1c8253a9"
+  name = "github.com/joaosoft/web"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f9d819b51caa5284298cb9b8a97d1363e3821bdd"
+
+[[projects]]
+  branch = "master"
+  digest = "1:0c24c6f8b6ab368de5dd044f53734ac553d8927404191e98fe5e7ad5b63a8a6f"
+  name = "github.com/joaosoft/writers"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "e7d4af742120fde49ef12a4e2b170ceb5619cdef"
 
 [[projects]]
   digest = "1:ecd9aa82687cf31d1585d4ac61d0ba180e42e8a6182b85bd785fcca8dfeefc1b"
@@ -791,6 +885,14 @@
   revision = "03653db5a59cd88b481403d312d7c324b56af377"
 
 [[projects]]
+  digest = "1:808cdddf087fb64baeae67b8dfaee2069034d9704923a3cb8bd96a995421a625"
+  name = "github.com/patrickmn/go-cache"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a3647f8e31d79543b2d0f0ae2fe5c379d72cedc0"
+  version = "v2.1.0"
+
+[[projects]]
   digest = "1:9e1d37b58d17113ec3cb5608ac0382313c5b59470b94ed97d0976e69c7022314"
   name = "github.com/pkg/errors"
   packages = ["."]
@@ -831,13 +933,15 @@
   revision = "41257a1839e945fce74afd070e02bab2ea2c776a"
 
 [[projects]]
-  digest = "1:2e2feeb93236ccb5481f44b443acb7eb9841a3efa0be33248375354478f69ebb"
+  digest = "1:a02c0b9a733b337a98c6a89ce376e78bbc723b163ff223f8972eba96914857d9"
   name = "github.com/revel/revel"
   packages = [
     ".",
+    "cache",
     "logger",
     "model",
     "session",
+    "testing",
     "utils",
   ]
   pruneopts = "UT"
@@ -871,6 +975,14 @@
   pruneopts = "UT"
   revision = "d363dedc9af5c63c6809f74e28650cbd635640e0"
   version = "v2.1.2"
+
+[[projects]]
+  digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
 
 [[projects]]
   branch = "master"
@@ -1014,11 +1126,12 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:15ad8a80098fcc7a194b9db6b26d74072a852e4faa957848c8118193d3c69230"
+  digest = "1:6301ec20b1f40ce8463de7ad70ce75e6dce197bae76cb129c2cfdf4ec53ca62a"
   name = "github.com/valyala/fasthttp"
   packages = [
     ".",
     "fasthttputil",
+    "reuseport",
     "stackless",
   ]
   pruneopts = "UT"
@@ -1032,6 +1145,14 @@
   pruneopts = "UT"
   revision = "2275c48ed3e40f01fa347e220be31070a89b6ad4"
   version = "v1.2.1"
+
+[[projects]]
+  digest = "1:3a1cfe47c5aa1c712c7aaeefd182e8ef989521a0d4c98ba108c226827499de9e"
+  name = "github.com/valyala/tcplisten"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "652d3b4b296a7d12eef014b68be535afda1b7341"
+  version = "v1.0.0"
 
 [[projects]]
   digest = "1:ffa6bd15109b4ad04ed01419ca6c0cf6e41afb335d84b68bb1251b24ec2353a2"
@@ -1219,7 +1340,9 @@
     "github.com/gobuffalo/buffalo",
     "github.com/gobuffalo/buffalo/render",
     "github.com/gocraft/web",
+    "github.com/gofiber/fiber",
     "github.com/gorilla/mux",
+    "github.com/joaosoft/web",
     "github.com/julienschmidt/httprouter",
     "github.com/kataras/iris",
     "github.com/kataras/iris/context",
@@ -1227,6 +1350,8 @@
     "github.com/martini-contrib/render",
     "github.com/qiangxue/fasthttp-routing",
     "github.com/revel/revel",
+    "github.com/revel/revel/cache",
+    "github.com/revel/revel/testing",
     "github.com/valyala/fasthttp",
     "goji.io",
     "goji.io/pat",

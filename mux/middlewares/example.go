@@ -1,11 +1,12 @@
 package middlewares
 
 import (
-	"fmt"
 	"net/http"
+	"web-servers/domain/middlewares"
 )
 
 func CheckExample(next http.Handler) http.Handler {
-	fmt.Println("passing in the middleware example")
+	// do something
+	_ = middlewares.ExecuteExample()
 	return next
 }

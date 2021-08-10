@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
+	"web-servers/domain/models"
 
 	"github.com/labstack/echo"
 )
@@ -13,15 +13,14 @@ func GetPersonAddressByID(ctx echo.Context) error {
 		IdAddress: ctx.Param("id_address"),
 	}
 
-	fmt.Printf("> executing get address for id_person: %s, id_address: %s", request.IdPerson, request.IdAddress)
-
-	response := AddressResponse{
-		Id:      request.IdAddress,
-		Country: "Portugal",
-		City:    "Porto",
-		Street:  "Rua da calçada",
-		Number:  7,
+	address, err := (&models.AddressModel{}).GetPersonAddressByID(request.IdPerson, request.IdAddress)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError,
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			})
 	}
 
-	return ctx.JSON(http.StatusOK, response)
+	return ctx.JSON(http.StatusOK, address)
 }

@@ -1,27 +1,27 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
+	"web-servers/domain/models"
 
 	"github.com/kataras/iris"
 )
 
 func GetErrorByID(ctx iris.Context) {
 	errorID, _ := strconv.Atoi(ctx.URLParam("id_error"))
-	fmt.Printf("> executing get errors for id: %d", errorID)
 
-	statusText := http.StatusText(errorID)
-
-	if statusText != "" {
-		response := ErrorResponse{
-			Code:    errorID,
-			Message: statusText,
-		}
-		ctx.StatusCode(http.StatusOK)
-		ctx.JSON(response)
-	} else {
-		ctx.StatusCode(http.StatusNoContent)
+	er, err := (&models.ErrorModel{}).GetErrorByID(errorID)
+	if err != nil {
+		ctx.StatusCode(http.StatusInternalServerError)
+		ctx.JSON(
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			})
+		return
 	}
+
+	ctx.StatusCode(http.StatusOK)
+	ctx.JSON(er)
 }

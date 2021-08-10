@@ -2,10 +2,11 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/gocraft/web"
 	"net/http"
 	"strconv"
+	"web-servers/domain/models"
+
+	"github.com/gocraft/web"
 )
 
 func GetPersonByID(w web.ResponseWriter, req *web.Request) {
@@ -15,19 +16,22 @@ func GetPersonByID(w web.ResponseWriter, req *web.Request) {
 		Age:      age,
 	}
 
-	fmt.Printf("> executing get person for id_person: %s", request.IdPerson)
-
-	// ...
-
-	bytes, _ := json.Marshal(
-		PersonResponse{
-			Id:   request.IdPerson,
-			Name: "João Ribeiro",
-			Age:  request.Age,
-		},
-	)
-
 	w.Header().Set("Content-Type", "application/json")
+
+	person, err := (&models.PersonModel{}).GetPersonByID(request.IdPerson, request.Age)
+	if err != nil {
+		bytes, _ := json.Marshal(
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			},
+		)
+
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write(bytes)
+	}
+
+	bytes, _ := json.Marshal(person)
 	w.WriteHeader(http.StatusOK)
 	w.Write(bytes)
 }

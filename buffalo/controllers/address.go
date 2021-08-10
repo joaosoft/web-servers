@@ -1,10 +1,11 @@
 package controllers
 
 import (
-	"fmt"
+	"net/http"
+	"web-servers/domain/models"
+
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/render"
-	"net/http"
 )
 
 func GetPersonAddressByID(ctx buffalo.Context) error {
@@ -13,15 +14,14 @@ func GetPersonAddressByID(ctx buffalo.Context) error {
 		IdAddress: ctx.Param("id_address"),
 	}
 
-	fmt.Printf("> executing get address for id_person: %s, id_address: %s", request.IdPerson, request.IdAddress)
-
-	response := AddressResponse{
-		Id:      request.IdAddress,
-		Country: "Portugal",
-		City:    "Porto",
-		Street:  "Rua da calçada",
-		Number:  7,
+	address, err := (&models.AddressModel{}).GetPersonAddressByID(request.IdPerson, request.IdAddress)
+	if err != nil {
+		return ctx.Render(http.StatusInternalServerError, render.JSON(
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			}))
 	}
 
-	return ctx.Render(http.StatusOK, render.JSON(response))
+	return ctx.Render(http.StatusOK, render.JSON(address))
 }

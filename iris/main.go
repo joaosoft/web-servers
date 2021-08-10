@@ -1,13 +1,9 @@
 package main
 
-import (
-	"web-servers/iris/routes"
-
-	"github.com/kataras/iris"
-)
+import "web-servers/iris/server"
 
 func main() {
-	if err := routes.Router.Run(iris.Addr(":8081")); err != nil {
+	if err := server.New(8081).Start(); err != nil {
 		panic(err)
 	}
 }

@@ -7,14 +7,10 @@ import (
 	"github.com/labstack/echo"
 )
 
-var (
-	Router = echo.New()
-)
+func Init(router *echo.Echo) {
+	router.Use(middlewares.CheckExample)
 
-func init() {
-	Router.Use(middlewares.CheckExample)
-
-	Router.GET("/v1/persons/:id_person", controllers.GetPersonByID)
-	Router.GET("/v1/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID)
-	Router.GET("/v1/errors", controllers.GetErrorByID)
+	router.GET("/v1/persons/:id_person", controllers.GetPersonByID)
+	router.GET("/v1/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID)
+	router.GET("/v1/errors", controllers.GetErrorByID)
 }

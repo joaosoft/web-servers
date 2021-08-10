@@ -1,12 +1,13 @@
 package middlewares
 
 import (
-	"fmt"
+	"web-servers/domain/middlewares"
 
 	"github.com/kataras/iris/context"
 )
 
 func CheckExample(ctx context.Context) {
-	fmt.Println("passing in the middleware example")
+	// do something
+	_ = middlewares.ExecuteExample()
 	ctx.Next()
 }

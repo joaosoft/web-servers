@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
+	"web-servers/domain/models"
 
 	"github.com/astaxie/beego"
 )
@@ -21,14 +21,15 @@ func (c *PersonController) GetPersonByID() {
 		Age:      age,
 	}
 
-	fmt.Printf("> executing get person for id_person: %s", request.IdPerson)
-
-	// ...
-
 	c.Ctx.Output.SetStatus(http.StatusOK)
-	c.Data["json"] = PersonResponse{
-		Id:   request.IdPerson,
-		Name: "João Ribeiro",
-		Age:  request.Age,
+	person, err := (&models.PersonModel{}).GetPersonByID(request.IdPerson, age)
+	if err != nil {
+		c.Ctx.Output.SetStatus(http.StatusInternalServerError)
+		c.Data["json"] = ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
+		}
 	}
+
+	c.Data["json"] = person
 }

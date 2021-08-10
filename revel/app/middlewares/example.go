@@ -1,15 +1,15 @@
 package middlewares
 
 import (
-	"fmt"
+	"web-servers/domain/middlewares"
 
 	"github.com/revel/revel"
 )
 
 var (
 	CheckExample = func(c *revel.Controller, fc []revel.Filter) {
-		fmt.Println("passing in the middleware example")
-
+		// do something
+		_ = middlewares.ExecuteExample()
 		fc[0](c, fc[1:])
 	}
 )

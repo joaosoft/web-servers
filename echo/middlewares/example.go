@@ -1,12 +1,13 @@
 package middlewares
 
 import (
-	"fmt"
+	"web-servers/domain/middlewares"
 
 	"github.com/labstack/echo"
 )
 
 func CheckExample(next echo.HandlerFunc) echo.HandlerFunc {
-	fmt.Println("passing in the middleware example")
+	// do something
+	_ = middlewares.ExecuteExample()
 	return next
 }

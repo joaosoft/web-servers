@@ -7,14 +7,10 @@ import (
 	"github.com/kataras/iris"
 )
 
-var (
-	Router = iris.New()
-)
+func Init(router *iris.Application) {
+	router.Use(middlewares.CheckExample)
 
-func init() {
-	Router.Use(middlewares.CheckExample)
-
-	Router.Get("/v1/persons/{id_person}", controllers.GetPersonByID)
-	Router.Get("/v1/persons/{id_person}/addresses/{id_address}", controllers.GetPersonAddressByID)
-	Router.Get("/v1/errors", controllers.GetErrorByID)
+	router.Get("/v1/persons/{id_person}", controllers.GetPersonByID)
+	router.Get("/v1/persons/{id_person}/addresses/{id_address}", controllers.GetPersonAddressByID)
+	router.Get("/v1/errors", controllers.GetErrorByID)
 }

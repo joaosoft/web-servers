@@ -1,12 +1,13 @@
 package middlewares
 
 import (
-	"fmt"
+	"web-servers/domain/middlewares"
 
 	"github.com/gobuffalo/buffalo"
 )
 
 func CheckExample(next buffalo.Handler) buffalo.Handler {
-	fmt.Println("passing in the middleware example")
+	// do something
+	_ = middlewares.ExecuteExample()
 	return next
 }

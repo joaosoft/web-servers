@@ -1,11 +1,9 @@
 package main
 
-import (
-	"web-servers/gin/routes"
-)
+import "web-servers/gin/server"
 
 func main() {
-	if err := routes.Router.Run(":8081"); err != nil {
+	if err := server.New(8081).Start(); err != nil {
 		panic(err)
 	}
 }

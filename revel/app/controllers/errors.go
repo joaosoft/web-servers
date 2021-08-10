@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
+	"web-servers/domain/models"
 
 	"github.com/revel/revel"
 )
@@ -14,18 +14,18 @@ type ErrorController struct {
 
 func (c ErrorController) GetErrorByID() revel.Result {
 	errorID, _ := strconv.Atoi(c.Request.URL.Query().Get("id_error"))
-	fmt.Printf("> executing get errors for id: %d", errorID)
 
-	statusText := http.StatusText(errorID)
+	c.Response.WriteHeader(http.StatusOK, "application/json")
 
-	if statusText != "" {
-		c.Response.WriteHeader(http.StatusOK, "application/json")
-		return c.RenderJSON(ErrorResponse{
-			Code:    errorID,
-			Message: statusText,
-		})
-	} else {
-		c.Response.SetStatus(http.StatusNoContent)
-		return c.Result
+	er, err := (&models.ErrorModel{}).GetErrorByID(errorID)
+	if err != nil {
+		c.RenderJSON(
+			ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+			},
+		)
 	}
+
+	return c.RenderJSON(er)
 }

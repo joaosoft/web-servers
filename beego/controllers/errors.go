@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
+	"web-servers/domain/models"
 
 	"github.com/astaxie/beego"
 )
@@ -16,17 +16,16 @@ func (c *ErrorController) GetErrorByID() {
 	defer c.ServeJSON()
 
 	errorID, _ := strconv.Atoi(c.Ctx.Request.URL.Query().Get("id_error"))
-	fmt.Printf("> executing get errors for id: %d", errorID)
 
-	statusText := http.StatusText(errorID)
-
-	if statusText != "" {
-		c.Ctx.Output.SetStatus(http.StatusOK)
+	c.Ctx.Output.SetStatus(http.StatusOK)
+	er, err := (&models.ErrorModel{}).GetErrorByID(errorID)
+	if err != nil {
+		c.Ctx.Output.SetStatus(http.StatusInternalServerError)
 		c.Data["json"] = ErrorResponse{
-			Code:    errorID,
-			Message: statusText,
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
 		}
-	} else {
-		c.Ctx.Output.SetStatus(http.StatusNoContent)
 	}
+
+	c.Data["json"] = er
 }
