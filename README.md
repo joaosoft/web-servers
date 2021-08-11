@@ -29,28 +29,28 @@ Web servers example:
 ### Tests
 |Tests|Go Routines|Requests|
 |------|----------------------|-------|
-|test 1|1|200|
-|test 2|1|400|
-|test 3|10|200|
-|test 4|10|400|
-|test 5|20|200|
-|test 6|20|400|
+|test 1|1|100|
+|test 2|1|200|
+|test 3|10|100|
+|test 4|10|200|
+|test 5|20|100|
+|test 6|20|200|
 
 ### Result
 |Server|Elapsed time (seconds)|Ranking|
 |------|----------------------|-------|
-|beego|41.040017|8|
-|buffalo|41.535441|10|
-|echo|41.219579|9|
-|fasthttp & fasthttp-routing|40.874413|7|
-|fiber|40.568224|6|
-|gin|39.849965|3|
-|gocraft|39.942582|4|
-|goji|20.456166|1|
-|http & mux|41.573545|11|
-|http-router|21.485230|2|
-|iris|40.341649|5|
-|martini & martini-render|42.398068|12|
+|beego|21.197653|5|
+|buffalo|21.348946|7|
+|echo|20.856427|2|
+|fasthttp & fasthttp-routing|20.549534|3|
+|fiber|20.895227|4|
+|gin|21.460733|10|
+|gocraft|21.475442|9|
+|goji|10.773424|1|
+|http & mux|21.361887|8|
+|http-router|21.306162|6|
+|iris|21.869909|12|
+|martini & martini-render|21.859482|11|
 |revel|-|-|
 |web|-|-|
 

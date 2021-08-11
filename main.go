@@ -108,12 +108,12 @@ var (
 	}
 
 	tests = TestList{
-		{Enabled: true, Name: "test 1", NumGoRoutines: 1, NumRequests: 200, Servers: allServers},
-		{Enabled: true, Name: "test 2", NumGoRoutines: 1, NumRequests: 400, Servers: allServers},
-		{Enabled: true, Name: "test 3", NumGoRoutines: 10, NumRequests: 200, Servers: allServers},
-		{Enabled: true, Name: "test 4", NumGoRoutines: 10, NumRequests: 400, Servers: allServers},
-		{Enabled: true, Name: "test 5", NumGoRoutines: 20, NumRequests: 200, Servers: allServers},
-		{Enabled: true, Name: "test 6", NumGoRoutines: 20, NumRequests: 400, Servers: allServers},
+		{Enabled: true, Name: "test 1", NumGoRoutines: 1, NumRequests: 100, Servers: allServers},
+		{Enabled: true, Name: "test 2", NumGoRoutines: 1, NumRequests: 200, Servers: allServers},
+		{Enabled: true, Name: "test 3", NumGoRoutines: 10, NumRequests: 100, Servers: allServers},
+		{Enabled: true, Name: "test 4", NumGoRoutines: 10, NumRequests: 200, Servers: allServers},
+		{Enabled: true, Name: "test 5", NumGoRoutines: 20, NumRequests: 100, Servers: allServers},
+		{Enabled: true, Name: "test 6", NumGoRoutines: 20, NumRequests: 200, Servers: allServers},
 	}
 )
 
@@ -205,9 +205,10 @@ func (t *Test) run() (_ map[ServerName]time.Duration, err error) {
 }
 
 func (t *Test) call(name ServerName, port int) time.Duration {
-	start := time.Now()
 	wg := &sync.WaitGroup{}
 	wg.Add(t.NumGoRoutines)
+
+	start := time.Now()
 
 	for i := 1; i <= t.NumGoRoutines; i++ {
 		go handler(name, port, i, wg, t.NumRequests)
