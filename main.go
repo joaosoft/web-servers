@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"strconv"
@@ -73,20 +74,20 @@ const (
 
 var (
 	servers = map[ServerName]*Config{
-		ConstServerNameBeego:                      {Enabled: true, Name: ConstServerNameBeego, Port: 8081, Handler: beego.New},
-		ConstServerNameBuffalo:                    {Enabled: true, Name: ConstServerNameBuffalo, Port: 8082, Handler: buffalo.New},
-		ConstServerNameEcho:                       {Enabled: true, Name: ConstServerNameEcho, Port: 8083, Handler: echo.New},
-		ConstServerNameFastHttpAndFastHttpRouting: {Enabled: true, Name: ConstServerNameFastHttpAndFastHttpRouting, Port: 8084, Handler: fasthttp.New},
-		ConstServerNameFiber:                      {Enabled: true, Name: ConstServerNameFiber, Port: 8085, Handler: fiber.New},
-		ConstServerNameGin:                        {Enabled: true, Name: ConstServerNameGin, Port: 8086, Handler: gin.New},
-		ConstServerNameGocraft:                    {Enabled: true, Name: ConstServerNameGocraft, Port: 8087, Handler: gocraft.New},
-		ConstServerNameGoji:                       {Enabled: true, Name: ConstServerNameGoji, Port: 8088, Handler: goji.New},
-		ConstServerNameHttpMux:                    {Enabled: true, Name: ConstServerNameHttpMux, Port: 8089, Handler: mux.New},
-		ConstServerNameHttpRouter:                 {Enabled: true, Name: ConstServerNameHttpRouter, Port: 8090, Handler: httprouter.New},
-		ConstServerNameIris:                       {Enabled: true, Name: ConstServerNameIris, Port: 8091, Handler: iris.New},
-		ConstServerNameMartiniMartiniRender:       {Enabled: true, Name: ConstServerNameMartiniMartiniRender, Port: 8092, Handler: martini.New},
-		ConstServerNameRevel:                      {Enabled: false, Name: ConstServerNameRevel, Port: 8093, Handler: revel.New}, // unavailable
-		//ConstServerNameWeb:                        {Enabled: false, Name: ConstServerNameWeb, Port: 8094, Handler: web.New},     // unavailable
+		ConstServerNameBeego:                      {Enabled: true, Name: ConstServerNameBeego, Handler: beego.New},
+		ConstServerNameBuffalo:                    {Enabled: true, Name: ConstServerNameBuffalo, Handler: buffalo.New},
+		ConstServerNameEcho:                       {Enabled: true, Name: ConstServerNameEcho, Handler: echo.New},
+		ConstServerNameFastHttpAndFastHttpRouting: {Enabled: true, Name: ConstServerNameFastHttpAndFastHttpRouting, Handler: fasthttp.New},
+		ConstServerNameFiber:                      {Enabled: true, Name: ConstServerNameFiber, Handler: fiber.New},
+		ConstServerNameGin:                        {Enabled: true, Name: ConstServerNameGin, Handler: gin.New},
+		ConstServerNameGocraft:                    {Enabled: true, Name: ConstServerNameGocraft, Handler: gocraft.New},
+		ConstServerNameGoji:                       {Enabled: true, Name: ConstServerNameGoji, Handler: goji.New},
+		ConstServerNameHttpMux:                    {Enabled: true, Name: ConstServerNameHttpMux, Handler: mux.New},
+		ConstServerNameHttpRouter:                 {Enabled: true, Name: ConstServerNameHttpRouter, Handler: httprouter.New},
+		ConstServerNameIris:                       {Enabled: true, Name: ConstServerNameIris, Handler: iris.New},
+		ConstServerNameMartiniMartiniRender:       {Enabled: true, Name: ConstServerNameMartiniMartiniRender, Handler: martini.New},
+		ConstServerNameRevel:                      {Enabled: false, Name: ConstServerNameRevel, Handler: revel.New}, // unavailable
+		//ConstServerNameWeb:                        {Enabled: false, Name: ConstServerNameWeb, Handler: web.New},     // unavailable
 	}
 
 	allServers = []ServerName{
@@ -127,6 +128,8 @@ func main() {
 	if err = tests.createResultFile(result); err != nil {
 		panic(err)
 	}
+
+	log.Printf("%sfinished%s", ColorRed, ColorReset)
 }
 
 func (tl TestList) run() (_ map[ServerName]time.Duration, err error) {
@@ -173,17 +176,22 @@ func (t *Test) run() (_ map[ServerName]time.Duration, err error) {
 			continue
 		}
 
+		port, err := conf.GetPort()
+		if err != nil {
+			return nil, err
+		}
+
 		// start web server
 		log.Printf(":: %s ::", conf.Name)
 		log.Print("starting")
-		newServer := conf.Handler(conf.Port)
+		newServer := conf.Handler(port)
 		go newServer.Start()
 		<-time.After(time.Second * 1)
 
 		// run test
 		log.Print("testing")
 
-		result[conf.Name] = call(conf.Name, conf.Port, t.NumGoRoutines, t.NumRequests)
+		result[conf.Name] = call(conf.Name, port, t.NumGoRoutines, t.NumRequests)
 
 		log.Print("stopping")
 		if err = newServer.Stop(); err != nil {
@@ -308,4 +316,27 @@ func (c *Config) Available() bool {
 		return false
 	}
 	return true
+}
+
+func (c *Config) GetPort() (int, error) {
+	if c.Port > 0 {
+		return c.Port, nil
+	}
+
+	return getFreePort()
+}
+
+func getFreePort() (int, error) {
+	addr, err := net.ResolveTCPAddr("tcp", "localhost:0")
+	if err != nil {
+		return 0, err
+	}
+
+	l, err := net.ListenTCP("tcp", addr)
+	if err != nil {
+		return 0, err
+	}
+
+	l.Close()
+	return l.Addr().(*net.TCPAddr).Port, nil
 }

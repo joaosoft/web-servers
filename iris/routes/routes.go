@@ -8,7 +8,7 @@ import (
 )
 
 func Init(router *iris.Application) {
-	v1 := router.Subdomain("/v1")
+	v1 := router.Party("/v1")
 	v1.Use(middlewares.CheckExample)
 
 	v1.Get("/persons/{id_person}", controllers.GetPersonByID)
