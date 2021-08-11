@@ -22,10 +22,10 @@ func GetErrorByID(w http.ResponseWriter, req *http.Request, _ httprouter.Params)
 		)
 
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write(bytes)
+		_, _ = w.Write(bytes)
 	}
 
 	bytes, _ := json.Marshal(er)
 	w.WriteHeader(http.StatusOK)
-	w.Write(bytes)
+	_, _ = w.Write(bytes)
 }

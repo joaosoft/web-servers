@@ -26,10 +26,10 @@ func GetPersonAddressByID(w http.ResponseWriter, req *http.Request, params httpr
 		)
 
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write(bytes)
+		_, _ = w.Write(bytes)
 	}
 
 	bytes, _ := json.Marshal(address)
 	w.WriteHeader(http.StatusOK)
-	w.Write(bytes)
+	_, _ = w.Write(bytes)
 }

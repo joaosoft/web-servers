@@ -28,10 +28,10 @@ func GetPersonByID(w http.ResponseWriter, req *http.Request, params httprouter.P
 		)
 
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write(bytes)
+		_, _ = w.Write(bytes)
 	}
 
 	bytes, _ := json.Marshal(person)
 	w.WriteHeader(http.StatusOK)
-	w.Write(bytes)
+	_, _ = w.Write(bytes)
 }

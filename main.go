@@ -191,7 +191,7 @@ func (t *Test) run() (_ map[ServerName]time.Duration, err error) {
 		// run test
 		log.Print("testing")
 
-		result[conf.Name] = call(conf.Name, port, t.NumGoRoutines, t.NumRequests)
+		result[conf.Name] = t.call(conf.Name, port)
 
 		log.Print("stopping")
 		if err = newServer.Stop(); err != nil {
@@ -204,13 +204,13 @@ func (t *Test) run() (_ map[ServerName]time.Duration, err error) {
 	return result, nil
 }
 
-func call(name ServerName, port, numGoRoutines, numRequests int) time.Duration {
+func (t *Test) call(name ServerName, port int) time.Duration {
 	start := time.Now()
 	wg := &sync.WaitGroup{}
-	wg.Add(numGoRoutines)
+	wg.Add(t.NumGoRoutines)
 
-	for i := 1; i <= numGoRoutines; i++ {
-		go handler(name, port, i, wg, numRequests)
+	for i := 1; i <= t.NumGoRoutines; i++ {
+		go handler(name, port, i, wg, t.NumRequests)
 	}
 
 	wg.Wait()
