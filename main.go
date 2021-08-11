@@ -32,6 +32,8 @@ import (
 type (
 	ServerName string
 
+	TestList []*Test
+
 	Test struct {
 		Enabled       bool
 		Name          string
@@ -104,7 +106,7 @@ var (
 		//ConstServerNameWeb,
 	}
 
-	tests = []*Test{
+	tests = TestList{
 		{Enabled: true, Name: "test 1", NumGoRoutines: 1, NumRequests: 200, Servers: allServers},
 		{Enabled: true, Name: "test 2", NumGoRoutines: 1, NumRequests: 400, Servers: allServers},
 		{Enabled: true, Name: "test 3", NumGoRoutines: 10, NumRequests: 200, Servers: allServers},
@@ -118,30 +120,30 @@ func main() {
 	var err error
 	var result map[ServerName]time.Duration
 
-	if result, err = runTests(tests); err != nil {
+	if result, err = tests.run(); err != nil {
 		panic(err)
 	}
 
-	if err = createResultFile(result); err != nil {
+	if err = tests.createResultFile(result); err != nil {
 		panic(err)
 	}
 }
 
-func runTests(tests []*Test) (_ map[ServerName]time.Duration, err error) {
+func (tl TestList) run() (_ map[ServerName]time.Duration, err error) {
 	result := make(map[ServerName]time.Duration)
 	var testResult map[ServerName]time.Duration
 
-	for _, test := range tests {
+	for _, test := range tl {
 		if !test.Enabled {
 			continue
 		}
 
 		// run test
-		if testResult, err = runTest(test); err != nil {
+		if testResult, err = test.run(); err != nil {
 			return nil, err
 		}
 
-		if err = createTestResultFile(test, testResult); err != nil {
+		if err = test.createResultFile(testResult); err != nil {
 			return nil, err
 		}
 
@@ -157,11 +159,11 @@ func runTests(tests []*Test) (_ map[ServerName]time.Duration, err error) {
 	return result, nil
 }
 
-func runTest(test *Test) (_ map[ServerName]time.Duration, err error) {
-	log.Printf("%s:: test: %s%s", ColorRed, test.Name, ColorReset)
+func (t *Test) run() (_ map[ServerName]time.Duration, err error) {
+	log.Printf("%s:: test: %s%s", ColorRed, t.Name, ColorReset)
 
 	result := make(map[ServerName]time.Duration)
-	for _, s := range test.Servers {
+	for _, s := range t.Servers {
 		conf, ok := servers[s]
 		if !ok {
 			return nil, errors.New(fmt.Sprintf("server '%s' not found", s))
@@ -181,7 +183,7 @@ func runTest(test *Test) (_ map[ServerName]time.Duration, err error) {
 		// run test
 		log.Print("testing")
 
-		result[conf.Name] = call(conf.Name, conf.Port, test.NumGoRoutines, test.NumRequests)
+		result[conf.Name] = call(conf.Name, conf.Port, t.NumGoRoutines, t.NumRequests)
 
 		log.Print("stopping")
 		if err = newServer.Stop(); err != nil {
@@ -192,60 +194,6 @@ func runTest(test *Test) (_ map[ServerName]time.Duration, err error) {
 
 	log.Printf("%sdone%s", ColorGreen, ColorReset)
 	return result, nil
-}
-
-func (c *Config) Available() bool {
-	if c.Enabled == false || c.Handler == nil {
-		return false
-	}
-	return true
-}
-
-func createTestResultFile(test *Test, result map[ServerName]time.Duration) (err error) {
-	var file *os.File
-
-	name := fmt.Sprintf("%s - %s", time.Now().Format(time.RFC3339), test.Name)
-	if file, err = createFile("./generated/", name, "txt"); err != nil {
-		return err
-	}
-	defer file.Close()
-
-	if _, err = file.WriteString(
-		fmt.Sprintf("Test: %s\nNumber of Go Routines: %d\nNumber of Requests: %d\n\n",
-			test.Name, test.NumGoRoutines, test.NumRequests)); err != nil {
-		return err
-	}
-
-	for serverName, duration := range result {
-		if _, err = file.WriteString(fmt.Sprintf(":: %s\n", serverName)); err != nil {
-			return err
-		}
-		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", duration.Seconds())); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func createResultFile(result map[ServerName]time.Duration) (err error) {
-	var file *os.File
-	name := fmt.Sprintf("%s - result", time.Now().Format(time.RFC3339))
-	if file, err = createFile("./generated/", name, "txt"); err != nil {
-		return err
-	}
-	defer file.Close()
-
-	for serverName, duration := range result {
-		if _, err = file.WriteString(fmt.Sprintf(":: %s\n", serverName)); err != nil {
-			return err
-		}
-		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", duration.Seconds())); err != nil {
-			return err
-		}
-	}
-
-	return nil
 }
 
 func call(name ServerName, port, numGoRoutines, numRequests int) time.Duration {
@@ -260,17 +208,6 @@ func call(name ServerName, port, numGoRoutines, numRequests int) time.Duration {
 	wg.Wait()
 
 	return time.Since(start)
-}
-
-func createFile(folder, name, extension string) (file *os.File, err error) {
-	fileName := fmt.Sprintf("%s/%s.%s", folder, name, extension)
-
-	file, err = os.Create(fileName)
-	if err != nil {
-		return nil, err
-	}
-
-	return file, err
 }
 
 func handler(name ServerName, port, id int, wg *sync.WaitGroup, numRequests int) {
@@ -306,4 +243,69 @@ func handler(name ServerName, port, id int, wg *sync.WaitGroup, numRequests int)
 			}
 		}
 	}
+}
+
+func (t *Test) createResultFile(result map[ServerName]time.Duration) (err error) {
+	var file *os.File
+
+	name := fmt.Sprintf("%s - %s", time.Now().Format(time.RFC3339), t.Name)
+	if file, err = createFile("./generated/", name, "txt"); err != nil {
+		return err
+	}
+	defer file.Close()
+
+	if _, err = file.WriteString(
+		fmt.Sprintf("Test: %s\nNumber of Go Routines: %d\nNumber of Requests: %d\n\n",
+			t.Name, t.NumGoRoutines, t.NumRequests)); err != nil {
+		return err
+	}
+
+	for serverName, duration := range result {
+		if _, err = file.WriteString(fmt.Sprintf(":: %s\n", serverName)); err != nil {
+			return err
+		}
+		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", duration.Seconds())); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (tl TestList) createResultFile(result map[ServerName]time.Duration) (err error) {
+	var file *os.File
+	name := fmt.Sprintf("%s - result", time.Now().Format(time.RFC3339))
+	if file, err = createFile("./generated/", name, "txt"); err != nil {
+		return err
+	}
+	defer file.Close()
+
+	for serverName, duration := range result {
+		if _, err = file.WriteString(fmt.Sprintf(":: %s\n", serverName)); err != nil {
+			return err
+		}
+		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", duration.Seconds())); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func createFile(folder, name, extension string) (file *os.File, err error) {
+	fileName := fmt.Sprintf("%s/%s.%s", folder, name, extension)
+
+	file, err = os.Create(fileName)
+	if err != nil {
+		return nil, err
+	}
+
+	return file, err
+}
+
+func (c *Config) Available() bool {
+	if c.Enabled == false || c.Handler == nil {
+		return false
+	}
+	return true
 }
