@@ -1,0 +1,40 @@
+Test: test 5
+Number of Go Routines: 20
+Number of Requests: 100
+
+:: goji
+Elapsed time: 1.113285 seconds
+
+:: http-router
+Elapsed time: 2.166482 seconds
+
+:: iris
+Elapsed time: 2.183606 seconds
+
+:: martini & martini-render
+Elapsed time: 2.182681 seconds
+
+:: beego
+Elapsed time: 2.321317 seconds
+
+:: buffalo
+Elapsed time: 2.252299 seconds
+
+:: echo
+Elapsed time: 2.173404 seconds
+
+:: gin
+Elapsed time: 2.198722 seconds
+
+:: fasthttp & fasthttp-routing
+Elapsed time: 2.274516 seconds
+
+:: fiber
+Elapsed time: 2.196841 seconds
+
+:: gocraft
+Elapsed time: 2.173029 seconds
+
+:: http & mux
+Elapsed time: 2.198168 seconds
+
