@@ -20,7 +20,7 @@ type RouterWrapper struct {
 	middlewares []MiddlewareFunc
 }
 
-func (r *RouterWrapper) Middleware(m ...MiddlewareFunc) {
+func (r *RouterWrapper) Use(m ...MiddlewareFunc) {
 	r.middlewares = append(r.middlewares, m...)
 }
 

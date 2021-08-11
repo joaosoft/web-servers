@@ -6,7 +6,7 @@ import (
 )
 
 func Init(router *middlewares.RouterWrapper) {
-	router.Middleware(middlewares.CheckExample)
+	router.Use(middlewares.CheckExample)
 
 	router.GET("/v1/persons/:id_person", controllers.GetPersonByID)
 	router.GET("/v1/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID)
