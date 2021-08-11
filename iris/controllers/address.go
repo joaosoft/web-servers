@@ -16,7 +16,7 @@ func GetPersonAddressByID(ctx iris.Context) {
 	address, err := (&models.AddressModel{}).GetPersonAddressByID(request.IdPerson, request.IdAddress)
 	if err != nil {
 		ctx.StatusCode(http.StatusInternalServerError)
-		ctx.JSON(
+		_, _ = ctx.JSON(
 			ErrorResponse{
 				Code:    http.StatusInternalServerError,
 				Message: err.Error(),
@@ -25,5 +25,5 @@ func GetPersonAddressByID(ctx iris.Context) {
 	}
 
 	ctx.StatusCode(http.StatusOK)
-	ctx.JSON(address)
+	_, _ = ctx.JSON(address)
 }

@@ -18,7 +18,7 @@ func GetPersonByID(ctx iris.Context) {
 	person, err := (&models.PersonModel{}).GetPersonByID(request.IdPerson, age)
 	if err != nil {
 		ctx.StatusCode(http.StatusInternalServerError)
-		ctx.JSON(
+		_, _ = ctx.JSON(
 			ErrorResponse{
 				Code:    http.StatusInternalServerError,
 				Message: err.Error(),
@@ -27,5 +27,5 @@ func GetPersonByID(ctx iris.Context) {
 	}
 
 	ctx.StatusCode(http.StatusOK)
-	ctx.JSON(person)
+	_, _ = ctx.JSON(person)
 }

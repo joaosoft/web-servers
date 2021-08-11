@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"encoding/json"
 	"net/http"
 	"strconv"
 	"web-servers/domain/models"
@@ -28,9 +27,6 @@ func GetPersonByID(ctx *fiber.Ctx) error {
 			})
 	}
 
-	bytes, _ := json.Marshal(person)
-
 	ctx.Response().SetStatusCode(http.StatusOK)
-	_, err = ctx.Write(bytes)
-	return err
+	return ctx.JSON(person)
 }

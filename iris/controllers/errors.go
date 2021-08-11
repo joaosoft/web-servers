@@ -14,7 +14,7 @@ func GetErrorByID(ctx iris.Context) {
 	er, err := (&models.ErrorModel{}).GetErrorByID(errorID)
 	if err != nil {
 		ctx.StatusCode(http.StatusInternalServerError)
-		ctx.JSON(
+		_, _ = ctx.JSON(
 			ErrorResponse{
 				Code:    http.StatusInternalServerError,
 				Message: err.Error(),
@@ -23,5 +23,5 @@ func GetErrorByID(ctx iris.Context) {
 	}
 
 	ctx.StatusCode(http.StatusOK)
-	ctx.JSON(er)
+	_, _ = ctx.JSON(er)
 }
