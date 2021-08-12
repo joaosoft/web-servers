@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"errors"
@@ -10,8 +11,12 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/exec"
+	"os/signal"
+	"runtime"
 	"strconv"
 	"sync"
+	"syscall"
 	"time"
 	beego "web-servers/beego/server"
 	buffalo "web-servers/buffalo/server"
@@ -55,10 +60,12 @@ type (
 
 	TestResult struct {
 		Duration  time.Duration
-		Profiling *bytes.Buffer
+		Profiling map[ProfilingName]*bytes.Buffer
 	}
 
-	Profiling string
+	ProfilingName string
+
+	ShowUiCmdFunc func(fileName string) error
 )
 
 const (
@@ -81,15 +88,19 @@ const (
 	ConstColorRed   = "\033[31m"
 	ConstColorReset = "\033[0m"
 
-	ConstProfilingGoRoutine    Profiling = "goroutine"
-	ConstProfilingThreadCreate Profiling = "threadcreate"
-	ConstProfilingHeap         Profiling = "heap"
-	ConstProfilingAllocs       Profiling = "allocs"
-	ConstProfilingCPU          Profiling = "cpu"
-	ConstProfilingMemory       Profiling = "memory"
-	ConstProfilingGB           Profiling = "gb"
-	ConstProfilingBlock        Profiling = "block"
-	ConstProfilingMutex        Profiling = "mutex"
+	ConstProfilingNameGoRoutine    ProfilingName = "goroutine"
+	ConstProfilingNameThreadCreate ProfilingName = "threadcreate"
+	ConstProfilingNameTrace        ProfilingName = "trace"
+	ConstProfilingNameHeap         ProfilingName = "heap"
+	ConstProfilingNameAllocs       ProfilingName = "allocs"
+	ConstProfilingNameCPU          ProfilingName = "cpu"
+	ConstProfilingNameMemory       ProfilingName = "memory"
+	ConstProfilingNameGB           ProfilingName = "gb"
+	ConstProfilingNameBlock        ProfilingName = "block"
+	ConstProfilingNameMutex        ProfilingName = "mutex"
+
+	goToolCmdProf  = "pprof"
+	goToolCmdTrace = "trace"
 )
 
 var (
@@ -128,36 +139,95 @@ var (
 	}
 
 	tests = TestList{
-		{Enabled: true, Name: "test 1", NumGoRoutines: 1, NumRequests: 100, Servers: allServers},
-		{Enabled: true, Name: "test 2", NumGoRoutines: 1, NumRequests: 200, Servers: allServers},
-		{Enabled: true, Name: "test 3", NumGoRoutines: 10, NumRequests: 100, Servers: allServers},
-		{Enabled: true, Name: "test 4", NumGoRoutines: 10, NumRequests: 200, Servers: allServers},
-		{Enabled: true, Name: "test 5", NumGoRoutines: 20, NumRequests: 100, Servers: allServers},
-		{Enabled: true, Name: "test 6", NumGoRoutines: 20, NumRequests: 200, Servers: allServers},
+		{Enabled: false, Name: "test 1", NumGoRoutines: 1, NumRequests: 100, Servers: allServers},
+		{Enabled: false, Name: "test 2", NumGoRoutines: 1, NumRequests: 200, Servers: allServers},
+		{Enabled: false, Name: "test 3", NumGoRoutines: 10, NumRequests: 100, Servers: allServers},
+		{Enabled: false, Name: "test 4", NumGoRoutines: 10, NumRequests: 200, Servers: allServers},
+		{Enabled: false, Name: "test 5", NumGoRoutines: 20, NumRequests: 100, Servers: allServers},
+		{Enabled: false, Name: "test 6", NumGoRoutines: 20, NumRequests: 200, Servers: allServers},
+
+		{Enabled: true, Name: "test all", NumGoRoutines: 10, NumRequests: 1, Servers: []ServerName{ConstServerNameBeego}},
 	}
 
-	testProfiling = []Profiling{
-		ConstProfilingAllocs,
-		ConstProfilingHeap,
+	testProfiling = []ProfilingName{
+		ConstProfilingNameHeap,
+		ConstProfilingNameMemory,
+		ConstProfilingNameCPU,
+		ConstProfilingNameTrace,
+	}
+
+	showProfilingCmd = map[ProfilingName]ShowUiCmdFunc{
+		ConstProfilingNameTrace:  func(fileName string) error { return showGoToolUI(goToolCmdTrace, fileName) },
+		ConstProfilingNameCPU:    func(fileName string) error { return showGoToolUI(goToolCmdProf, fileName) },
+		ConstProfilingNameMemory: func(fileName string) error { return showGoToolUI(goToolCmdProf, fileName) },
+	}
+
+	printProfilingLines = map[ProfilingName][]string{
+		ConstProfilingNameAllocs: []string{
+			"# Alloc =",
+			"# TotalAlloc =",
+			"# Sys =",
+			"# Mallocs =",
+			"# Frees =",
+			"# HeapAlloc =",
+			"# HeapSys =",
+			"# HeapIdle =",
+			"# HeapInuse =",
+			"# HeapReleased =",
+			"# HeapObjects =",
+			"# Stack =",
+			"# MSpan =",
+			"# MCache =",
+			"# NumGC =",
+			"# NumForcedGC =",
+		},
+		ConstProfilingNameHeap: []string{
+			"# Alloc =",
+			"# TotalAlloc =",
+			"# Sys =",
+			"# Mallocs =",
+			"# Frees =",
+			"# HeapAlloc =",
+			"# HeapSys =",
+			"# HeapIdle =",
+			"# HeapInuse =",
+			"# HeapReleased =",
+			"# HeapObjects =",
+			"# Stack =",
+			"# MSpan =",
+			"# MCache =",
+			"# NumGC =",
+			"# NumForcedGC =",
+		},
 	}
 )
 
 func main() {
 	var err error
 	var result map[ServerName]time.Duration
+	now := time.Now()
 
-	if result, err = tests.run(); err != nil {
+	if result, err = tests.run(now); err != nil {
 		panic(err)
 	}
 
-	if err = tests.createResultFile(result); err != nil {
+	if err = tests.createResultFile(result, now); err != nil {
 		panic(err)
 	}
 
 	log.Printf("%sfinished%s", ConstColorRed, ConstColorReset)
+
+	termChan := make(chan os.Signal, 1)
+	signal.Notify(termChan, syscall.SIGINT, syscall.SIGTERM)
+
+	log.Println("to cancel: Ctrl + C")
+	select {
+	case <-termChan:
+		log.Println("received term signal")
+	}
 }
 
-func (tl TestList) run() (_ map[ServerName]time.Duration, err error) {
+func (tl TestList) run(now time.Time) (_ map[ServerName]time.Duration, err error) {
 	result := make(map[ServerName]time.Duration)
 	var testResult map[ServerName]*TestResult
 
@@ -171,11 +241,15 @@ func (tl TestList) run() (_ map[ServerName]time.Duration, err error) {
 			return nil, err
 		}
 
-		if err = test.createResultFile(testResult); err != nil {
+		if err = test.createResultFile(testResult, now); err != nil {
 			return nil, err
 		}
 
-		// update result
+		if err = test.createProfileFiles(testResult, now); err != nil {
+			return nil, err
+		}
+
+		// sum test duration for each server
 		for name, tr := range testResult {
 			if value, ok := result[name]; ok {
 				tr.Duration += value
@@ -206,6 +280,10 @@ func (t *Test) run() (_ map[ServerName]*TestResult, err error) {
 			return nil, err
 		}
 
+		// clean garbage collector
+		runtime.GC()
+		<-time.After(time.Second * 5)
+
 		// start web server
 		log.Printf(":: %s ::", conf.Name)
 		log.Print("starting")
@@ -231,7 +309,7 @@ func (t *Test) run() (_ map[ServerName]*TestResult, err error) {
 
 func (t *Test) call(name ServerName, port int) (tr *TestResult) {
 	tr = &TestResult{
-		Profiling: &bytes.Buffer{},
+		Profiling: make(map[ProfilingName]*bytes.Buffer),
 	}
 	wg := &sync.WaitGroup{}
 	wg.Add(t.NumGoRoutines)
@@ -255,53 +333,49 @@ func (t *Test) call(name ServerName, port int) (tr *TestResult) {
 }
 
 func (tr TestResult) runProfiling() error {
-	tr.Profiling.WriteString("\n::Profiling")
-
 	for _, p := range testProfiling {
+		buffer := &bytes.Buffer{}
+		tr.Profiling[p] = buffer
+
 		switch p {
-		case ConstProfilingGoRoutine:
-			tr.Profiling.WriteString("\n:: GoRoutines\n")
-			if err := profiling.GoRoutine(tr.Profiling); err != nil {
+		case ConstProfilingNameGoRoutine:
+			if err := profiling.GoRoutine(buffer); err != nil {
 				return err
 			}
-		case ConstProfilingThreadCreate:
-			tr.Profiling.WriteString("\n:: ThreadCreate\n")
-			if err := profiling.ThreadCreate(tr.Profiling); err != nil {
+		case ConstProfilingNameThreadCreate:
+			if err := profiling.ThreadCreate(buffer); err != nil {
 				return err
 			}
-		case ConstProfilingHeap:
-			tr.Profiling.WriteString("\n:: Heap\n")
-			if err := profiling.Heap(tr.Profiling); err != nil {
+		case ConstProfilingNameHeap:
+			if err := profiling.Heap(buffer); err != nil {
 				return err
 			}
-		case ConstProfilingAllocs:
-			tr.Profiling.WriteString("\n:: Allocs\n")
-			if err := profiling.Allocs(tr.Profiling); err != nil {
+		case ConstProfilingNameAllocs:
+			if err := profiling.Allocs(buffer); err != nil {
 				return err
 			}
-		case ConstProfilingCPU:
-			tr.Profiling.WriteString("\n:: CPU\n")
-			if err := profiling.CPU(time.Second*1, tr.Profiling); err != nil {
+		case ConstProfilingNameCPU:
+			if err := profiling.CPU(time.Second*5, buffer); err != nil {
 				return err
 			}
-		case ConstProfilingMemory:
-			tr.Profiling.WriteString("\n:: Memory\n")
-			if err := profiling.Memory(tr.Profiling); err != nil {
+		case ConstProfilingNameMemory:
+			if err := profiling.Memory(buffer); err != nil {
 				return err
 			}
-		case ConstProfilingGB:
-			tr.Profiling.WriteString("\n:: Garbage Collection\n")
-			if err := profiling.GC(tr.Profiling); err != nil {
+		case ConstProfilingNameTrace:
+			if err := profiling.Trace(time.Second*5, buffer); err != nil {
 				return err
 			}
-		case ConstProfilingBlock:
-			tr.Profiling.WriteString("\n:: Block\n")
-			if err := profiling.Block(10, tr.Profiling); err != nil {
+		case ConstProfilingNameGB:
+			if err := profiling.GC(buffer); err != nil {
 				return err
 			}
-		case ConstProfilingMutex:
-			tr.Profiling.WriteString("\n\n:: Mutex\n")
-			if err := profiling.Mutex(10, tr.Profiling); err != nil {
+		case ConstProfilingNameBlock:
+			if err := profiling.Block(100, buffer); err != nil {
+				return err
+			}
+		case ConstProfilingNameMutex:
+			if err := profiling.Mutex(100, buffer); err != nil {
 				return err
 			}
 		}
@@ -345,11 +419,11 @@ func handler(name ServerName, port, id int, wg *sync.WaitGroup, numRequests int)
 	}
 }
 
-func (t *Test) createResultFile(result map[ServerName]*TestResult) (err error) {
+func (t *Test) createResultFile(result map[ServerName]*TestResult, now time.Time) (err error) {
 	var file *os.File
 
-	name := fmt.Sprintf("%s - %s", time.Now().Format(time.RFC3339), t.Name)
-	if file, err = createFile("./generated/", name, "txt"); err != nil {
+	name := fmt.Sprintf("./generated/%s - %s.txt", now.Format(time.RFC3339), t.Name)
+	if file, err = createFile(name); err != nil {
 		return err
 	}
 	defer file.Close()
@@ -367,19 +441,69 @@ func (t *Test) createResultFile(result map[ServerName]*TestResult) (err error) {
 		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", tr.Duration.Seconds())); err != nil {
 			return err
 		}
+	}
 
-		if _, err = file.Write(tr.Profiling.Bytes()); err != nil {
-			return err
+	return nil
+}
+
+func (t *Test) createProfileFiles(result map[ServerName]*TestResult, now time.Time) (err error) {
+
+	for _, pName := range testProfiling {
+		for serverName, tr := range result {
+			if prof, ok := tr.Profiling[pName]; ok {
+				buffer := &bytes.Buffer{}
+				name := fmt.Sprintf("./generated/%s - %s - %s - profiling: %s.txt", now.Format(time.RFC3339), t.Name, serverName, pName)
+
+				file, err := createFile(name)
+				if err != nil {
+					return err
+				}
+				defer file.Close()
+
+				if prefixLines, ok := printProfilingLines[pName]; ok {
+					reader := bufio.NewReader(prof)
+
+				next:
+					line, _, err := reader.ReadLine()
+					for err == nil {
+
+						for _, prefix := range prefixLines {
+							if bytes.HasPrefix(line, []byte(prefix)) {
+								buffer.Write(line)
+								buffer.WriteString("\n")
+								break
+							}
+						}
+						goto next
+					}
+				} else {
+					buffer = prof
+				}
+
+				if _, err = file.Write(buffer.Bytes()); err != nil {
+					return err
+				}
+
+				_ = file.Sync()
+
+				<-time.After(time.Second * 1)
+
+				if f, ok := showProfilingCmd[pName]; ok {
+					if err = f(name); err != nil {
+						return err
+					}
+				}
+			}
 		}
 	}
 
 	return nil
 }
 
-func (tl TestList) createResultFile(result map[ServerName]time.Duration) (err error) {
+func (tl TestList) createResultFile(result map[ServerName]time.Duration, now time.Time) (err error) {
 	var file *os.File
-	name := fmt.Sprintf("%s - result", time.Now().Format(time.RFC3339))
-	if file, err = createFile("./generated/", name, "txt"); err != nil {
+	name := fmt.Sprintf("./generated/%s - result.txt", now.Format(time.RFC3339))
+	if file, err = createFile(name); err != nil {
 		return err
 	}
 	defer file.Close()
@@ -396,10 +520,8 @@ func (tl TestList) createResultFile(result map[ServerName]time.Duration) (err er
 	return nil
 }
 
-func createFile(folder, name, extension string) (file *os.File, err error) {
-	fileName := fmt.Sprintf("%s/%s.%s", folder, name, extension)
-
-	file, err = os.Create(fileName)
+func createFile(name string) (file *os.File, err error) {
+	file, err = os.Create(name)
 	if err != nil {
 		return nil, err
 	}
@@ -435,4 +557,14 @@ func getFreePort() (int, error) {
 
 	l.Close()
 	return l.Addr().(*net.TCPAddr).Port, nil
+}
+
+func showGoToolUI(command, fileName string) error {
+	cmd := exec.Command("go", "tool", command, "-http=:", fileName)
+
+	if err := cmd.Start(); err != nil {
+		return fmt.Errorf("cannot start pprof UI: %v", err)
+	}
+
+	return nil
 }
