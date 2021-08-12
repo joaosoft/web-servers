@@ -128,12 +128,12 @@ var (
 	}
 
 	tests = TestList{
-		{Enabled: false, Name: "test 1", NumGoRoutines: 1, NumRequests: 100, Servers: allServers},
-		{Enabled: false, Name: "test 2", NumGoRoutines: 1, NumRequests: 200, Servers: allServers},
-		{Enabled: false, Name: "test 3", NumGoRoutines: 10, NumRequests: 100, Servers: allServers},
-		{Enabled: false, Name: "test 4", NumGoRoutines: 10, NumRequests: 200, Servers: allServers},
-		{Enabled: false, Name: "test 5", NumGoRoutines: 20, NumRequests: 100, Servers: allServers},
-		{Enabled: false, Name: "test 6", NumGoRoutines: 20, NumRequests: 200, Servers: allServers},
+		{Enabled: true, Name: "test 1", NumGoRoutines: 1, NumRequests: 100, Servers: allServers},
+		{Enabled: true, Name: "test 2", NumGoRoutines: 1, NumRequests: 200, Servers: allServers},
+		{Enabled: true, Name: "test 3", NumGoRoutines: 10, NumRequests: 100, Servers: allServers},
+		{Enabled: true, Name: "test 4", NumGoRoutines: 10, NumRequests: 200, Servers: allServers},
+		{Enabled: true, Name: "test 5", NumGoRoutines: 20, NumRequests: 100, Servers: allServers},
+		{Enabled: true, Name: "test 6", NumGoRoutines: 20, NumRequests: 200, Servers: allServers},
 	}
 
 	testProfiling = []Profiling{
