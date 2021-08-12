@@ -20,7 +20,7 @@ require (
 	github.com/joaosoft/errors v0.0.0-20210515073613-8e002061f860 // indirect
 	github.com/joaosoft/logger v0.0.0-20210127183633-7f5013a1da37 // indirect
 	github.com/joaosoft/web v0.0.0-20210515075650-f9d819b51caa
-	github.com/joaosoft/writers v0.0.0-20190311002941-310c8522699d // indirect
+	github.com/joaosoft/writers v0.0.0-20210812105851-d0cedf1c2137 // indirect
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/kataras/iris/v12 v12.1.8
 	github.com/labstack/echo v3.3.10+incompatible
