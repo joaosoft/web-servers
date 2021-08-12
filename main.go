@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -28,6 +29,8 @@ import (
 	mux "web-servers/mux/server"
 	revel "web-servers/revel/app/server"
 	web "web-servers/web/server"
+
+	"github.com/joaosoft/profiling"
 )
 
 type (
@@ -49,6 +52,13 @@ type (
 		Port    int
 		Handler func(port int) server.IServer
 	}
+
+	TestResult struct {
+		Duration  time.Duration
+		Profiling *bytes.Buffer
+	}
+
+	Profiling string
 )
 
 const (
@@ -67,9 +77,19 @@ const (
 	ConstServerNameRevel                      ServerName = "revel"
 	ConstServerNameWeb                        ServerName = "web"
 
-	ColorGreen = "\033[32m"
-	ColorRed   = "\033[31m"
-	ColorReset = "\033[0m"
+	ConstColorGreen = "\033[32m"
+	ConstColorRed   = "\033[31m"
+	ConstColorReset = "\033[0m"
+
+	ConstProfilingGoRoutine    Profiling = "goroutine"
+	ConstProfilingThreadCreate Profiling = "threadcreate"
+	ConstProfilingHeap         Profiling = "heap"
+	ConstProfilingAllocs       Profiling = "allocs"
+	ConstProfilingCPU          Profiling = "cpu"
+	ConstProfilingMemory       Profiling = "memory"
+	ConstProfilingGB           Profiling = "gb"
+	ConstProfilingBlock        Profiling = "block"
+	ConstProfilingMutex        Profiling = "mutex"
 )
 
 var (
@@ -108,12 +128,17 @@ var (
 	}
 
 	tests = TestList{
-		{Enabled: true, Name: "test 1", NumGoRoutines: 1, NumRequests: 100, Servers: allServers},
-		{Enabled: true, Name: "test 2", NumGoRoutines: 1, NumRequests: 200, Servers: allServers},
-		{Enabled: true, Name: "test 3", NumGoRoutines: 10, NumRequests: 100, Servers: allServers},
-		{Enabled: true, Name: "test 4", NumGoRoutines: 10, NumRequests: 200, Servers: allServers},
-		{Enabled: true, Name: "test 5", NumGoRoutines: 20, NumRequests: 100, Servers: allServers},
-		{Enabled: true, Name: "test 6", NumGoRoutines: 20, NumRequests: 200, Servers: allServers},
+		{Enabled: false, Name: "test 1", NumGoRoutines: 1, NumRequests: 100, Servers: allServers},
+		{Enabled: false, Name: "test 2", NumGoRoutines: 1, NumRequests: 200, Servers: allServers},
+		{Enabled: false, Name: "test 3", NumGoRoutines: 10, NumRequests: 100, Servers: allServers},
+		{Enabled: false, Name: "test 4", NumGoRoutines: 10, NumRequests: 200, Servers: allServers},
+		{Enabled: false, Name: "test 5", NumGoRoutines: 20, NumRequests: 100, Servers: allServers},
+		{Enabled: false, Name: "test 6", NumGoRoutines: 20, NumRequests: 200, Servers: allServers},
+	}
+
+	testProfiling = []Profiling{
+		ConstProfilingAllocs,
+		ConstProfilingHeap,
 	}
 )
 
@@ -129,12 +154,12 @@ func main() {
 		panic(err)
 	}
 
-	log.Printf("%sfinished%s", ColorRed, ColorReset)
+	log.Printf("%sfinished%s", ConstColorRed, ConstColorReset)
 }
 
 func (tl TestList) run() (_ map[ServerName]time.Duration, err error) {
 	result := make(map[ServerName]time.Duration)
-	var testResult map[ServerName]time.Duration
+	var testResult map[ServerName]*TestResult
 
 	for _, test := range tl {
 		if !test.Enabled {
@@ -151,21 +176,21 @@ func (tl TestList) run() (_ map[ServerName]time.Duration, err error) {
 		}
 
 		// update result
-		for name, duration := range testResult {
+		for name, tr := range testResult {
 			if value, ok := result[name]; ok {
-				duration += value
+				tr.Duration += value
 			}
-			result[name] = duration
+			result[name] = tr.Duration
 		}
 	}
 
 	return result, nil
 }
 
-func (t *Test) run() (_ map[ServerName]time.Duration, err error) {
-	log.Printf("%s:: test: %s%s", ColorRed, t.Name, ColorReset)
+func (t *Test) run() (_ map[ServerName]*TestResult, err error) {
+	log.Printf("%s:: test: %s%s", ConstColorRed, t.Name, ConstColorReset)
 
-	result := make(map[ServerName]time.Duration)
+	result := make(map[ServerName]*TestResult)
 	for _, s := range t.Servers {
 		conf, ok := servers[s]
 		if !ok {
@@ -200,11 +225,14 @@ func (t *Test) run() (_ map[ServerName]time.Duration, err error) {
 		<-time.After(time.Second * 1)
 	}
 
-	log.Printf("%sdone%s", ColorGreen, ColorReset)
+	log.Printf("%sdone%s", ConstColorGreen, ConstColorReset)
 	return result, nil
 }
 
-func (t *Test) call(name ServerName, port int) time.Duration {
+func (t *Test) call(name ServerName, port int) (tr *TestResult) {
+	tr = &TestResult{
+		Profiling: &bytes.Buffer{},
+	}
 	wg := &sync.WaitGroup{}
 	wg.Add(t.NumGoRoutines)
 
@@ -214,9 +242,72 @@ func (t *Test) call(name ServerName, port int) time.Duration {
 		go handler(name, port, i, wg, t.NumRequests)
 	}
 
+	if err := tr.runProfiling(); err != nil {
+		log.Printf("\nprofiling (name: %s) error: %s", name, err.Error())
+		return
+	}
+
 	wg.Wait()
 
-	return time.Since(start)
+	tr.Duration = time.Since(start)
+
+	return tr
+}
+
+func (tr TestResult) runProfiling() error {
+	tr.Profiling.WriteString("\n::Profiling")
+
+	for _, p := range testProfiling {
+		switch p {
+		case ConstProfilingGoRoutine:
+			tr.Profiling.WriteString("\n:: GoRoutines\n")
+			if err := profiling.GoRoutine(tr.Profiling); err != nil {
+				return err
+			}
+		case ConstProfilingThreadCreate:
+			tr.Profiling.WriteString("\n:: ThreadCreate\n")
+			if err := profiling.ThreadCreate(tr.Profiling); err != nil {
+				return err
+			}
+		case ConstProfilingHeap:
+			tr.Profiling.WriteString("\n:: Heap\n")
+			if err := profiling.Heap(tr.Profiling); err != nil {
+				return err
+			}
+		case ConstProfilingAllocs:
+			tr.Profiling.WriteString("\n:: Allocs\n")
+			if err := profiling.Allocs(tr.Profiling); err != nil {
+				return err
+			}
+		case ConstProfilingCPU:
+			tr.Profiling.WriteString("\n:: CPU\n")
+			if err := profiling.CPU(time.Second*1, tr.Profiling); err != nil {
+				return err
+			}
+		case ConstProfilingMemory:
+			tr.Profiling.WriteString("\n:: Memory\n")
+			if err := profiling.Memory(tr.Profiling); err != nil {
+				return err
+			}
+		case ConstProfilingGB:
+			tr.Profiling.WriteString("\n:: Garbage Collection\n")
+			if err := profiling.GC(tr.Profiling); err != nil {
+				return err
+			}
+		case ConstProfilingBlock:
+			tr.Profiling.WriteString("\n:: Block\n")
+			if err := profiling.Block(10, tr.Profiling); err != nil {
+				return err
+			}
+		case ConstProfilingMutex:
+			tr.Profiling.WriteString("\n\n:: Mutex\n")
+			if err := profiling.Mutex(10, tr.Profiling); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
 }
 
 func handler(name ServerName, port, id int, wg *sync.WaitGroup, numRequests int) {
@@ -254,7 +345,7 @@ func handler(name ServerName, port, id int, wg *sync.WaitGroup, numRequests int)
 	}
 }
 
-func (t *Test) createResultFile(result map[ServerName]time.Duration) (err error) {
+func (t *Test) createResultFile(result map[ServerName]*TestResult) (err error) {
 	var file *os.File
 
 	name := fmt.Sprintf("%s - %s", time.Now().Format(time.RFC3339), t.Name)
@@ -269,11 +360,15 @@ func (t *Test) createResultFile(result map[ServerName]time.Duration) (err error)
 		return err
 	}
 
-	for serverName, duration := range result {
+	for serverName, tr := range result {
 		if _, err = file.WriteString(fmt.Sprintf(":: %s\n", serverName)); err != nil {
 			return err
 		}
-		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", duration.Seconds())); err != nil {
+		if _, err = file.WriteString(fmt.Sprintf("Elapsed time: %f seconds\n\n", tr.Duration.Seconds())); err != nil {
+			return err
+		}
+
+		if _, err = file.Write(tr.Profiling.Bytes()); err != nil {
 			return err
 		}
 	}

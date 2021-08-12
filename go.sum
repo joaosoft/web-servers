@@ -988,6 +988,8 @@ github.com/joaosoft/errors v0.0.0-20210515073613-8e002061f860 h1:POtvuXC9DmJBxqd
 github.com/joaosoft/errors v0.0.0-20210515073613-8e002061f860/go.mod h1:59hTnLhDO2NBM06F43f7ZsKzEqTAxYy5cVOB6+1zKfQ=
 github.com/joaosoft/logger v0.0.0-20210127183633-7f5013a1da37 h1:6yvDhVMCzxyP8Iq10+4E3WabnXIxT4LTc+tBfyT+7+o=
 github.com/joaosoft/logger v0.0.0-20210127183633-7f5013a1da37/go.mod h1:e679I6rp3iMoPzL6sP0G4eN4VzjKqF1TFv5FrPzlNWE=
+github.com/joaosoft/profiling v0.0.0-20210812160040-de1d0abf4265 h1:sjuWHETicy9ZQKqp6PQqJWdqewrcnrns5mCPVvOr2HM=
+github.com/joaosoft/profiling v0.0.0-20210812160040-de1d0abf4265/go.mod h1:+8BFoWZ6zmDE4QsMXZ8TDL3dwSExj5RkaaeDU9qL9Tk=
 github.com/joaosoft/web v0.0.0-20210515075650-f9d819b51caa h1:2OngeMUcX+IcqfqmtfxSC5ZegJ43GaaQ6MlLOzVCvKs=
 github.com/joaosoft/web v0.0.0-20210515075650-f9d819b51caa/go.mod h1:KW84e6LLLE+UdMmhzNBDulNbKNDuPUSGEmHCW8mQLRw=
 github.com/joaosoft/writers v0.0.0-20210812105851-d0cedf1c2137 h1:s7LClO1W2sEMWVN8F148VydpZ21AuV+tDKcg0/R4izU=

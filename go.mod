@@ -19,6 +19,7 @@ require (
 	github.com/joaosoft/color v0.0.0-20180920231319-17caec604638 // indirect
 	github.com/joaosoft/errors v0.0.0-20210515073613-8e002061f860 // indirect
 	github.com/joaosoft/logger v0.0.0-20210127183633-7f5013a1da37 // indirect
+	github.com/joaosoft/profiling v0.0.0-20210812160040-de1d0abf4265
 	github.com/joaosoft/web v0.0.0-20210515075650-f9d819b51caa
 	github.com/joaosoft/writers v0.0.0-20210812105851-d0cedf1c2137 // indirect
 	github.com/julienschmidt/httprouter v1.3.0
