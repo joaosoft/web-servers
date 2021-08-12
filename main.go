@@ -27,7 +27,7 @@ import (
 	martini "web-servers/martini/server"
 	mux "web-servers/mux/server"
 	revel "web-servers/revel/app/server"
-	//web "web-servers/web/server"
+	web "web-servers/web/server"
 )
 
 type (
@@ -87,7 +87,7 @@ var (
 		ConstServerNameIris:                       {Enabled: true, Name: ConstServerNameIris, Handler: iris.New},
 		ConstServerNameMartiniMartiniRender:       {Enabled: true, Name: ConstServerNameMartiniMartiniRender, Handler: martini.New},
 		ConstServerNameRevel:                      {Enabled: false, Name: ConstServerNameRevel, Handler: revel.New}, // unavailable
-		//ConstServerNameWeb:                        {Enabled: false, Name: ConstServerNameWeb, Handler: web.New},     // unavailable
+		ConstServerNameWeb:                        {Enabled: false, Name: ConstServerNameWeb, Handler: web.New},     // unavailable
 	}
 
 	allServers = []ServerName{
