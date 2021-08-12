@@ -104,7 +104,7 @@ var (
 		ConstServerNameIris,
 		ConstServerNameMartiniMartiniRender,
 		ConstServerNameRevel,
-		//ConstServerNameWeb,
+		ConstServerNameWeb,
 	}
 
 	tests = TestList{
