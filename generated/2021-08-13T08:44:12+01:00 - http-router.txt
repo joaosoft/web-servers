@@ -1,0 +1,7 @@
+Test: http-router
+Number of Go Routines: 20
+Number of Requests: 1000
+
+:: http-router
+Elapsed time: 22.453169 seconds
+

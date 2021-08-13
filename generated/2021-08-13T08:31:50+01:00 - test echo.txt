@@ -1,0 +1,7 @@
+Test: test echo
+Number of Go Routines: 20
+Number of Requests: 1000
+
+:: echo
+Elapsed time: 22.301853 seconds
+

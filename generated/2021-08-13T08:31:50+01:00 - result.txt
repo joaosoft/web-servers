@@ -1,0 +1,3 @@
+:: echo
+Elapsed time: 22.301853 seconds
+

@@ -1,0 +1,16 @@
+# Alloc = 9125264
+# TotalAlloc = 21050384
+# Sys = 75842568
+# Mallocs = 174261
+# Frees = 110172
+# HeapAlloc = 9125264
+# HeapSys = 65503232
+# HeapIdle = 53796864
+# HeapInuse = 11706368
+# HeapReleased = 51560448
+# HeapObjects = 64089
+# Stack = 1605632 / 1605632
+# MSpan = 216512 / 229376
+# MCache = 9600 / 16384
+# NumGC = 7
+# NumForcedGC = 1

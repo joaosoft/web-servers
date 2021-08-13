@@ -1,0 +1,3 @@
+:: beego
+Elapsed time: 22.498594 seconds
+

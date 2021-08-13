@@ -1,0 +1,7 @@
+Test: test goji
+Number of Go Routines: 20
+Number of Requests: 1000
+
+:: goji
+Elapsed time: 14.145834 seconds
+

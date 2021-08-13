@@ -139,6 +139,7 @@ var (
 	}
 
 	tests = TestList{
+		// tests to test the faster server
 		{Enabled: false, Name: "test 1", NumGoRoutines: 1, NumRequests: 100, Servers: allServers},
 		{Enabled: false, Name: "test 2", NumGoRoutines: 1, NumRequests: 200, Servers: allServers},
 		{Enabled: false, Name: "test 3", NumGoRoutines: 10, NumRequests: 100, Servers: allServers},
@@ -146,7 +147,19 @@ var (
 		{Enabled: false, Name: "test 5", NumGoRoutines: 20, NumRequests: 100, Servers: allServers},
 		{Enabled: false, Name: "test 6", NumGoRoutines: 20, NumRequests: 200, Servers: allServers},
 
-		{Enabled: true, Name: "test all", NumGoRoutines: 10, NumRequests: 1, Servers: []ServerName{ConstServerNameBeego}},
+		// tests to perform correct profiling (test them individually)
+		{Enabled: false, Name: "test beego", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameBeego}},
+		{Enabled: false, Name: "test buffalo", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameBuffalo}},
+		{Enabled: false, Name: "test echo", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameEcho}},
+		{Enabled: false, Name: "test fasthttp & fasthttp-routing", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameFastHttpAndFastHttpRouting}},
+		{Enabled: false, Name: "test fiber", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameFiber}},
+		{Enabled: false, Name: "test gin", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameGin}},
+		{Enabled: false, Name: "test gocraft", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameGocraft}},
+		{Enabled: false, Name: "test goji", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameGoji}},
+		{Enabled: false, Name: "test http & mux", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameHttpMux}},
+		{Enabled: false, Name: "http-router", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameHttpRouter}},
+		{Enabled: false, Name: "iris", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameIris}},
+		{Enabled: false, Name: "martini & martini-render", NumGoRoutines: 20, NumRequests: 1000, Servers: []ServerName{ConstServerNameMartiniMartiniRender}},
 	}
 
 	testProfiling = []ProfilingName{
@@ -336,6 +349,8 @@ func (tr TestResult) runProfiling() error {
 	for _, p := range testProfiling {
 		buffer := &bytes.Buffer{}
 		tr.Profiling[p] = buffer
+
+		<-time.After(time.Second * 1)
 
 		switch p {
 		case ConstProfilingNameGoRoutine:

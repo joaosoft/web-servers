@@ -1,0 +1,7 @@
+Test: test fasthttp
+Number of Go Routines: 20
+Number of Requests: 1000
+
+:: fasthttp & fasthttp-routing
+Elapsed time: 22.229162 seconds
+

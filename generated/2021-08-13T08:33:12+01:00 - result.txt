@@ -1,0 +1,3 @@
+:: fasthttp & fasthttp-routing
+Elapsed time: 22.229162 seconds
+

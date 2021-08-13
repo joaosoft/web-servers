@@ -1,0 +1,7 @@
+Test: test gin
+Number of Go Routines: 20
+Number of Requests: 1000
+
+:: gin
+Elapsed time: 22.168498 seconds
+

@@ -1,0 +1,7 @@
+Test: test buffalo
+Number of Go Routines: 20
+Number of Requests: 1000
+
+:: buffalo
+Elapsed time: 22.833627 seconds
+

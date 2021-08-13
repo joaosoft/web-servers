@@ -1,0 +1,7 @@
+Test: iris
+Number of Go Routines: 20
+Number of Requests: 1000
+
+:: iris
+Elapsed time: 23.396524 seconds
+
