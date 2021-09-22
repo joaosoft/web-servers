@@ -10,7 +10,10 @@ import (
 
 func Init(router *gin.Engine) {
 	v1 := router.Group("/v1")
-	v1.Use(middlewares.CheckExample)
+	v1.Use(
+		middlewares.PrintRequest,
+		middlewares.CheckExample,
+	)
 
 	v1.Handle(http.MethodGet, "/persons/:id_person", controllers.GetPersonByID)
 	v1.Handle(http.MethodGet, "/persons/:id_person/addresses/:id_address", controllers.GetPersonAddressByID)
