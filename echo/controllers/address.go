@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"github.com/joaosoft/web-servers/domain/models"
 	"net/http"
-	"web-servers/domain/models"
 
 	"github.com/labstack/echo"
 )

@@ -3,17 +3,17 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/joaosoft/web-servers/domain/server"
+	"github.com/joaosoft/web-servers/gocraft/routes"
 	"net/http"
-	"web-servers/domain/server"
-	"web-servers/gocraft/routes"
 
 	"github.com/gocraft/web"
 )
 
 type Server struct {
-	App    *http.Server
-	Router *web.Router
-	Port   int
+	App     *http.Server
+	Router  *web.Router
+	Port    int
 	Context Context
 }
 

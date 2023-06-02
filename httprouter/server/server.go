@@ -3,10 +3,10 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/joaosoft/web-servers/domain/server"
+	"github.com/joaosoft/web-servers/httprouter/middlewares"
+	"github.com/joaosoft/web-servers/httprouter/routes"
 	"net/http"
-	"web-servers/domain/server"
-	"web-servers/httprouter/middlewares"
-	"web-servers/httprouter/routes"
 )
 
 type Server struct {
@@ -37,4 +37,3 @@ func (s *Server) Start() (err error) {
 func (s *Server) Stop() (err error) {
 	return s.App.Shutdown(context.Background())
 }
-

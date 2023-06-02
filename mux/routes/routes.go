@@ -1,9 +1,9 @@
 package routes
 
 import (
+	"github.com/joaosoft/web-servers/mux/controllers"
+	"github.com/joaosoft/web-servers/mux/middlewares"
 	"net/http"
-	"web-servers/mux/controllers"
-	"web-servers/mux/middlewares"
 
 	"github.com/gorilla/mux"
 )

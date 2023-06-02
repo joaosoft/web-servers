@@ -1,8 +1,8 @@
 package server
 
 import (
-	"web-servers/domain/server"
-	"web-servers/revel/app/tmp/run"
+	"github.com/joaosoft/web-servers/domain/server"
+	"github.com/joaosoft/web-servers/revel/app/tmp/run"
 
 	"github.com/revel/revel"
 )

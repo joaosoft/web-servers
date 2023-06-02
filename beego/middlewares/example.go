@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"web-servers/domain/middlewares"
+	"github.com/joaosoft/web-servers/domain/middlewares"
 
 	"github.com/astaxie/beego/context"
 )

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"web-servers/gocraft/server"
+	"github.com/joaosoft/web-servers/gocraft/server"
 )
 
 func main() {

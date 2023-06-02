@@ -2,8 +2,8 @@ package server
 
 import (
 	"fmt"
-	"web-servers/buffalo/routes"
-	"web-servers/domain/server"
+	"github.com/joaosoft/web-servers/buffalo/routes"
+	"github.com/joaosoft/web-servers/domain/server"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/sirupsen/logrus"

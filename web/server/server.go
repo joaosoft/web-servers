@@ -1,8 +1,8 @@
 package server
 
 import (
-	"web-servers/domain/server"
-	"web-servers/web/routes"
+	"github.com/joaosoft/web-servers/domain/server"
+	"github.com/joaosoft/web-servers/web/routes"
 
 	"github.com/joaosoft/web"
 )

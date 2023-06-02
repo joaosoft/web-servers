@@ -2,8 +2,8 @@ package server
 
 import (
 	"context"
-	"web-servers/beego/routes"
-	"web-servers/domain/server"
+	"github.com/joaosoft/web-servers/beego/routes"
+	"github.com/joaosoft/web-servers/domain/server"
 
 	"github.com/astaxie/beego"
 )

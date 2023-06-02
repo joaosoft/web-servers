@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"web-servers/web/controllers"
-	"web-servers/web/middlewares"
+	"github.com/joaosoft/web-servers/web/controllers"
+	"github.com/joaosoft/web-servers/web/middlewares"
 
 	"github.com/joaosoft/web"
 )

@@ -1,9 +1,9 @@
 package routes
 
 import (
+	"github.com/joaosoft/web-servers/gin/controllers"
+	"github.com/joaosoft/web-servers/gin/middlewares"
 	"net/http"
-	"web-servers/gin/controllers"
-	"web-servers/gin/middlewares"
 
 	"github.com/gin-gonic/gin"
 )

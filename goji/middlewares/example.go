@@ -1,8 +1,8 @@
 package middlewares
 
 import (
+	"github.com/joaosoft/web-servers/domain/middlewares"
 	"net/http"
-	"web-servers/domain/middlewares"
 )
 
 func CheckExample(next http.Handler) http.Handler {

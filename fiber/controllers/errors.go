@@ -1,11 +1,9 @@
 package controllers
 
 import (
+	"github.com/joaosoft/web-servers/domain/models"
 	"net/http"
 	"strconv"
-	"web-servers/domain/models"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 func GetErrorByID(ctx *fiber.Ctx) error {

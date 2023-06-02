@@ -1,9 +1,7 @@
 package middlewares
 
 import (
-	"web-servers/domain/middlewares"
-
-	"github.com/gofiber/fiber/v2"
+	"github.com/joaosoft/web-servers/domain/middlewares"
 )
 
 func CheckExample(ctx *fiber.Ctx) error {

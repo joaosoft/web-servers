@@ -2,9 +2,9 @@ package server
 
 import (
 	"fmt"
+	"github.com/joaosoft/web-servers/domain/server"
+	"github.com/joaosoft/web-servers/fasthttp/routes"
 	"time"
-	"web-servers/domain/server"
-	"web-servers/fasthttp/routes"
 
 	routing "github.com/qiangxue/fasthttp-routing"
 

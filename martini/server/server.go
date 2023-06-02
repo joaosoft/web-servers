@@ -3,9 +3,9 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/joaosoft/web-servers/domain/server"
+	"github.com/joaosoft/web-servers/martini/routes"
 	"net/http"
-	"web-servers/domain/server"
-	"web-servers/martini/routes"
 
 	"github.com/go-martini/martini"
 )

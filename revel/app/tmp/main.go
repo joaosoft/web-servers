@@ -6,7 +6,7 @@ package main
 
 import (
 	"flag"
-	"web-servers/revel/app/tmp/run"
+	"github.com/joaosoft/web-servers/revel/app/tmp/run"
 	"github.com/revel/revel"
 )
 
@@ -15,7 +15,6 @@ var (
 	port       *int    = flag.Int("port", 0, "By default, read from app.conf")
 	importPath *string = flag.String("importPath", "", "Go Import Path for the app.")
 	srcPath    *string = flag.String("srcPath", "", "Path to the source root.")
-
 )
 
 func main() {

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"web-servers/fasthttp/server"
+	"github.com/joaosoft/web-servers/fasthttp/server"
 )
 
 func main() {

@@ -1,10 +1,8 @@
 package routes
 
 import (
-	"web-servers/iris/controllers"
-	"web-servers/iris/middlewares"
-
-	"github.com/kataras/iris/v12"
+	"github.com/joaosoft/web-servers/iris/controllers"
+	"github.com/joaosoft/web-servers/iris/middlewares"
 )
 
 func Init(router *iris.Application) {

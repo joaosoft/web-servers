@@ -2,8 +2,8 @@ package server
 
 import (
 	"fmt"
-	"web-servers/domain/server"
-	"web-servers/fiber/routes"
+	"github.com/joaosoft/web-servers/domain/server"
+	"github.com/joaosoft/web-servers/fiber/routes"
 
 	fiber "github.com/gofiber/fiber/v2"
 )

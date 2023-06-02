@@ -3,10 +3,8 @@ package server
 import (
 	"context"
 	"fmt"
-	"web-servers/domain/server"
-	"web-servers/iris/routes"
-
-	"github.com/kataras/iris/v12"
+	"github.com/joaosoft/web-servers/domain/server"
+	"github.com/joaosoft/web-servers/iris/routes"
 )
 
 type Server struct {

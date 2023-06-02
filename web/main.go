@@ -1,7 +1,7 @@
 package main
 
 import (
-	"web-servers/web/server"
+	"github.com/joaosoft/web-servers/web/server"
 )
 
 func main() {

@@ -1,8 +1,8 @@
 package app
 
 import (
-	_ "web-servers/revel/app/controllers"
-	"web-servers/revel/app/middlewares"
+	_ "github.com/joaosoft/web-servers/revel/app/controllers"
+	"github.com/joaosoft/web-servers/revel/app/middlewares"
 
 	"github.com/revel/revel"
 )

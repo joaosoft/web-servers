@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"web-servers/buffalo/controllers"
-	"web-servers/buffalo/middlewares"
+	"github.com/joaosoft/web-servers/buffalo/controllers"
+	"github.com/joaosoft/web-servers/buffalo/middlewares"
 
 	"github.com/gobuffalo/buffalo"
 )

@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"web-servers/httprouter/controllers"
-	"web-servers/httprouter/middlewares"
+	"github.com/joaosoft/web-servers/httprouter/controllers"
+	"github.com/joaosoft/web-servers/httprouter/middlewares"
 )
 
 func Init(router *middlewares.RouterWrapper) {

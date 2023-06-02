@@ -2,9 +2,9 @@ package routes
 
 import (
 	"encoding/json"
+	"github.com/joaosoft/web-servers/beego/controllers"
+	"github.com/joaosoft/web-servers/beego/middlewares"
 	"net/http"
-	"web-servers/beego/controllers"
-	"web-servers/beego/middlewares"
 
 	"github.com/astaxie/beego"
 )

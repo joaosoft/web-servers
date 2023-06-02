@@ -3,9 +3,9 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/joaosoft/web-servers/domain/server"
+	"github.com/joaosoft/web-servers/gin/routes"
 	"net/http"
-	"web-servers/domain/server"
-	"web-servers/gin/routes"
 
 	"github.com/gin-gonic/gin"
 )

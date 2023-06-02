@@ -5,13 +5,13 @@
 package run
 
 import (
-	"reflect"
+	_ "github.com/joaosoft/web-servers/revel/app"
+	controllers "github.com/joaosoft/web-servers/revel/app/controllers"
 	"github.com/revel/revel"
 	_ "github.com/revel/revel"
 	_ "github.com/revel/revel/cache"
-	_ "web-servers/revel/app"
-	controllers "web-servers/revel/app/controllers"
 	"github.com/revel/revel/testing"
+	"reflect"
 )
 
 var (
@@ -28,45 +28,34 @@ func Run(port int) {
 // Register all the controllers
 func Register() {
 	revel.AppLog.Info("Running revel server")
-	
+
 	revel.RegisterController((*controllers.AddressController)(nil),
 		[]*revel.MethodType{
 			&revel.MethodType{
-				Name: "GetPersonAddressByID",
-				Args: []*revel.MethodArg{ 
-				},
-				RenderArgNames: map[int][]string{ 
-				},
+				Name:           "GetPersonAddressByID",
+				Args:           []*revel.MethodArg{},
+				RenderArgNames: map[int][]string{},
 			},
-			
 		})
-	
+
 	revel.RegisterController((*controllers.ErrorController)(nil),
 		[]*revel.MethodType{
 			&revel.MethodType{
-				Name: "GetErrorByID",
-				Args: []*revel.MethodArg{ 
-				},
-				RenderArgNames: map[int][]string{ 
-				},
+				Name:           "GetErrorByID",
+				Args:           []*revel.MethodArg{},
+				RenderArgNames: map[int][]string{},
 			},
-			
 		})
-	
+
 	revel.RegisterController((*controllers.PersonController)(nil),
 		[]*revel.MethodType{
 			&revel.MethodType{
-				Name: "GetPersonByID",
-				Args: []*revel.MethodArg{ 
-				},
-				RenderArgNames: map[int][]string{ 
-				},
+				Name:           "GetPersonByID",
+				Args:           []*revel.MethodArg{},
+				RenderArgNames: map[int][]string{},
 			},
-			
 		})
-	
-	revel.DefaultValidationKeys = map[string]map[int]string{ 
-	}
-	testing.TestSuites = []interface{}{ 
-	}
+
+	revel.DefaultValidationKeys = map[string]map[int]string{}
+	testing.TestSuites = []interface{}{}
 }

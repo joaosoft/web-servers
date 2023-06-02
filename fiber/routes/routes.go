@@ -1,10 +1,8 @@
 package routes
 
 import (
-	"web-servers/fiber/controllers"
-	"web-servers/fiber/middlewares"
-
-	"github.com/gofiber/fiber/v2"
+	"github.com/joaosoft/web-servers/fiber/controllers"
+	"github.com/joaosoft/web-servers/fiber/middlewares"
 )
 
 func Init(router *fiber.App) {

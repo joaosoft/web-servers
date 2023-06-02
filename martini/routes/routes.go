@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"web-servers/martini/controllers"
-	"web-servers/martini/middlewares"
+	"github.com/joaosoft/web-servers/martini/controllers"
+	"github.com/joaosoft/web-servers/martini/middlewares"
 
 	"github.com/go-martini/martini"
 

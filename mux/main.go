@@ -1,7 +1,7 @@
 package main
 
 import (
-	"web-servers/mux/server"
+	"github.com/joaosoft/web-servers/mux/server"
 )
 
 func main() {

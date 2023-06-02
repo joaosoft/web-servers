@@ -2,9 +2,9 @@ package server
 
 import (
 	"fmt"
+	"github.com/joaosoft/web-servers/domain/server"
+	"github.com/joaosoft/web-servers/mux/routes"
 	"net/http"
-	"web-servers/domain/server"
-	"web-servers/mux/routes"
 
 	"github.com/gorilla/mux"
 )

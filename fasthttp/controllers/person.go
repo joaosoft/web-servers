@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"encoding/json"
+	"github.com/joaosoft/web-servers/domain/models"
 	"net/http"
-	"web-servers/domain/models"
 
 	routing "github.com/qiangxue/fasthttp-routing"
 )

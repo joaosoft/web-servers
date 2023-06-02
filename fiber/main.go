@@ -1,7 +1,7 @@
 package main
 
 import (
-	"web-servers/fiber/server"
+	"github.com/joaosoft/web-servers/fiber/server"
 )
 
 func main() {

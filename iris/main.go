@@ -1,6 +1,6 @@
 package main
 
-import "web-servers/iris/server"
+import "github.com/joaosoft/web-servers/iris/server"
 
 func main() {
 	if err := server.New(8081).Start(); err != nil {

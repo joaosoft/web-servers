@@ -1,7 +1,7 @@
 package main
 
 import (
-	"web-servers/echo/server"
+	"github.com/joaosoft/web-servers/echo/server"
 )
 
 func main() {

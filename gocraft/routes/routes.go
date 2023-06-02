@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"web-servers/gocraft/controllers"
-	"web-servers/gocraft/middlewares"
+	"github.com/joaosoft/web-servers/gocraft/controllers"
+	"github.com/joaosoft/web-servers/gocraft/middlewares"
 
 	"github.com/gocraft/web"
 )

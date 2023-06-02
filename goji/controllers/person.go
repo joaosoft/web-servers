@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"encoding/json"
+	"github.com/joaosoft/web-servers/domain/models"
 	"net/http"
 	"strconv"
-	"web-servers/domain/models"
 
 	"goji.io/pat"
 )

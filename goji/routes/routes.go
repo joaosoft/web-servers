@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"web-servers/goji/controllers"
-	"web-servers/goji/middlewares"
+	"github.com/joaosoft/web-servers/goji/controllers"
+	"github.com/joaosoft/web-servers/goji/middlewares"
 
 	goji "goji.io"
 

@@ -12,6 +12,7 @@ jobs:
       go: master
       script:
         - go mod tidy
+        - go mod vendor
         - go test -coverprofile=coverage.txt -covermode=atomic .
         - go test . -bench=. -cpu=1,2,4,8
 

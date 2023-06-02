@@ -1,7 +1,7 @@
 package main
 
 import (
-	"web-servers/beego/server"
+	"github.com/joaosoft/web-servers/beego/server"
 )
 
 func main() {

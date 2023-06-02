@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"web-servers/echo/controllers"
-	"web-servers/echo/middlewares"
+	"github.com/joaosoft/web-servers/echo/controllers"
+	"github.com/joaosoft/web-servers/echo/middlewares"
 
 	"github.com/labstack/echo"
 )

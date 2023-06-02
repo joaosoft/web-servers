@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"web-servers/fasthttp/controllers"
-	"web-servers/fasthttp/middlewares"
+	"github.com/joaosoft/web-servers/fasthttp/controllers"
+	"github.com/joaosoft/web-servers/fasthttp/middlewares"
 
 	routing "github.com/qiangxue/fasthttp-routing"
 )
